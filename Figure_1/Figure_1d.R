@@ -18,16 +18,14 @@ col <- c("Monocytes"="#f6a2a7",
                        'CD4_Tcells', 'CD8_Tcells', 'gd_Tcells')
 
 # load metadata
-LifeSpan_ALL_MetaData <- read.csv("meta/LifeSpan_ALL_Annotated_MetaData_09122024.csv", row.names = 1) %>% as.data.frame()
+MetaData <- readRDS('./pbmcs_v1.rds')
+LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 # plot 
-
-  p_corr <- LifeSpan_ALL_MetaData %>%
-        
+p_corr <- LifeSpan_ALL_MetaData %>%        
     mutate(ReCluster = factor(Lineage, levels = order_Lineage)) %>%
     mutate(Groups = factor(Groups, levels = age_groups)) %>%
     group_by(Groups, Names,Gender, Age_months, ReCluster) %>%
-  
     #filter(Groups %in% c("HI")) %>% 
     summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
     #summarise(n = n()) %>% #, Set = first(Set)
@@ -51,7 +49,6 @@ LifeSpan_ALL_MetaData <- read.csv("meta/LifeSpan_ALL_Annotated_MetaData_09122024
           axis.title.y = element_text(face="bold", size=18), 
           strip.text.x = element_text(size = 11, face ='bold')) + #    ylab('% PBMC') + xlab('Age groups') #    ylab('% PBMC') + xlab('Age groups'
     #    ylab('% PBMC') + xlab('Age groups')
-    ylab('% in PBMCs') + xlab('Age (months)')
- 
+    ylab('% in PBMCs') + xlab('Age (months)') 
 print(p_corr)
   
