@@ -22,8 +22,8 @@ library(ggplot2)
     'pDC'='#a5a4a4')
 
 # load meta data 
-LifeSpan_ALL_MetaData <- read.csv("meta/LifeSpan_ALL_Annotated_MetaData_09122024.csv", row.names = 1) %>% as.data.frame()
-
+MetaData <- readRDS('./pbmcs_v1.rds')
+LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 # level 2 (n=18 clusters)
   order_pbmc_simple_clustering <- c('CD14_mo', 'CD16_mo', 'DCs', 'pDC', 'Mgk','HSPC',
