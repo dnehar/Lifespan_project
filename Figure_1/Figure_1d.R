@@ -20,9 +20,7 @@ col <- c("Monocytes"="#f6a2a7",
 # plot 
 
   p_corr <- LifeSpan_ALL_MetaData %>%
-    
-    #filter(Lineage %in% c("CD4_Tcells", "CD8_Tcells",'gd_Tcells')) %>%  # %in% c('CD8_GD_GzB','CD8_GD_Gzk','GD_T_SOX4' ## "CD4_Tcells" "CD8_Tcells" "gd_Tcells"
-    
+        
     mutate(ReCluster = factor(Lineage, levels = order_Lineage)) %>%
     mutate(Groups = factor(Groups, levels = age_groups)) %>%
     group_by(Groups, Names,Gender, Age_months, ReCluster) %>%
