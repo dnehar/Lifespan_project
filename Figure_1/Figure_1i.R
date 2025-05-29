@@ -24,7 +24,7 @@ BP <- LifeSpan_ALL_MetaData %>%
   filter(ReCluster %in% to_be_ploted) %>% 
   
   group_by(Groups,  Names, ReCluster) %>%
-  summarise(n = n(), Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
+  summarise(n = n(), Age_months = first(Age_months)) %>% #, Set = first(Set)
   mutate(freq = n / sum(n)*100) %>%
   ungroup() %>%
   as.data.frame() %>% #head()
@@ -61,7 +61,7 @@ BP <- LifeSpan_ALL_MetaData %>%
   filter(ReCluster %in% to_be_ploted) %>% 
   
   group_by(Groups,  Names, ReCluster) %>%
-  summarise(n = n(), Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
+  summarise(n = n(), Age_months = first(Age_months)) %>% #, Set = first(Set)
   mutate(freq = n / sum(n)*100) %>%
   ungroup() %>%
   as.data.frame() %>% #head()
@@ -86,7 +86,7 @@ print(CD8_T)
                 # B cells 
 ######################################################
 
-to_be_ploted <- c('B_naive','B_memory')
+to_be_ploted <- c('B_memory','B_naive')
 
 age_groups <- c("HI", "HC", "HY", "HO")
 my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
@@ -98,7 +98,7 @@ BP <- LifeSpan_ALL_MetaData %>%
   filter(ReCluster %in% to_be_ploted) %>% 
   
   group_by(Groups,  Names, ReCluster) %>%
-  summarise(n = n(), Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
+  summarise(n = n(), Age_months = first(Age_months)) %>% #, Set = first(Set)
   mutate(freq = n / sum(n)*100) %>%
   ungroup() %>%
   as.data.frame() %>% #head()
