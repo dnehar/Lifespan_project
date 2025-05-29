@@ -8,8 +8,9 @@ col_age_gp <- c('HI'='#99d8c9',
                 'HY'='#fec44f',
                 'HO'='#bcbddc')
 
-# load metadata
-LifeSpan_ALL_MetaData <- read.csv("/LifeSpan_ALL_Annotated_MetaData_09122024.csv", row.names = 1) %>% as.data.frame()
+# load metadata  
+MetaData <- readRDS('./pbmcs_v1.rds')
+LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 # PCA
 proportions <- LifeSpan_ALL_MetaData %>%
