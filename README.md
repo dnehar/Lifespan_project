@@ -22,7 +22,7 @@ snTACseq cohort: 8 infants, 4 children, 5 young adults and 6 older adults <br/>
 dbGaP (phs003259.v1.p1) <br/>
 GEO: GSE233321 <br/>
 
-## Interactive app (R shinny): 
+## Interactive app (R shiny): 
 [https://dnehar.shinyapps.io/LS_app/]
 
 [https://dnehar.shinyapps.io/LS_app/]: https://dnehar.shinyapps.io/LS_app/
