@@ -2,15 +2,12 @@ library(dplyr)
 library(ggplot2)
   
 
-# load sample informatiom
-pheno <- read.csv('../LS95_sample_info_03262024.csv')
-head(pheno)
-
-ordered_names <- unique(pheno$Names)
-
-# load metadata
-LifeSpan_ALL_MetaData <- read.csv("meta/LifeSpan_ALL_Annotated_MetaData_09122024.csv", row.names = 1) %>% as.data.frame()
-
+# load metadata and sample informatiom
+  
+MetaData <- readRDS('./pbmcs_v1.rds')
+LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
+pheno <- MetaData[['pheno']] %>% as.data.frame()
+    
 ######################################################
                 # CD4 T cells 
 ######################################################
