@@ -17,6 +17,9 @@ col <- c("Monocytes"="#f6a2a7",
                        'B_cells', 'PCs', 'HSPC',
                        'CD4_Tcells', 'CD8_Tcells', 'gd_Tcells')
 
+# load metadata
+LifeSpan_ALL_MetaData <- read.csv("meta/LifeSpan_ALL_Annotated_MetaData_09122024.csv", row.names = 1) %>% as.data.frame()
+
 # plot 
 
   p_corr <- LifeSpan_ALL_MetaData %>%
