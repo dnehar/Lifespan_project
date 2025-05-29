@@ -21,8 +21,9 @@ library(ggplot2)
     'gd_Tcells'='#80622f', 
     'pDC'='#a5a4a4')
 
-# load meta data 
-LifeSpan_ALL_MetaData <- read.csv("meta/LifeSpan_ALL_Annotated_MetaData_09122024.csv", row.names = 1) %>% as.data.frame()
+# load meta data   
+MetaData <- readRDS('./pbmcs_v1.rds')
+LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 
 # level 2 (n=18 clusters)
@@ -61,7 +62,7 @@ LifeSpan_ALL_MetaData <- read.csv("meta/LifeSpan_ALL_Annotated_MetaData_09122024
           strip.text = element_text(size = 13)) +
     facet_wrap(.~ReCluster, scales = "free_y", nrow = 2) + 
     
-    scale_fill_manual(values=cols) + #**
+    scale_fill_manual(values=cols_L2) + #**
     theme(axis.text.y=element_text(size=16), 
           axis.text.x=element_text(size=16, angle =90),
           axis.title.x = element_text(face="bold", size=18),
