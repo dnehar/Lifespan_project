@@ -1,6 +1,11 @@
 library(dplyr)
 library(ggplot2)
 
+# load metadata
+MetaData <- readRDS('./pbmcs_v1.rds')
+LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
+
+
 #color 
 cols <- c("CD8_T_Naive"="#f37421",
             'gd_Tcells'= '#80622f',
