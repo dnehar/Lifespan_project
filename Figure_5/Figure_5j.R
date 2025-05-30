@@ -46,7 +46,7 @@ plt_cor1 <- LifeSpan_ALL_MetaData %>%
   theme_bw() +
   theme(legend.position = "none", 
         strip.text = element_text(size = 14)) +
-  facet_wrap(.~ReCluster, scales = "free_y", nrow = 1) +
+  facet_wrap(.~ReCluster, scales = "free_y", nrow =2) +
   theme(axis.text.y=element_text(size=12, colour = 'black'), 
         axis.text.x=element_text(size=12, colour = 'black'),
         axis.title.x = element_text(face="bold", size=14, colour = 'black'),
