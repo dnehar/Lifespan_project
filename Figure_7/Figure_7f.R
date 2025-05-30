@@ -7,18 +7,11 @@ MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 #color 
-cols <- c('Tmem_TH2'= '#1c7b3d',
-            'Tmem_TH17'= '#3cb54a',
-            'Tmem_CM'= '#74c168',
-            'Tmem_HLA_DR'= '#a4de02ff',
-            'Tmem_ISGhi'= '#697d35',
-            'Tmem_CM_TOX'= '#edf8b1',
-            'Tmem_GzK_TH1_like'='#a8ddb5',
-            'Tmem_TEMRA'='#1c572b',
-            'Tmem_CM_SOX4'= '#7fcdbb')
-            
+cols <- c("CD8_Naive"="#f37421",
+          'CD8_Naive_SOX4'= '#ffdeadff')
+
 # subset to be plotted 
-subset_to_be_plotted <- c("Tmem_CM", "Tmem_CM_SOX4","Tmem_CM_TOX", "Tmem_GzK_TH1_like","Tmem_TEMRA", "Tmem_TH2","Tmem_TH17","Tmem_HLA_DR","Tmem_ISGhi")
+subset_to_be_plotted <-  c('CD8_Naive','CD8_Naive_SOX4')
 
 plt_cor1 <- LifeSpan_ALL_MetaData %>%
   
@@ -32,8 +25,7 @@ plt_cor1 <- LifeSpan_ALL_MetaData %>%
   ungroup() %>%
   as.data.frame() %>%
   
-  # subsets to be plotted   
-  filter(ReCluster %in% subset_to_be_plotted) %>% 
+
   # infants only 
   filter(Groups %in% c('HI')) %>% 
   
@@ -52,6 +44,6 @@ plt_cor1 <- LifeSpan_ALL_MetaData %>%
         axis.title.x = element_text(face="bold", size=14, colour = 'black'),
         axis.title.y = element_text(face="bold", size=14, colour = 'black'), 
         strip.text.x = element_text(size = 14, face ='bold', colour = 'black')) +#    ylab('% PBMC') + xlab('Age groups') #    ylab('% PBMC') + xlab('Age groups'
-  ylab('% of B cells') + xlab('Age (months)')
+  ylab('% of PBMCs') + xlab('Age (months)')
 
 print(plt_cor1)
