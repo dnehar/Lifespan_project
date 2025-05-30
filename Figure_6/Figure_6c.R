@@ -5,19 +5,20 @@ library(ggplot2)
 MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
+
 #color 
-cols <- c('Tmem_TH2'= '#1c7b3d',
-            'Tmem_TH17'= '#3cb54a',
-            'Tmem_CM'= '#74c168',
-            'Tmem_HLA_DR'= '#a4de02ff',
-            'Tmem_ISGhi'= '#697d35',
-            'Tmem_CM_TOX'= '#edf8b1',
-            'Tmem_GzK_TH1_like'='#a8ddb5',
-            'Tmem_TEMRA'='#1c572b',
-            'Tmem_CM_SOX4'= '#7fcdbb')
-            
+cols <- c("CD8_T_Naive"="#f37421",
+            'gd_Tcells'= '#80622f',
+            'CD8_Naive'= '#f37421',
+            'CD8_TEMRA'= '#d28529',
+            'CD8_GZMK'= '#fba919',
+            'CD8_MAIT'= '#fbb36a',
+            'CD8_cycling'='#7f7f7f',
+            'CD8_GD'= '#80622f',
+            'CD8_Naive_SOX4'= '#ffdeadff')
+
 # subset to be plotted 
-subset_to_be_plotted <- c("Tmem_CM", "Tmem_CM_SOX4","Tmem_CM_TOX", "Tmem_GzK_TH1_like","Tmem_TEMRA", "Tmem_TH2","Tmem_TH17","Tmem_HLA_DR","Tmem_ISGhi")
+subset_to_be_plotted <- c('CD8_T_Naive','CD8_Naive_SOX4',"CD8_TEMRA","CD8_GZMK","CD8_MAIT","CD8_cycling","CD8_GD")
 
 BP_gp <- LifeSpan_ALL_MetaData %>% 
   mutate(Groups = factor(Groups, levels = c("HI", "HC", "HY", "HO"))) %>%
