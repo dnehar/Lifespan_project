@@ -37,7 +37,7 @@ BP_gp <- LifeSpan_ALL_MetaData %>%
         axis.title.x = element_text(size=0),
         axis.ticks.x=element_blank(),
         axis.title.y = element_text(size=0),
-        legend.position = "none",
+        #legend.position = "none",
         plot.title = element_text(face='bold', color = 'black', size = 20, hjust = 0.5)) +
   ggtitle('Age groups')
 
