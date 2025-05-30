@@ -32,8 +32,7 @@ plt_cor1 <- LifeSpan_ALL_MetaData %>%
   ungroup() %>%
   as.data.frame() %>%
   
-  # subsets to be plotted   
-  filter(ReCluster %in% subset_to_be_plotted) %>% 
+
   # infants only 
   filter(Groups %in% c('HI')) %>% 
   
@@ -52,6 +51,6 @@ plt_cor1 <- LifeSpan_ALL_MetaData %>%
         axis.title.x = element_text(face="bold", size=14, colour = 'black'),
         axis.title.y = element_text(face="bold", size=14, colour = 'black'), 
         strip.text.x = element_text(size = 14, face ='bold', colour = 'black')) +#    ylab('% PBMC') + xlab('Age groups') #    ylab('% PBMC') + xlab('Age groups'
-  ylab('% of B cells') + xlab('Age (months)')
+  ylab('% of Tmem') + xlab('Age (months)')
 
 print(plt_cor1)
