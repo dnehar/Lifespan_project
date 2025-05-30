@@ -1,21 +1,23 @@
-
-
+library(dplyr)
+library(ggplot2)
 
 #color 
-cols <- c('B_ISGhi'='#9ecae1',
-            'B_memory'='#283779',
-            'B_ABC'='#41b8ea',
-            'PCs'='#8856a7',
-            'B_transitional'='#756bb1',
-            'B_naive'='#1c9099')
+cols <- c("CD4_T_Naive"="#193a1c",
+            "CD4_T_ISGhi"="#697d35",
+            "CD4_Tregs"="#137d82",
+            "CD4_T_Memory"="#1c572b",
+            'CD4_ISGhi'= '#697d35',
+            'CD4_T_ISGhi'='#697d35',
+            #CD4_CTL'= '#90aa3c',
+            'CD4_Naive'= '#193a1c'')
             
 
-# plot umap B cells
+# plot umap CD4 T cells
 
 p_umap_subset <- LifeSpan_ALL_MetaData %>% 
-dplyr::filter(Lineage %in% 'B_cells') %>% 
-filter (!Final_annotations %in% c('IGLC6_IGLC7_Bcells','B_C9')) %>% 
-ggplot(aes(x=SC_umap1, y=SC_umap2,  color=Final_annotations)) +
+dplyr::filter(Lineage %in% c('CD4_Tcells')) %>% 
+mutate(subset_simple_clustering = gsub(pattern = "CD4_CTL", replacement = "CD4_T_Memory", x = subset_simple_clustering)) %>%
+ggplot(aes(x=SC_umap1, y=SC_umap2,  color=subset_simple_clustering)) +
 geom_point(size=0.5) + #, alpha = 1
 scale_color_manual(values=cols) + 
 theme_void() 
