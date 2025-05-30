@@ -3,7 +3,7 @@ library(ggplot2)
 
 #color 
 cols <- c('naive_Tregs'= '#137d82',
-            'mem_Tregs'= '#56bbbf',)
+            'mem_Tregs'= '#56bbbf')
             
 
 age_groups <- c("HI", "HC", "HY", "HO")
@@ -14,14 +14,13 @@ subset_to_be_plotted <- c("naive_Tregs", "mem_Tregs")
 
 # plot box plot - age groups 
   plt_age <- LifeSpan_ALL_MetaData %>% 
-            mutate(ReCluster = factor(subset_simple_clustering)) %>% #, levels = ordered_SC
-            mutate(subset_simple_clustering = gsub(pattern = "CD4_CTL", replacement = "CD4_T_Memory", x = subset_simple_clustering)) %>%
-            mutate(Groups = factor(Groups, levels = age_groups)) %>%
-            group_by(Groups, Names, ReCluster) %>%
-            summarise(n = n()) %>% #, Set = first(Set)
-            mutate(freq = n / sum(n) *100) %>%
-            ungroup() %>%
-            as.data.frame() %>%
+    mutate(ReCluster = factor(Final_annotations)) %>% #, levels = ordered_SC
+    mutate(Groups = factor(Groups, levels = age_groups)) %>%
+    group_by(Groups, Names, ReCluster) %>%
+    summarise(n = n()) %>% #, Set = first(Set)
+    mutate(freq = n / sum(n) *100) %>%
+    ungroup() %>%
+    as.data.frame() %>%
     
     filter(ReCluster %in% subset_to_be_plotted) %>% 
     ggplot(aes(x = Groups, y = freq, fill = ReCluster, group = Groups)) +
