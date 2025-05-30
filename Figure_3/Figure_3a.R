@@ -13,7 +13,7 @@ cols <- c('NK_CD16'= '#fee000',
             'NK_CD16_KLRC2'='#feb24c')
             
 
-# plot umap DCs
+# plot umap NK cells 
 p_umap_subset <- meta_all %>% 
 dplyr::filter(Lineage %in% 'NK_cells') %>% 
 ggplot(aes(x=SC_umap1, y=SC_umap2,  color=Final_annotations)) +
