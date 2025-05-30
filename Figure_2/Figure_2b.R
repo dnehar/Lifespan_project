@@ -1,17 +1,29 @@
+library(dplyr)
+library(ggplot2)
 
 
+# load metadata
+MetaData <- readRDS('./pbmcs_v1.rds')
+LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
+#color 
+cols <- c('cDC2'= '#d84598',
+          'cDC1'= '#771215',
+          'AXL_DC'= '#a41e21',
+          'moDC'= '#ed2024',
+          'pDC'= '#a5a4a4')
 
 
 age_groups <- c("HI", "HC", "HY", "HO")
 my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
 
-# 
-   subset_to_be_plotted <-  c('CD4_Naive', 'CD4_Naive_SOX4')
-   
-   
+# subset to be plotted 
+subset_to_be_plotted <-  c('moDC','cDC1','cDC2', 'AXL_DC', 'pDC')
+
+# plot box plot - age groups 
+
   plt_age <- LifeSpan_ALL_MetaData %>% 
-    mutate(ReCluster = factor(Final_annotations, levels = ordered_SC)) %>%
+    mutate(ReCluster = factor(Final_annotations)) %>% #, levels = ordered_SC
     mutate(Groups = factor(Groups, levels = age_groups)) %>%
     group_by(Groups, Names, ReCluster) %>%
     summarise(n = n()) %>% #, Set = first(Set)
@@ -20,7 +32,6 @@ my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
     as.data.frame() %>%
     
     filter(ReCluster %in% subset_to_be_plotted) %>% 
-    
     ggplot(aes(x = Groups, y = freq, fill = ReCluster, group = Groups)) +
     geom_boxplot(outlier.shape = NA) +
     geom_jitter(size = 0.2) +
