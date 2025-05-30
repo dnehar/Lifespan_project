@@ -7,16 +7,18 @@ MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 #color 
-cols <- c('CD14_mo_ISGhi'= '#f15d64',
-          'CD14_mo'= '#f6a2a7',
-          'CD16_mo'= '#f9d3d7')
+cols <- c('cDC2'= '#d84598',
+          'cDC1'= '#771215',
+          'AXL_DC'= '#a41e21',
+          'moDC'= '#ed2024',
+          'pDC'= '#a5a4a4')
 
 
 age_groups <- c("HI", "HC", "HY", "HO")
 my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
 
 # subset to be plotted 
-subset_to_be_plotted <-  c('CD14_mo', 'CD14_mo_ISGhi', 'CD16_mo')
+subset_to_be_plotted <-  c('moDC','cDC1','cDC2', 'AXL_DC', 'pDC')
 
 # plot box plot - age groups 
 
@@ -47,8 +49,7 @@ subset_to_be_plotted <-  c('CD14_mo', 'CD14_mo_ISGhi', 'CD16_mo')
           axis.title.x = element_text(face="bold", size=14, colour = 'black'),
           axis.title.y = element_text(face="bold", size=14, colour = 'black'), 
           strip.text.x = element_text(size = 14, face ='bold', colour = 'black')) + #    ylab('% PBMC') + xlab('Age groups')
-    ylab('% in monocytes') + xlab('Age groups')
+    ylab('% in PBMCs') + xlab('Age groups')
   
   plt_age
   
-
