@@ -49,7 +49,7 @@ subset_to_be_plotted <-  c('moDC','cDC1','cDC2', 'AXL_DC', 'pDC')
           axis.title.x = element_text(face="bold", size=14, colour = 'black'),
           axis.title.y = element_text(face="bold", size=14, colour = 'black'), 
           strip.text.x = element_text(size = 14, face ='bold', colour = 'black')) + #    ylab('% PBMC') + xlab('Age groups')
-    ylab('% in PBMCs') + xlab('Age groups')
+    ylab('% in DCs') + xlab('Age groups')
   
   plt_age
   
