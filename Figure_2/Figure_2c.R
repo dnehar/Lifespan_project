@@ -13,7 +13,8 @@ cols <- c('cDC2'= '#d84598',
           'moDC'= '#ed2024',
           'pDC'= '#a5a4a4')
 
-
+# subset to be plotted 
+subset_to_be_plotted <-  c('moDC','cDC1','cDC2', 'AXL_DC', 'pDC')
 
 BP_gp <- LifeSpan_ALL_MetaData %>% 
   mutate(Groups = factor(Groups, levels = c("HI", "HC", "HY", "HO"))) %>%
