@@ -15,17 +15,17 @@ age_groups <- c("HI", "HC", "HY", "HO")
 my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
 
 # subset to be plotted 
-to_be_ploted <- c('CD8_T_Naive','CD8_Naive_SOX4',"CD8_TEMRA","CD8_GZMK","CD8_MAIT","CD8_cycling","CD8_GD")
+subset_to_be_plotted <- c('CD8_T_Naive','CD8_Naive_SOX4',"CD8_TEMRA","CD8_GZMK","CD8_MAIT","CD8_cycling","CD8_GD")
 
-# plot box plot - age groups 
+
   plt_age <- LifeSpan_ALL_MetaData %>% 
-            mutate(ReCluster = factor(subset_simple_clustering)) %>% #, levels = ordered_SC
-            mutate(Groups = factor(Groups, levels = age_groups)) %>%
-            group_by(Groups, Names, ReCluster) %>%
-            summarise(n = n()) %>% #, Set = first(Set)
-            mutate(freq = n / sum(n) *100) %>%
-            ungroup() %>%
-            as.data.frame() %>%
+    mutate(ReCluster = factor(Final_annotations)) %>% #, levels = ordered_SC
+    mutate(Groups = factor(Groups, levels = age_groups)) %>%
+    group_by(Groups, Names, ReCluster) %>%
+    summarise(n = n()) %>% #, Set = first(Set)
+    mutate(freq = n / sum(n) *100) %>%
+    ungroup() %>%
+    as.data.frame() %>%
     
     filter(ReCluster %in% subset_to_be_plotted) %>% 
     ggplot(aes(x = Groups, y = freq, fill = ReCluster, group = Groups)) +
@@ -46,3 +46,4 @@ to_be_ploted <- c('CD8_T_Naive','CD8_Naive_SOX4',"CD8_TEMRA","CD8_GZMK","CD8_MAI
     ylab('% in PBMCs') + xlab('Age groups')
   
   plt_age
+  
