@@ -1,8 +1,13 @@
 library(dplyr)
 library(ggplot2)
 
+
+# load metadata
+MetaData <- readRDS('./pbmcs_v1.rds')
+LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
+
 # colors
-col <- c("Monocytes"="#f6a2a7",
+cols_Lineage <- c("Monocytes"="#f6a2a7",
              "B_cells"="#96daf7",
              "DCs"= "#ed2024",
              "CD4_Tcells"="#193a1c",
@@ -17,9 +22,6 @@ col <- c("Monocytes"="#f6a2a7",
                        'B_cells', 'PCs', 'HSPC',
                        'CD4_Tcells', 'CD8_Tcells', 'gd_Tcells')
 
-# load metadata
-MetaData <- readRDS('./pbmcs_v1.rds')
-LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 # plot 
 p_corr <- LifeSpan_ALL_MetaData %>%        
