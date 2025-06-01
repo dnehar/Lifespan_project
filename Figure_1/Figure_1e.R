@@ -1,16 +1,15 @@
 library(dplyr)
 library(ggplot2)
   
+# load metadata  
+MetaData <- readRDS('./pbmcs_v1.rds')
+LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 # colors 
 col_age_gp <- c('HI'='#99d8c9',
                 'HC'='#9ecae1',
                 'HY'='#fec44f',
                 'HO'='#bcbddc')
-
-# load metadata  
-MetaData <- readRDS('./pbmcs_v1.rds')
-LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 # PCA
 proportions <- LifeSpan_ALL_MetaData %>%
