@@ -7,16 +7,17 @@ pheno <- MetaData[['pheno']] %>% as.data.frame()
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 #color 
-cols <- c('CD14_mo_ISGhi'= '#f15d64',
-          'CD14_mo'= '#f6a2a7',
-          'CD16_mo'= '#f9d3d7')
+cols <- c('NK_CD16'= '#fee000',
+            'NK_XCL1'= '#f2e4a0',
+            'NK_cycling'= '#ccb72d',
+            'NK_CD16_KLRC2'='#feb24c')
 
 
 age_groups <- c("HI", "HC", "HY", "HO")
 my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
 
 # subset to be plotted 
-subset_to_be_plotted <-  c('CD14_mo', 'CD14_mo_ISGhi', 'CD16_mo')
+subset_to_be_plotted <- c('NK_CD16','NK_XCL1','NK_cycling','NK_CD16_KLRC2')
 
 plt_cor1 <- LifeSpan_ALL_MetaData %>%
   
@@ -29,7 +30,6 @@ plt_cor1 <- LifeSpan_ALL_MetaData %>%
   ungroup() %>%
   as.data.frame() %>%
   filter(ReCluster %in% subset_to_be_plotted) %>% 
-  filter(Groups %in% c('HI')) %>% 
 
   ggplot(aes(x = Age_months, y = freq, fill=ReCluster)) +
   geom_smooth(method = "lm", aes(color=ReCluster)) + #, color = c('#f37421ff','#ffdeadff')
