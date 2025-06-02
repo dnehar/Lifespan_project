@@ -24,13 +24,13 @@ cols_L2 = c('B_naive' = '#41b8ea',
 # load metadata
 MetaData <- readRDS('./pbmcs_v1.rds')
 pheno <- MetaData[['pheno']] %>% as.data.frame()
+LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
+
+meta <-  data.frame(dplyr::select(LifeSpan_ALL_MetaData, pbmc_simple_clustering, Groups, Names, Age_months))
 ordered_ids <- as.character(pheno$Names)
 
-meta <-  data.frame(dplyr::select(MetaData, pbmc_simple_clustering, Groups, Names, Age_months))
-
-# ├├├  Individual ####
-
+# print bar plot
 BP <- meta %>% 
   mutate(Groups = factor(Groups, levels = c("HI", "HC", "HY", "HO"))) %>%
   mutate(ReCluster = factor(pbmc_simple_clustering)) %>%
@@ -59,5 +59,6 @@ BP <- meta %>%
   
   ggtitle('Individuals')
 
-BP 
+print(BP) 
+
 
