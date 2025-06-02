@@ -39,7 +39,7 @@ plt_cor1 <- LifeSpan_ALL_MetaData %>%
   mutate(ReCluster = factor(ReCluster, levels = subset_to_be_plotted)) %>% #*****
 
   ggplot(aes(x = Age_months, y = freq, fill=ReCluster)) +
-  geom_smooth(method = "lm", aes(color=ReCluster)) + #, color = c('#f37421ff','#ffdeadff')
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2), aes(color=ReCluster)) +
   geom_point(aes(shape = Groups, color=ReCluster)) +
   scale_fill_manual(values=cols) + 
   scale_color_manual(values = cols)+
