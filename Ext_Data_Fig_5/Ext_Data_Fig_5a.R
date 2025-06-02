@@ -21,17 +21,18 @@ subset_to_be_plotted <- c("CD4_T_Memory","CD4_Tregs","CD4_T_Naive","CD4_T_ISGhi"
 
 # Scatter plot - age groups 
 
-plt_cor1 <- LifeSpan_ALL_MetaData %>%
   
-  mutate(Groups = factor(Groups, levels = c("HI", "HC", "HY", "HO"))) %>%
-  mutate(ReCluster = factor(Final_annotations, levels = subset_to_be_plotted)) %>% #*****
-  group_by(Groups, Names,Age_months, ReCluster) %>%
-  summarise(n = n()) %>% 
-  mutate(freq = n / sum(n) *100) %>%
-  ungroup() %>%
-  as.data.frame() %>%
+plt_cor1<- LifeSpan_ALL_MetaData %>% 
+            mutate(ReCluster = factor(subset_simple_clustering)) %>% #
+            mutate(subset_simple_clustering = gsub(pattern = "CD4_CTL", replacement = "CD4_T_Memory", x = subset_simple_clustering)) %>%
+            mutate(Groups = factor(Groups, levels = age_groups)) %>%
+            group_by(Groups, Names,Age_months, ReCluster) %>%
+            summarise(n = n()) %>% #, Set = first(Set)
+            mutate(freq = n / sum(n) *100) %>%
+            ungroup() %>%
+            as.data.frame() %>%
   filter(ReCluster %in% subset_to_be_plotted) %>% 
-  filter(Groups %in% c('HI')) %>% 
+  mutate(ReCluster = factor(ReCluster, levels = subset_to_be_plotted)) %>%
 
   ggplot(aes(x = Age_months, y = freq, fill=ReCluster)) +
   geom_smooth(method = "lm", aes(color=ReCluster)) + #, color = c('#f37421ff','#ffdeadff')
