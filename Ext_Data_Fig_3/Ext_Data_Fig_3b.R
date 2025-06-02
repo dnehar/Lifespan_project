@@ -27,13 +27,12 @@ plt_cor1 <- LifeSpan_ALL_MetaData %>%
   mutate(ReCluster = factor(Final_annotations, levels = ordered_SC)) %>% #*****
   mutate(Age_days = Age_months*30) %>% 
   group_by(Groups, Names,Age_months,Age_days, ReCluster) %>%
-  filter(ReCluster %in% subset_to_be_plotted) %>% 
   summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
   mutate(freq = n / sum(n) *100) %>%
   ungroup() %>%
   as.data.frame() %>%
+  filter(ReCluster %in% subset_to_be_plotted) %>% 
 
-  
   ggplot(aes(x = Age_months, y = freq, fill=ReCluster)) +
   geom_smooth(method = "lm", aes(color=ReCluster)) + #, color = c('#f37421ff','#ffdeadff')
   geom_point(aes(shape = Groups, color=ReCluster)) +
