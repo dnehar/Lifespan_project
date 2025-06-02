@@ -10,7 +10,7 @@ library(Seurat)
 
 
 
-# Figure 7h ########
+# Figure 6h ########
 
 # Violin plots 
     VP_gd <- VlnPlot(GD_T, 
