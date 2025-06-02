@@ -5,22 +5,15 @@ library(ggplot2)
 MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
-
 #color 
-cols <- c("CD8_T_Naive"="#f37421",
-            'gd_Tcells'= '#80622f',
-            'CD8_Naive'= '#f37421',
-            'CD8_TEMRA'= '#d28529',
-            'CD8_GZMK'= '#fba919',
-            'CD8_MAIT'= '#fbb36a',
-            'CD8_cycling'='#7f7f7f',
-            'CD8_GD'= '#80622f',
-            'CD8_Naive_SOX4'= '#ffdeadff')
+cols <- c('GD_T_SOX4'= '#56bbbf',           
+          'CD8_GD'= '#80622f')
 age_groups <- c("HI", "HC", "HY", "HO")
 my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
 
 # subset to be plotted 
-subset_to_be_plotted <- c('CD8_T_Naive','CD8_Naive_SOX4',"CD8_TEMRA","CD8_GZMK","CD8_MAIT","CD8_cycling","CD8_GD")
+subset_to_be_plotted <- c('GD_T_SOX4','CD8_GD')
+
 
 
   plt_age <- LifeSpan_ALL_MetaData %>% 
