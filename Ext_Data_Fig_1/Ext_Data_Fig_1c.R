@@ -1,5 +1,11 @@
+library(dplyr)
+library(ggplot2)
+library(reshape2)
 
 
+# load metadata
+MetaData <- readRDS('./pbmcs_v1.rds')
+pheno <- MetaData[['meta_small']] %>% as.data.frame()
 
 # ├  Supplementary Fig.1C: HISTO number genes per samples ######
   
