@@ -8,7 +8,6 @@ MetaData <- readRDS('./pbmcs_v1.rds')
 pheno <- MetaData[['meta_small']] %>% as.data.frame()
 
 # ├  Supplementary Fig.1C: HISTO number genes per samples ######
-  
   MetaData <- LifeSpan_ALL_MetaData
   HI <- MetaData %>% filter (Groups =="HI") %>% dplyr::select(n_genes)  #84769    9
   HC <- MetaData %>% filter (Groups =="HC") %>% dplyr::select(n_genes)  #16238     9
@@ -19,7 +18,6 @@ pheno <- MetaData[['meta_small']] %>% as.data.frame()
   print(round(mean(HC$n_genes)),2) #955.4901
   print(round(mean(HY$n_genes)),2) #897.6303
   print(round(mean(HO$n_genes)),2)#879.3405
-  
   
   mat <-  MetaData %>% dplyr::select(Groups,n_genes)
   head(mat)
