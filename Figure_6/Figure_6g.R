@@ -7,7 +7,7 @@ library(Seurat)
   GD_T <- readRDS('/GSE149356_Human_GDT_Seurat.rds')
   GD_T <- UpdateSeuratObject(GD_T)
 
-# Figure 7g ########
+# Figure 6g ########
 
   DP_sox4 <- DimPlot(GD_T, cols= c('Adult'='#4c459c','Newborn'='#96daf7'),
                        group.by = 'group')
@@ -35,7 +35,7 @@ library(Seurat)
     print(ppp)
 
 
-# Figure 7h ########
+# Figure 6h ########
 
 # Violin plots 
     VP_gd <- VlnPlot(GD_T, 
