@@ -20,12 +20,10 @@ cols <- c('Tmem_TH2'= '#1c7b3d',
 subset_to_be_plotted <- c("Tmem_CM", "Tmem_CM_SOX4","Tmem_CM_TOX", "Tmem_GzK_TH1_like","Tmem_TEMRA", "Tmem_TH2","Tmem_TH17","Tmem_HLA_DR","Tmem_ISGhi")
 
             
-
 # plot umap B cells
-
 p_umap_subset <- LifeSpan_ALL_MetaData %>% 
-dplyr::filter(Lineage %in% 'B_cells') %>% 
-ggplot(aes(x=SC_umap1, y=SC_umap2,  color=Final_annotations)) +
+ dplyr::filter(subset_simple_clustering %in% c('CD4_CTL','CD4_T_Memory')) %>% 
+ggplot(aes(x=X_umap1, y=X_umap2,  color=Final_annotations)) +
 geom_point(size=0.5) + #, alpha = 1
 scale_color_manual(values=cols) + 
 theme_void() 
