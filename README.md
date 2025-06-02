@@ -12,8 +12,8 @@ Our goal is to better understand features of early-life immunity
 ## Cohort information (scRNAseq):
 
 We performed integrated single-cell RNA and ATAC sequencing on peripheral blood mononuclear cells from 95 healthy individuals spanning 2 months to 88 years of age. <br/>
-scRNAseq cohort: 27 infants, 23 children, 18 young adults and 27 older adults <br/>
-snTACseq cohort: 8 infants, 4 children, 5 young adults and 6 older adults <br/>
+**scRNAseq cohort**: 27 infants, 23 children, 18 young adults and 27 older adults <br/>
+**snTACseq cohort**: 8 infants, 4 children, 5 young adults and 6 older adults <br/>
 
 ## Publications associated with the study:
 
