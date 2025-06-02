@@ -6,8 +6,6 @@ MetaData <- readRDS('./pbmcs_v1.rds')
 pheno <- MetaData[['pheno']] %>% as.data.frame()
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
-
-
 #color 
 cols <- c('Tmem_TH2'= '#1c7b3d',
             'Tmem_TH17'= '#3cb54a',
