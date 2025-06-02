@@ -5,8 +5,6 @@ library(ggplot2)
 MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
-
-
 #color 
 cols <- c('naive_Tregs'= '#137d82',
             'mem_Tregs'= '#56bbbf')
@@ -17,7 +15,6 @@ my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
 
 # subset to be plotted 
 subset_to_be_plotted <- c("naive_Tregs", "mem_Tregs")
-
   
 plt_cor1 <- LifeSpan_ALL_MetaData %>%
   
