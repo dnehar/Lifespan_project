@@ -53,6 +53,6 @@ plt_cor1 <- LifeSpan_ALL_MetaData %>%
         axis.title.x = element_text(face="bold", size=14, colour = 'black'),
         axis.title.y = element_text(face="bold", size=14, colour = 'black'), 
         strip.text.x = element_text(size = 14, face ='bold', colour = 'black')) +#    ylab('% PBMC') + xlab('Age groups') #    ylab('% PBMC') + xlab('Age groups'
-  ylab('% PBMCs') + xlab('Age (months)')
+  ylab('% of Tmems') + xlab('Age (months)')
 plt_cor1
 
