@@ -36,7 +36,6 @@ plt_cor1 <- LifeSpan_ALL_MetaData %>%
   mutate(freq = n / sum(n) *100) %>%
   ungroup() %>%
   as.data.frame() %>%
-  filter(Groups %in% c('HI')) %>% 
   mutate(ReCluster = factor(ReCluster, levels = subset_to_be_plotted)) %>% #*****
 
   ggplot(aes(x = Age_months, y = freq, fill=ReCluster)) +
