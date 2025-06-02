@@ -10,7 +10,7 @@ age_groups <- c("HI", "HC", "HY", "HO")
 my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
 
 # subset to be plotted 
-subset_to_be_plotted <- c("CD4_T_Memory","CD4_Tregs","CD4_T_Naive","CD4_T_ISGhi" ) #"CD4_CTL",
+subset_to_be_plotted <- c("CD4_T_Naive","CD4_T_ISGhi","CD4_Tregs","CD4_T_Memory" ) #"CD4_CTL",
 
 # Scatter plot - age groups 
 plt_cor1<- LifeSpan_ALL_MetaData %>% 
