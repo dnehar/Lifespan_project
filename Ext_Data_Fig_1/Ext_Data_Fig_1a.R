@@ -5,8 +5,10 @@ library(ggplot2)
 MetaData <- readRDS('./pbmcs_v1.rds')
 pheno <- MetaData[['meta_small']] %>% as.data.frame()
 
+# colors
 my_col <- c('F'= '#a8ddb5', M='#feb24c')
 
+# plot pie chart 
 pPC <- pheno %>% group_by(Groups, Sex) %>% summarise(n = n()) %>%   mutate(freq = n / sum(n) *100) %>%  
   mutate(Groups = factor(Groups, levels = age_groups)) %>%
   ggplot(aes(x = '', y = freq, fill = Sex, group = Sex)) +
