@@ -7,24 +7,18 @@ library(reshape2)
 MetaData <- readRDS('./pbmcs_v1.rds')
 pheno <- MetaData[['meta_small']] %>% as.data.frame()
 
-# ├  Supplementary Fig.1C: HISTO number genes per samples ######
   MetaData <- LifeSpan_ALL_MetaData
-  HI <- MetaData %>% filter (Groups =="HI") %>% dplyr::select(n_genes)  #84769    9
-  HC <- MetaData %>% filter (Groups =="HC") %>% dplyr::select(n_genes)  #16238     9
-  HY <- MetaData %>% filter (Groups =="HY") %>% dplyr::select(n_genes)  #84769    9
-  HO <- MetaData %>% filter (Groups =="HO") %>% dplyr::select(n_genes)  #16238     9
+  HI <- MetaData %>% filter (Groups =="HI") %>% dplyr::select(n_genes) 
+  HC <- MetaData %>% filter (Groups =="HC") %>% dplyr::select(n_genes)  
+  HY <- MetaData %>% filter (Groups =="HY") %>% dplyr::select(n_genes) 
+  HO <- MetaData %>% filter (Groups =="HO") %>% dplyr::select(n_genes)  
+
+mat <-  MetaData %>% dplyr::select(Groups,n_genes)
+mat1 <- melt(mat)
   
-  print(round(mean(HI$n_genes)),2)#833
-  print(round(mean(HC$n_genes)),2) #955.4901
-  print(round(mean(HY$n_genes)),2) #897.6303
-  print(round(mean(HO$n_genes)),2)#879.3405
-  
-  mat <-  MetaData %>% dplyr::select(Groups,n_genes)
-  head(mat)
-  mat1 <- melt(mat)
-  #-- reorder levels 
+# reorder age groups  
   mat1$Groups <- factor(mat1$Groups, levels = c("HI","HC","HY","HO"))
-  
+# plot 
   K <- ggplot(mat1, aes(x=value, fill=Groups)) + 
     geom_histogram(position="identity") +
     geom_vline(aes(xintercept=mean(value)), color="black",
@@ -44,6 +38,8 @@ pheno <- MetaData[['meta_small']] %>% as.data.frame()
     theme(strip.text.x = element_text(size = 16),
           strip.background = element_rect(colour = 'black',fill='#C0C0C0')) +
     xlab("number of genes in age groups")
-  K
-  ggsave("../PANELS/Number_of_genes_per_age_groups.pdf",   K , width=3.5, height=1.2,  units="in", scale=3)
+  
+print(K)
+  ggsave("../PANELS/Number_of_genes_per_age_groups.pdf",  
+         K , width=3.5, height=1.2,  units="in", scale=3)
   
