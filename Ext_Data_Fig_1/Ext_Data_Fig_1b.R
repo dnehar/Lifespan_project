@@ -9,7 +9,8 @@ LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
   Number <- data.frame(MetaData %>% count(Names, Groups)) #Gender,
   Number %>% group_by(Groups) %>% summarize(Mean= mean(n), SD=sd(n)) -> LNB
   
-  #head(LNB)
+  # plot number of Highly variable gene acros age groups
+
   px <- ggplot(data=Number, aes(x=Groups, y=n, fill=Groups)) +
     geom_violin(aes(fill = Groups), trim = TRUE)  +
     stat_summary(fun.data = "mean_sdl") +
