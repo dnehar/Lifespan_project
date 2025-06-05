@@ -19,8 +19,8 @@ We performed integrated single-cell RNA and ATAC sequencing on peripheral blood 
 
 
 ## Data availability: 
-dbGaP (phs003259.v1.p1) <br/>
-GEO: GSE233321 <br/>
+**dbGaP** (phs003259.v1.p1) - upon acceptance <br/>
+**GEO**: GSE233321 - upon acceptance <br/>
 
 ## Interactive app (R shiny): 
 [https://dnehar.shinyapps.io/LS_app/]
