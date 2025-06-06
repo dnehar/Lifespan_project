@@ -1,6 +1,7 @@
 library(dplyr)
 library(ggplot2)
 
+# colors 
   cols_L2 = c('B_naive' = '#41b8ea',
     'B_memory' = '#283779',
     'CD4_T_ISGhi' = '#697d35',
@@ -24,11 +25,9 @@ library(ggplot2)
 MetaData <- readRDS('./pbmcs_v1.rds')
 pheno <- MetaData[['meta_small']] %>% as.data.frame()
 
-
 meta <-  data.frame(dplyr::select(MetaData, pbmc_simple_clustering, Groups, Names, Age_months))
 
 # plot cell frequencies (Level 2: 18 clusters) vs. age 
-
 p_corr <- meta %>%
   mutate(ReCluster = factor(pbmc_simple_clustering)) %>%
   mutate(Groups = factor(Groups, levels = c('HI','HC','HY','HO'))) %>%
