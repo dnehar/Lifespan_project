@@ -1,6 +1,7 @@
 library(dplyr)
 library(ggplot2)
 
+# colors
 cols_L2 = c('B_naive' = '#41b8ea',
             'B_memory' = '#283779',
             'CD4_T_ISGhi' = '#697d35',
@@ -59,5 +60,3 @@ BP <- meta %>%
   ggtitle('Individuals')
 
 print(BP) 
-
-
