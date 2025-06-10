@@ -1,4 +1,4 @@
-# A single-cell atlas of the human immune system across the lifespan reveals infant-specific immune signatures
+# A single-cell atlas of the healthy human immune system across the lifespan reveals unique infant immune signatures
 <br/>
 <br/>
 
