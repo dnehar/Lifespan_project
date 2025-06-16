@@ -49,6 +49,6 @@ subset_to_be_plotted <-  c('CD14_mo', 'CD14_mo_ISGhi', 'CD16_mo')
           strip.text.x = element_text(size = 14, face ='bold', colour = 'black')) + #    ylab('% PBMC') + xlab('Age groups')
     ylab('% in PBMCs') + xlab('Age groups')
   
-  plt_age
+  print(plt_age)
   
 
