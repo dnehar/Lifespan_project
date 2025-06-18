@@ -2,7 +2,7 @@ library(dplyr)
 library(ggplot2)
 
 # load metadata
-MetaData <- readRDS('./pbmcs_v1.rds')
+MetaData <- readRDS('./pbmcs_v1.rds') # contains meta data + pheno
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 
@@ -19,9 +19,8 @@ my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
 # subset to be plotted 
 subset_to_be_plotted <- c("CD4_T_Memory","CD4_Tregs","CD4_T_Naive","CD4_T_ISGhi" ) #"CD4_CTL",
 
-# Scatter plot - age groups 
+# Scatter plot (correlation plot) - age groups 
 
-  
 plt_cor1<- LifeSpan_ALL_MetaData %>% 
             mutate(ReCluster = factor(subset_simple_clustering)) %>% #
             mutate(subset_simple_clustering = gsub(pattern = "CD4_CTL", replacement = "CD4_T_Memory", x = subset_simple_clustering)) %>%
@@ -50,6 +49,5 @@ plt_cor1<- LifeSpan_ALL_MetaData %>%
         axis.title.y = element_text(face="bold", size=14, colour = 'black'), 
         strip.text.x = element_text(size = 14, face ='bold', colour = 'black')) +#    ylab('% PBMC') + xlab('Age groups') #    ylab('% PBMC') + xlab('Age groups'
   ylab('% PBMCs') + xlab('Age (months)')
-plt_cor1
 
-
+print(plt_cor1)
