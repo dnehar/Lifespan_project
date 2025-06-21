@@ -7,6 +7,11 @@ cols <- c('NK_CD16'= '#fee000',
             'NK_cycling'= '#ccb72d',
             'NK_CD16_KLRC2'='#feb24c')
 
+# load metadata
+MetaData <- readRDS('./pbmcs_v1.rds')
+pheno <- MetaData[['pheno']] %>% as.data.frame()
+LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
+
 
 age_groups <- c("HI", "HC", "HY", "HO")
 my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
