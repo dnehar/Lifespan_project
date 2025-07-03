@@ -13,7 +13,7 @@ cols <- c('cDC2'= '#d84598',
           'moDC'= '#ed2024',
           'pDC'= '#a5a4a4')
 
-
+# groups
 age_groups <- c("HI", "HC", "HY", "HO")
 my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
 
