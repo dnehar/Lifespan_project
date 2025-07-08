@@ -26,10 +26,10 @@ cols_Lineage <- c("Monocytes"="#f6a2a7",
 p_corr <- LifeSpan_ALL_MetaData %>%        
     mutate(ReCluster = factor(Lineage, levels = order_Lineage)) %>%
     mutate(Groups = factor(Groups, levels = age_groups)) %>%
-    group_by(Groups, Names,Gender, Age_months, ReCluster) %>%
+    group_by(Groups, Names,Sex, Age_months, ReCluster) %>%
     #filter(Groups %in% c("HI")) %>% 
-    summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
-    #summarise(n = n()) %>% #, Set = first(Set)
+    #summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
+    summarise(n = n()) %>% #, Set = first(Set)
     mutate(freq = n / sum(n) *100) %>%
     ungroup() %>%
     as.data.frame() %>%
