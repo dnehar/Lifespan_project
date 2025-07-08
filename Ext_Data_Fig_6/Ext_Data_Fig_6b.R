@@ -30,7 +30,7 @@ subset_to_be_plotted <- c("Tmem_CM", "Tmem_CM_SOX4","Tmem_CM_TOX", "Tmem_GzK_TH1
 plt_cor1 <- LifeSpan_ALL_MetaData %>%
   
   mutate(Groups = factor(Groups, levels = c("HI", "HC", "HY", "HO"))) %>%
-  mutate(ReCluster = factor(Final_annotations, levels = ordered_SC)) %>% #*****
+  mutate(ReCluster = factor(Final_annotations)) %>% #*****
   mutate(Age_days = Age_months*30) %>% 
   group_by(Groups, Names,Age_months,Age_days, ReCluster) %>%
   filter(ReCluster %in% subset_to_be_plotted) %>%   
