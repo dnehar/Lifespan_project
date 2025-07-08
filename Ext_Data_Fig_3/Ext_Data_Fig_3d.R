@@ -24,7 +24,7 @@ subset_to_be_plotted <-  c('moDC','cDC1','cDC2', 'AXL_DC', 'pDC')
 plt_cor1 <- LifeSpan_ALL_MetaData %>%
   
   mutate(Groups = factor(Groups, levels = c("HI", "HC", "HY", "HO"))) %>%
-  mutate(ReCluster = factor(Final_annotations, levels = ordered_SC)) %>% #*****
+  mutate(ReCluster = factor(Final_annotations)) %>% #*****
   mutate(Age_days = Age_months*30) %>% 
   group_by(Groups, Names,Age_months,Age_days, ReCluster) %>%
   summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Sex)) %>% #, Set = first(Set)
