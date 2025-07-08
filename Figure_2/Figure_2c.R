@@ -16,6 +16,7 @@ cols <- c('cDC2'= '#d84598',
 # subset to be plotted 
 subset_to_be_plotted <-  c('moDC','cDC1','cDC2', 'AXL_DC', 'pDC')
 
+# Bar plots
 BP_gp <- LifeSpan_ALL_MetaData %>% 
   mutate(Groups = factor(Groups, levels = c("HI", "HC", "HY", "HO"))) %>%
   mutate(ReCluster = factor(Final_annotations)) %>%
@@ -40,4 +41,4 @@ BP_gp <- LifeSpan_ALL_MetaData %>%
         plot.title = element_text(face='bold', color = 'black', size = 20, hjust = 0.5)) +
   ggtitle('Age groups')
 
-BP_gp
+print(BP_gp)
