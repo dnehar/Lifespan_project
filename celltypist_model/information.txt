@@ -1,0 +1,3 @@
+We applied CellTypist (PMID: 38134877) using customized models trained on large-scale, high‑quality PBMC datasets. Specifically:
+a.	The dataset from Gong et al. (PMID: 41162704) was used to annotate whole PBMC populations.
+b.	The dataset from Balasubramanian et al. (PMID: 41120754) was used to refine annotation within the memory CD4⁺ T‑cell compartment.
