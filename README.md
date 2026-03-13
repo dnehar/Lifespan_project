@@ -36,10 +36,10 @@ We performed integrated single‑cell RNA‑seq on peripheral blood mononuclear 
 
 We also used four publicly available datasets:
 
-- [Deng et al. Nat. Aging 2025](https://pubmed.ncbi.nlm.nih.gov/41136751) ([GSE231906](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE231906)): n=21 samples
-- [Wang et al. Nat. Immunology 2025](https://pubmed.ncbi.nlm.nih.gov/39881000) (syn61609846): n=45
-- [Wang et al. Nat. Commun. 2021](https://pubmed.ncbi.nlm.nih.gov/34521850) ([GSE168732](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE168732)): n=3
-- [Zhong et al. Front. Immunol.](https://pubmed.ncbi.nlm.nih.gov/36703979) ([GSE206295](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE206295)): n=3
+- [Deng et al. Nat. Aging 2025](https://pubmed.ncbi.nlm.nih.gov/41136751) ([GSE231906](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE231906)): n=21.
+- [Wang et al. Nat. Immunology 2025](https://pubmed.ncbi.nlm.nih.gov/39881000) (syn61609846): n=45.
+- [Wang et al. Nat. Commun. 2021](https://pubmed.ncbi.nlm.nih.gov/34521850) ([GSE168732](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE168732)): n=3.
+- [Zhong et al. Front. Immunol.](https://pubmed.ncbi.nlm.nih.gov/36703979) ([GSE206295](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE206295)): n=3.
 
 ## Publications associated with the study:
 
