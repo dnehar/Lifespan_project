@@ -1,15 +1,16 @@
 library(dplyr); library(ggplot2); 
 
-
 cols <- c(
-  # Groups
-  "Infants" = "#0072B2",
-  "Child" = "#56B4E9",
-  "Adolescent" = "#009E73", 
-  "Young" = "#F0E442",
-  "Middle_aged" = "#E69F00",
-  "Older" ="#D55E00",
-  "Oldest_old" = "#CC79A7"
+  # Level 2
+  "B_naive" = "#1c9099",
+  "CD4_ISGhi" = "#697d35",
+  "CD4_memory" = "#90aa3c",
+  "CD4_naive" = "#193a1c",
+  "CD8_TEMRA" = "#d28529",
+  "CD8_naive" = "#f37421",
+  "CD14_mono" = "#f6a2a7",
+  "CD56bright_NK" = "#f2e4a0",
+  "CD56dim_NK" = "#fee000"
 )
 
 # load metadata  
