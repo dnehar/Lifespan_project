@@ -80,13 +80,6 @@ print(CD4_T)
 
 to_be_ploted <- c( 'CD8_T_Effector','CD8_T_Naive')
 
-my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
-
-
-to_be_ploted <- c('CD8_naive', 'CD8_memory')
-
-ordered_names <- unique(sample_info$sample_id)
-
 BP <- LifeSpan_ALL_MetaData %>% 
   
   #mutate(ReCluster = factor(pbmc_simple_clustering, levels = order_pbmc_simple_clustering)) %>%
@@ -126,8 +119,6 @@ print(CD8_T)
 ######################################################
 
 to_be_ploted <- c('B_memory','B_naive')
-
-my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
 
 BP <- LifeSpan_ALL_MetaData %>% 
   
