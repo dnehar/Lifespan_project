@@ -1,35 +1,50 @@
-library(dplyr)
-library(ggplot2)
-  
+library(dplyr); library(ggplot2); 
+
 
 # load metadata and sample informatiom
-  
 MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 pheno <- MetaData[['pheno']] %>% as.data.frame()
-    
+
+ordered_names <- unique(pheno$sample_id)
+
+#length(order_pbmc_simple_clustering)
+length(unique(LifeSpan_ALL_MetaData$lifespan_L2))
+
+
+order_pbmc_simple_clustering <- c('CD14_mono', 'CD16_mono', 'DCs', 'pDCs', 'Mgk','HSPC',
+                                  'CD56bright_NK', 'CD56dim_NK', 'gd_Tcells',
+                                  'B_naive', 'B_memory','PCs', 
+                                  'CD4_naive','CD4_ISGhi', 'CD4_memory', 'CD4_Tregs', 
+                                  'CD8_naive', 'CD8_memory')
+
+length(order_pbmc_simple_clustering)
+#length(unique(LifeSpan_ALL_MetaData$pbmc_simple_clustering))
+
+
 ######################################################
-                # CD4 T cells 
+# CD4 T cells 
 ######################################################
 
-to_be_ploted <- c("CD4_T_Memory", "CD4_T_Naive")
-
-age_groups <- c("HI", "HC", "HY", "HO")
-my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
+to_be_ploted <- c("CD4_memory", "CD4_naive")
 
 BP <- LifeSpan_ALL_MetaData %>% 
   
-  mutate(Groups = factor(Groups, levels = age_groups)) %>%
-  mutate(ReCluster = factor(pbmc_simple_clustering, levels = to_be_ploted)) %>% #*****
+  #mutate(ReCluster = factor(pbmc_simple_clustering, levels = order_pbmc_simple_clustering)) %>%
+  mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
+  mutate(ReCluster = factor(LS_L2)) %>% #*****
   filter(ReCluster %in% to_be_ploted) %>% 
+  group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   
-  group_by(Groups,  Names, ReCluster) %>%
-  summarise(n = n(), Age_months = first(Age_months)) %>% #, Set = first(Set)
+  #filter(Groups %in% c("HO_M",'HO_F')) %>% 
+  summarise(n = n(), Age_months = first(Age_in_yrs)) %>% #, Set = first(Set)
   mutate(freq = n / sum(n)*100) %>%
   ungroup() %>%
   as.data.frame() %>% #head()
-  ggplot(aes(x = Names, y = freq, fill = ReCluster, group=ReCluster)) +
+  ggplot(aes(x = sample_id, y = freq, fill = ReCluster, group=ReCluster)) +
+  #scale_fill_manual(values=col) + #***
   scale_fill_manual(values=cols) + #**
+  #scale_fill_manual(values=cols_Lineage) + #***
   scale_x_discrete(limits=ordered_names) + #labels= labels
   theme(axis.text.y=element_text(size=16), 
         axis.text.x=element_text(size=16, angle = 90),
@@ -37,7 +52,8 @@ BP <- LifeSpan_ALL_MetaData %>%
         axis.title.y = element_text(face="bold", size=18),
         legend.position = "none") + #    ylab('% PBMC') + xlab('Age groups')
   
-  ylab('% of PBMCs') + xlab('Individuals (n=95)')
+  ylab('% of PBMCs') + xlab('Individuals (n=167)')
+
 
 CD4_T <-  BP +   ggstream::geom_stream(color = 'black', 
                                        lwd = 0.25,
@@ -46,27 +62,35 @@ CD4_T <-  BP +   ggstream::geom_stream(color = 'black',
 print(CD4_T)
 
 ######################################################
-                # CD8 T cells 
+# CD8 T cells 
 ######################################################
 
 to_be_ploted <- c( 'CD8_T_Effector','CD8_T_Naive')
 
-age_groups <- c("HI", "HC", "HY", "HO")
 my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
+
+
+to_be_ploted <- c('CD8_naive', 'CD8_memory')
+
+ordered_names <- unique(sample_info$sample_id)
 
 BP <- LifeSpan_ALL_MetaData %>% 
   
-  mutate(Groups = factor(Groups, levels = age_groups)) %>%
-  mutate(ReCluster = factor(pbmc_simple_clustering, levels = to_be_ploted)) %>% #*****
+  #mutate(ReCluster = factor(pbmc_simple_clustering, levels = order_pbmc_simple_clustering)) %>%
+  mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
+  mutate(ReCluster = factor(LS_L2)) %>% #*****
   filter(ReCluster %in% to_be_ploted) %>% 
+  group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   
-  group_by(Groups,  Names, ReCluster) %>%
-  summarise(n = n(), Age_months = first(Age_months)) %>% #, Set = first(Set)
+  #filter(Groups %in% c("HO_M",'HO_F')) %>% 
+  summarise(n = n(), Age_months = first(Age_in_yrs)) %>% #, Set = first(Set)
   mutate(freq = n / sum(n)*100) %>%
   ungroup() %>%
   as.data.frame() %>% #head()
-  ggplot(aes(x = Names, y = freq, fill = ReCluster, group=ReCluster)) +
+  ggplot(aes(x = sample_id, y = freq, fill = ReCluster, group=ReCluster)) +
+  #scale_fill_manual(values=col) + #***
   scale_fill_manual(values=cols) + #**
+  #scale_fill_manual(values=cols_Lineage) + #***
   scale_x_discrete(limits=ordered_names) + #labels= labels
   theme(axis.text.y=element_text(size=16), 
         axis.text.x=element_text(size=16, angle = 90),
@@ -74,7 +98,9 @@ BP <- LifeSpan_ALL_MetaData %>%
         axis.title.y = element_text(face="bold", size=18),
         legend.position = "none") + #    ylab('% PBMC') + xlab('Age groups')
   
-  ylab('% of PBMCs') + xlab('Individuals (n=95)')
+  ylab('% of PBMCs') + xlab('Individuals (n=167)')
+
+BP
 
 CD8_T <-  BP +   ggstream::geom_stream(color = 'black', 
                                        lwd = 0.25,
@@ -83,27 +109,30 @@ CD8_T <-  BP +   ggstream::geom_stream(color = 'black',
 print(CD8_T)
 
 ######################################################
-                # B cells 
+# B cells 
 ######################################################
 
 to_be_ploted <- c('B_memory','B_naive')
 
-age_groups <- c("HI", "HC", "HY", "HO")
 my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
 
 BP <- LifeSpan_ALL_MetaData %>% 
   
-  mutate(Groups = factor(Groups, levels = age_groups)) %>%
-  mutate(ReCluster = factor(pbmc_simple_clustering, levels = to_be_ploted)) %>% #*****
+  #mutate(ReCluster = factor(pbmc_simple_clustering, levels = order_pbmc_simple_clustering)) %>%
+  mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
+  mutate(ReCluster = factor(LS_L2)) %>% #*****
   filter(ReCluster %in% to_be_ploted) %>% 
+  group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   
-  group_by(Groups,  Names, ReCluster) %>%
-  summarise(n = n(), Age_months = first(Age_months)) %>% #, Set = first(Set)
+  #filter(Groups %in% c("HO_M",'HO_F')) %>% 
+  summarise(n = n(), Age_months = first(Age_in_yrs)) %>% #, Set = first(Set)
   mutate(freq = n / sum(n)*100) %>%
   ungroup() %>%
   as.data.frame() %>% #head()
-  ggplot(aes(x = Names, y = freq, fill = ReCluster, group=ReCluster)) +
+  ggplot(aes(x = sample_id, y = freq, fill = ReCluster, group=ReCluster)) +
+  #scale_fill_manual(values=col) + #***
   scale_fill_manual(values=cols) + #**
+  #scale_fill_manual(values=cols_Lineage) + #***
   scale_x_discrete(limits=ordered_names) + #labels= labels
   theme(axis.text.y=element_text(size=16), 
         axis.text.x=element_text(size=16, angle = 90),
@@ -111,15 +140,18 @@ BP <- LifeSpan_ALL_MetaData %>%
         axis.title.y = element_text(face="bold", size=18),
         legend.position = "none") + #    ylab('% PBMC') + xlab('Age groups')
   
-  ylab('% of PBMCs') + xlab('Individuals (n=95)')
+  ylab('% of PBMCs') + xlab('Individuals (n=167)')
+
 
 Bcells <-  BP +   ggstream::geom_stream(color = 'black', 
-                                       lwd = 0.25,
-                                       bw = 1,   
-                                       type = "proportional")
+                                        lwd = 0.25,
+                                        bw = 1,   
+                                        type = "proportional")
 print(Bcells) 
 
 ####
 BPs <- CD4_T | CD8_T |  Bcells 
 print(BPs)
 
+ggsave("./Streamed_LS_L2_clutering_01062026.pdf", BPs,
+       width=4, height=2,  units="in", scale=3)
