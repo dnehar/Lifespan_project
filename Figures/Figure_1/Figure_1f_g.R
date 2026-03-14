@@ -19,6 +19,13 @@ LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
+my_comparisons <- list (c('Infants', 'Child'),
+                        c('Child','Adolescent'),
+                        c('Adolescent', 'Young'),
+                        c('Young', 'Middle_aged'),
+                        c('Middle_aged', 'Older'),
+                        c('Older', 'Oldest_old'))
+
 subset_to_be_plotted <- c('CD14_mono','CD56dim_NK','CD4_memory','CD8_TEMRA',
                           'CD4_naive', 'CD8_naive', 'B_naive', 'CD4_ISGhi' )
 
