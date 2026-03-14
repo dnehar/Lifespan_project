@@ -4,13 +4,11 @@ library(dplyr); library(ggplot2);
 # load metadata and sample informatiom
 MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
-pheno <- MetaData[['pheno']] %>% as.data.frame()
 
+pheno <- MetaData[['pheno']] %>% as.data.frame()
 ordered_names <- unique(pheno$sample_id)
 
-#length(order_pbmc_simple_clustering)
 length(unique(LifeSpan_ALL_MetaData$lifespan_L2))
-
 age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
 order_pbmc_simple_clustering <- c('CD14_mono', 'CD16_mono', 'DCs', 'pDCs', 'Mgk','HSPC',
@@ -20,16 +18,15 @@ order_pbmc_simple_clustering <- c('CD14_mono', 'CD16_mono', 'DCs', 'pDCs', 'Mgk'
                                   'CD8_naive', 'CD8_memory')
 
 length(order_pbmc_simple_clustering)
-#length(unique(LifeSpan_ALL_MetaData$pbmc_simple_clustering))
 
  cols <- c(
    # Level 2
    "B_naive" = "#1c9099",
    "B_memory" = "#283779",
+   "CD4_naive" = "#193a1c",
    "CD4_memory" = "#90aa3c",
-   "CD8_memory" = "#fba919",
    "CD8_naive" = "#f37421",
-   "CD16_mono" = "#f9d3d7" )
+   "CD8_memory" = "#fba919" )
 
 my_comparisons <- list (c('Infants', 'Child'),
                         c('Child','Adolescent'),
