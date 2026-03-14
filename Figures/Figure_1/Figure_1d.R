@@ -2,9 +2,7 @@
 # Figure 1d — PCA on PBMC cell type proportions (Level 2, n=18 clusters)
 #
 # This script performs a principal component analysis (PCA) on the
-# per-sample proportions of PBMC cell types at Level 2 annotation,
-# then plots PC1 vs PC2 with 40% confidence ellipses per age group.
-#
+# per-sample proportions of PBMC cell types at Level 2 annotation
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
 # Output: ./Figure_2026/LS_pca_plot_L2_012562026.pdf
 # =============================================================================
