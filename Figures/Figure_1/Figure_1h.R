@@ -31,6 +31,12 @@ length(order_pbmc_simple_clustering)
    "CD8_naive" = "#f37421",
    "CD16_mono" = "#f9d3d7" )
 
+my_comparisons <- list (c('Infants', 'Child'),
+                        c('Child','Adolescent'),
+                        c('Adolescent', 'Young'),
+                        c('Young', 'Middle_aged'),
+                        c('Middle_aged', 'Older'),
+                        c('Older', 'Oldest_old'))
 
 ######################################################
 # CD4 T cells 
