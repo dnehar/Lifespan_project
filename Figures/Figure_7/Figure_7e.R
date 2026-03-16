@@ -1,3 +1,7 @@
+# =============================================================================
+# Figure 7e — Barplots of SOX4 CD4 T cell subset proportions across age in infants
+# =============================================================================
+
 library(dplyr); library(ggplot2)
 
 # --- Color palette — one color per SOX4 CD4 T cell subtype (Level 4 annotation) ---
