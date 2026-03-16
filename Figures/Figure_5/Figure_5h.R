@@ -28,7 +28,7 @@ MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 # --- Define ordered age groups (youngest to oldest) ---
-age_groups <- c("HI", "HC", "HY", "HO")
+age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
 # --- Define all pairwise comparisons between age groups ---
 # Used by ggpubr::stat_compare_means to annotate p-values on the plot
