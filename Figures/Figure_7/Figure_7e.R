@@ -1,50 +1,70 @@
-library(dplyr)
-library(ggplot2)
+library(dplyr); library(ggplot2)
 
+# --- Color palette — one color per SOX4 CD4 T cell subtype (Level 4 annotation) ---
+cols <- c(
+  "CD4_naive_SOX4-" = "#193a1c",
+  "CD4_naive_SOX4+" = "#a4de02ff"
+)
 
-# load metadata
+# Note: CD8 SOX4 subtypes commented out below for reference
+#"CD8_naive_SOX4+" = "#ffdeadff",
+#"CD8_naive_SOX4-" = "#f37421",
+
+# --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
 MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
-#color 
-cols <- c('CD4_Naive'= '#193a1c',
-            'CD4_Naive_SOX4'='#a4de02ff')
+# --- Define ordered age groups (youngest to oldest) ---
+age_groups <- c('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
+# --- Define all pairwise comparisons between age groups ---
+# Used by ggpubr::stat_compare_means to annotate p-values on the plot
+my_comparisons <- combn(age_groups, 2, FUN = list, simplify = T)
 
-# subset to be plotted 
-subset_to_be_plotted <-  c('CD4_Naive','CD4_Naive_SOX4')
+# --- Define the SOX4 CD4 T cell subtypes to plot (Level 4 annotation) ---
+subset_to_be_plotted <- c('CD4_naive_SOX4-', 'CD4_naive_SOX4+')
 
-plt_cor1 <- LifeSpan_ALL_MetaData %>%
+p_corr_lineage_infants <- LifeSpan_ALL_MetaData %>%
   
-  mutate(Groups = factor(Groups, levels = c("HI", "HC", "HY", "HO"))) %>%
-  mutate(ReCluster = factor(Final_annotations)) %>% #*****
-  mutate(Age_days = Age_months*30) %>% 
-  group_by(Groups, Names,Age_months,Age_days, ReCluster) %>%
+  mutate(ReCluster = factor(LS_L4, levels = order_LS_L4)) %>% #***
+  mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
+  filter(ReCluster %in% subset_to_be_plotted) %>% 
+  group_by(Groups, sample_id, Age_in_months, ReCluster) %>%
   summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
+  #summarise(n = n()) %>% #, Set = first(Set)
   mutate(freq = n / sum(n) *100) %>%
   ungroup() %>%
   as.data.frame() %>%
-
-  filter(ReCluster %in% subset_to_be_plotted) %>% 
-
-  # infants only 
-  filter(Groups %in% c('HI')) %>% 
-  
-  ggplot(aes(x = Age_months, y = freq, fill=ReCluster)) +
+  filter(Groups %in% c('Infants')) %>% 
+  ggplot(aes(x = Age_in_months, y = freq, fill=ReCluster)) +
+  geom_point(shape = 21, aes(fill = ReCluster), color = "black", size = 3, stroke = 0.5)+
   geom_smooth(method = "lm", aes(color=ReCluster)) + #, color = c('#f37421ff','#ffdeadff')
-  geom_point(aes(shape = Groups, color=ReCluster)) +
-  scale_fill_manual(values=cols) + 
-  scale_color_manual(values = cols)+
+  #geom_smooth(method = "lm", formula = y ~ poly(x, 2), aes(color=ReCluster)) +
+  scale_fill_manual(values=cols) + #**** 
+  scale_color_manual(values = cols)+ #****
   ggpubr::stat_cor() +
-  theme_bw() +
   theme(legend.position = "none", 
-        strip.text = element_text(size = 14)) +
-  facet_wrap(.~ReCluster, scales = "free_y", nrow =1) +
-  theme(axis.text.y=element_text(size=12, colour = 'black'), 
-        axis.text.x=element_text(size=12, colour = 'black'),
-        axis.title.x = element_text(face="bold", size=14, colour = 'black'),
-        axis.title.y = element_text(face="bold", size=14, colour = 'black'), 
-        strip.text.x = element_text(size = 14, face ='bold', colour = 'black')) +#    ylab('% PBMC') + xlab('Age groups') #    ylab('% PBMC') + xlab('Age groups'
-  ylab('% PBMCs') + xlab('Age (months)')
+        strip.text = element_text(size = 13, face ='bold')) +
+  facet_wrap(.~ReCluster, scales = "free_y", nrow = 1) + #***
+  theme_bw() +
+  # -------- ALL TEXT IN BLACK 
+  theme(
+    legend.position = "none",
+    
+    # Facet strip labels
+    strip.text = element_text(size = 13, face = "bold", colour = "black"),
+    
+    # Axis tick labels
+    axis.text.y  = element_text(size = 16, colour = "black"),
+    axis.text.x  = element_text(size = 16, colour = "black"),
+    
+    # Axis titles
+    axis.title.x = element_text(face = "bold", size = 18, colour = "black"),
+    axis.title.y = element_text(face = "bold", size = 18, colour = "black")
+  ) +
+  ylab('% Lineage')  + xlab('Age (years)')
 
-print(plt_cor1)
+p_corr_lineage_infants
+
+ggsave("./corplot_SOX4_CD4_T_cells__in_PBMCs_infants_03132026.pdf", p_corr_lineage_infants,
+       width=5, height=1.18,   units="in", scale=3)
