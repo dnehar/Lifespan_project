@@ -1,7 +1,7 @@
 library(dplyr)
 library(ggplot2)
 
-LS_list <- readRDS("./analysis/meta/LS_list_12_subsets_01162026.rds")
+LS_list <- readRDS("./umaps_coordinates.rds")
 df <- LS_list[['Monocytes']]
 
 p <- df %>%
