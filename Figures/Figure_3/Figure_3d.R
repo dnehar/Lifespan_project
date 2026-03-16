@@ -1,3 +1,13 @@
+# =============================================================================
+# Figure 3d — Scatter plots of NK cell subset frequencies vs. age in Infants (Level 4)
+#
+# This script computes frequencies of four NK cell subtypes
+# (CD56dim_NK, CD56bright_NK, Adaptive_NK, Proliferating_NK) as a percentage of all NK cells,
+# restricted to the Infants age group, and displays their correlation with age (in months)
+# as scatter plots with linear regression fits and Pearson correlation coefficients.
+# Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
+# Output: ./corplot_NK_cells_in_lineage_infants_03132026.pdf
+# =============================================================================
 
 library(dplyr); library(ggplot2)
 
@@ -10,40 +20,45 @@ cols <- c(
 )
 
 # --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
-# Required columns from meta_small: Age_groups, LS_L4
+# Required columns from meta_small: Age_groups, Age_in_months, sample_id, LS_L4
 MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 # --- Define the NK cell subtypes to plot (Level 4 annotation) ---
 subset_to_be_plotted <- c('CD56dim_NK', 'CD56bright_NK', 'Adaptive_NK', 'Proliferating_NK')
 
-
 # --- Define ordered age groups (youngest to oldest) ---
 age_groups <- c('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
-
+# --- Compute NK cell subtype proportions and build correlation scatter plots ---
+# Step 1: assign ordered factor levels to NK subtype (ReCluster) and age group (Groups)
+# Step 2: filter to keep only the four NK cell subtypes of interest
+# Step 3: count cells per age group x donor x age in months x NK subtype combination
+# Step 4: compute frequency as % of NK cells within each donor x age group
+# Step 5: restrict to Infants age group only
+# Step 6: plot scatter with linear regression line and Pearson correlation per NK subtype
 p_corr_lineage_infants <- LifeSpan_ALL_MetaData %>%
   
-  mutate(ReCluster = factor(LS_L4, levels = order_LS_L4)) %>% #***
-  mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
-  filter(ReCluster %in% subset_to_be_plotted) %>% 
+  mutate(ReCluster = factor(LS_L4, levels = order_LS_L4)) %>%           # Level 4 NK annotation (ordered)
+  mutate(Groups = factor(Age_groups, levels = age_groups)) %>%           # ordered age groups
+  filter(ReCluster %in% subset_to_be_plotted) %>%                        # keep NK subtypes only
   group_by(Groups, sample_id, Age_in_months, ReCluster) %>%
-  summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
+  summarise(n = n()) %>%                                                  # cell count per donor x cluster
   #summarise(n = n()) %>% #, Set = first(Set)
-  mutate(freq = n / sum(n) *100) %>%
+  mutate(freq = n / sum(n) *100) %>%                                     # % of NK cells per donor
   ungroup() %>%
   as.data.frame() %>%
-  filter(Groups %in% c('Infants')) %>% 
+  filter(Groups %in% c('Infants')) %>%                                    # restrict to Infants only
   ggplot(aes(x = Age_in_months, y = freq, fill=ReCluster)) +
-  geom_point(shape = 21, aes(fill = ReCluster), color = "black", size = 3, stroke = 0.5)+
-  geom_smooth(method = "lm", aes(color=ReCluster)) + #, color = c('#f37421ff','#ffdeadff')
+  geom_point(shape = 21, aes(fill = ReCluster), color = "black", size = 3, stroke = 0.5)+  # filled scatter points
+  geom_smooth(method = "lm", aes(color=ReCluster)) +                     # linear regression fit per subtype
   #geom_smooth(method = "lm", formula = y ~ poly(x, 2), aes(color=ReCluster)) +
-  scale_fill_manual(values=cols) + #**** 
-  scale_color_manual(values = cols)+ #****
-  ggpubr::stat_cor() +
+  scale_fill_manual(values=cols) +                                        # apply NK color palette (fill)
+  scale_color_manual(values = cols)+                                      # apply NK color palette (line)
+  ggpubr::stat_cor() +                                                    # add Pearson R and p-value
   theme(legend.position = "none", 
         strip.text = element_text(size = 13, face ='bold')) +
-  facet_wrap(.~ReCluster, scales = "free_y", nrow = 1) + #***
+  facet_wrap(.~ReCluster, scales = "free_y", nrow = 1) +                 # one panel per NK subtype
   theme_bw() +
   # -------- ALL TEXT IN BLACK 
   theme(
@@ -64,5 +79,6 @@ p_corr_lineage_infants <- LifeSpan_ALL_MetaData %>%
 
 p_corr_lineage_infants
 
+# --- Save output ---
 ggsave("./corplot_NK_cells_in_lineage_infants_03132026.pdf", p_corr_lineage_infants,
        width=5, height=1.18,   units="in", scale=3)
