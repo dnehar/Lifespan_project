@@ -1,6 +1,6 @@
 library(dplyr); library(ggplot2); 
 
-cols <- c(  "moDC" = "#ed2024",
+cols <- c( "moDC" = "#ed2024",
             "cDC1" = "#771215",
             "cDC2" = "#d84598",
             "AXL_DC" = "#a41e21",
