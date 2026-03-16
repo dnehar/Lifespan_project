@@ -1,5 +1,5 @@
 # =============================================================================
-# Figure 3b — Boxplots of NK cell subset proportions across age groups (Level 2)
+# Figure 3b — Boxplots of NK cell subset proportions across age groups (Level 4)
 #
 # This script computes per-sample frequencies of four NK cell subtypes
 # (CD56dim_NK, CD56bright_NK, Adaptive_NK, Proliferating_NK) as a percentage
