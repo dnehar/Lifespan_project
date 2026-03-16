@@ -21,7 +21,7 @@ cols <- c(
 )
 
 # --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
-# Required columns from meta_small: Age_groups, LS_L3
+# Required columns from meta_small: Age_groups, LS_L4
 MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
@@ -50,7 +50,7 @@ my_comparisons <- list(c('Infants', 'Child'),
 BP_1 <- LifeSpan_ALL_MetaData %>%
 
   mutate(Groups    = factor(Age_groups, levels = age_groups)) %>%        # ordered age groups
-  mutate(ReCluster = factor(LS_L3, levels = subset_to_be_plotted)) %>%   # Level 3 gd T cell annotation
+  mutate(ReCluster = factor(LS_L4, levels = subset_to_be_plotted)) %>%   # Level 3 gd T cell annotation
   filter(ReCluster %in% subset_to_be_plotted) %>%                        # keep gd T cell subtypes only
   group_by(Groups, ReCluster) %>%
   summarise(n = n()) %>%                                                  # cell count per group x cluster
