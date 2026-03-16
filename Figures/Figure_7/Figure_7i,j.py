@@ -1,4 +1,8 @@
-
+import numpy as np
+import pandas as pd
+import scanpy as sc
+import seaborn as sb
+import seaborn as sns
 import gene_plot_utils as gputils
 import importlib
 #importlib.reload(gputils)
@@ -30,7 +34,6 @@ gputils.cor_plot_multiple_genes(naive_CD4,
 # 2 - naive CD8 T cells 
 naive_CD8=sc.read('./naive_CD8.h5ad')
 sc.pp.combat(naive_CD4, key='Batch', covariates=['Age_groups','LS_L4'])
-
 
 ## Boxplot SOX4+ vs. SOX4-
 gputils.Boxplot_one_gene(naive_CD8,
