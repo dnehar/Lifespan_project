@@ -1,5 +1,4 @@
 
-
 library(dplyr); library(ggplot2); 
 
 cols <- c(
@@ -14,9 +13,7 @@ cols <- c(
 MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
-
 subset_to_be_plotted <- c('moDC', 'cDC1', 'cDC2', 'AXL_DC', 'pDC')
-
 
 age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 my_comparisons <- list (c('Infants', 'Child'),
