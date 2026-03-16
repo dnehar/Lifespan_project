@@ -3,6 +3,7 @@ import pandas as pd
 import scanpy as sc
 import seaborn as sb
 import seaborn as sns
+
 import gene_plot_utils as gputils
 import importlib
 #importlib.reload(gputils)
@@ -11,6 +12,8 @@ cols={"CD4_naive_SOX4-" : "#193a1c",
    "CD4_naive_SOX4+" : "#a4de02ff",
    "CD8_naive_SOX4+" : "#ffdeadff",
    "CD8_naive_SOX4-" :"#f37421"}
+
+# plot pseudobulked counts (counts x samples):
 
 # 1 - naive CD4 T cells 
 naive_CD4=sc.read('./naive_CD4.h5ad')
