@@ -1,23 +1,21 @@
 library(dplyr)
 library(ggplot2)
 
+LS_list <- readRDS("./analysis/meta/LS_list_12_subsets_01162026.rds")
+df <- LS_list[['NK_cells']]
 
-# load metadata
-MetaData <- readRDS('./pbmcs_v1.rds')
-LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
-
-#color 
-cols <- c('NK_CD16'= '#fee000',
-            'NK_XCL1'= '#f2e4a0',
-            'NK_cycling'= '#ccb72d',
-            'NK_CD16_KLRC2'='#feb24c')
-            
-
-# plot umap NK cells 
-p_umap_subset <- meta_all %>% 
-dplyr::filter(Lineage %in% 'NK_cells') %>% 
-ggplot(aes(x=SC_umap1, y=SC_umap2,  color=Final_annotations)) +
-geom_point(size=0.5) + #, alpha = 1
-scale_color_manual(values=cols) + 
-theme_void() 
-print(p_umap_subset)
+p <- df %>%
+    ggplot(aes(x = SC_umap1, y = SC_umap2, color = Final_annotations)) +
+    geom_point(size = point_size) +
+    scale_color_manual(values = cols_vec, drop = FALSE) +
+    theme_void() +
+    guides(color = guide_legend(override.aes = list(size = 3))) +
+    labs(title = subset_name, color = "Final annotations")
+  
+  # Save if requested
+  if (!is.null(save_path)) {
+    ggsave(filename = save_path, plot = p, width = width, height = height, dpi = dpi)
+    message(sprintf("Saved plot to: %s", save_path))
+  }
+  
+return(p)
