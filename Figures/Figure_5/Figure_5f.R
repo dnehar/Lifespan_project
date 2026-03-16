@@ -3,7 +3,7 @@ library(dplyr)
 library(ggplot2)
 
 LS_list <- readRDS("./umaps_coordinates.rds")
-df <- LS_list[['T_helpers']]
+df <- LS_list[['CD4_T_memory']]
 
 p <- df %>%
     ggplot(aes(x = SC_umap1, y = SC_umap2, color = Final_annotations)) +
