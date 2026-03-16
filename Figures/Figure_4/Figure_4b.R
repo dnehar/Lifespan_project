@@ -1,5 +1,5 @@
 # =============================================================================
-# Figure 4b — Boxplots of B cell subset proportions across age groups (Level 2)
+# Figure 4b — Boxplots of B cell subset proportions across age groups (Level 4)
 #
 # This script computes per-sample frequencies of six B cell subtypes
 # (B_transitional, B_naive, B_memory, B_ABC, B_ISGhi, PCs) as a percentage
