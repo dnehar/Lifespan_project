@@ -1,27 +1,21 @@
 library(dplyr)
 library(ggplot2)
 
+LS_list <- readRDS("./umaps_coordinates.rds")
+df <- LS_list[['Bcells']]
 
-# load metadata
-MetaData <- readRDS('./pbmcs_v1.rds')
-LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
-
-#color 
-cols <- c('B_ISGhi'='#9ecae1',
-            'B_memory'='#283779',
-            'B_ABC'='#41b8ea',
-            'PCs'='#8856a7',
-            'B_transitional'='#756bb1',
-            'B_naive'='#1c9099')
-            
-
-# plot umap B cells
-
-p_umap_subset <- LifeSpan_ALL_MetaData %>% 
-dplyr::filter(Lineage %in% 'B_cells') %>% 
-filter (!Final_annotations %in% c('IGLC6_IGLC7_Bcells','B_C9')) %>% 
-ggplot(aes(x=SC_umap1, y=SC_umap2,  color=Final_annotations)) +
-geom_point(size=0.5) + #, alpha = 1
-scale_color_manual(values=cols) + 
-theme_void() 
-print(p_umap_subset)
+p <- df %>%
+    ggplot(aes(x = SC_umap1, y = SC_umap2, color = Final_annotations)) +
+    geom_point(size = point_size) +
+    scale_color_manual(values = cols_vec, drop = FALSE) +
+    theme_void() +
+    guides(color = guide_legend(override.aes = list(size = 3))) +
+    labs(title = subset_name, color = "Final annotations")
+  
+  # Save if requested
+  if (!is.null(save_path)) {
+    ggsave(filename = save_path, plot = p, width = width, height = height, dpi = dpi)
+    message(sprintf("Saved plot to: %s", save_path))
+  }
+  
+return(p)
