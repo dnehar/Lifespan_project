@@ -1,51 +1,81 @@
-library(dplyr)
-library(ggplot2)
+# =============================================================================
+# Figure 5b — Boxplots of CD4 T cell subset proportions across age groups (Level 3)
+#
+# This script computes per-sample frequencies of five CD4 T cell subtypes
+# (CD4_naive, CD4_ISGhi, CD4_Tregs, CD4_memory, CD4_Proliferating) as a
+# percentage of total PBMCs, and displays their distribution across four age
+# groups (HI, HC, HY, HO) using boxplots with all pairwise t-test comparisons.
+# Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
+# Output: ./boxplot_CD4_Tcells_level3_in_PBMCs_03132026.pdf
+# =============================================================================
 
-# load metadata
+library(dplyr); library(ggplot2)
+
+# --- Color palette — one color per CD4 T cell subtype (Level 3 annotation) ---
+cols <- c(
+  "CD4_ISGhi"        = "#697d35",
+  "CD4_memory"       = "#90aa3c",
+  "CD4_naive"        = "#193a1c",
+  "CD4_Tregs"        = "#137d82",
+  "CD4_Proliferating" = "#2a9d8f"
+)
+
+# --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
 MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
-
-#color 
-cols <- c("CD4_T_Naive"="#193a1c",
-            "CD4_T_ISGhi"="#697d35",
-            "CD4_Tregs"="#137d82",
-            "CD4_T_Memory"="#1c572b")
-            
-
+# --- Define ordered age groups (youngest to oldest) ---
 age_groups <- c("HI", "HC", "HY", "HO")
-my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
 
-# subset to be plotted 
-subset_to_be_plotted <- c("CD4_T_Memory","CD4_Tregs","CD4_T_Naive","CD4_T_ISGhi" ) #"CD4_CTL",
+# --- Define all pairwise comparisons between age groups ---
+# Used by ggpubr::stat_compare_means to annotate p-values on the plot
+my_comparisons <- combn(age_groups, 2, FUN = list, simplify = T)
 
-# plot box plot - age groups 
-  plt_age <- LifeSpan_ALL_MetaData %>% 
-            mutate(ReCluster = factor(subset_simple_clustering)) %>% #, levels = ordered_SC
-            mutate(subset_simple_clustering = gsub(pattern = "CD4_CTL", replacement = "CD4_T_Memory", x = subset_simple_clustering)) %>%
-            mutate(Groups = factor(Groups, levels = age_groups)) %>%
-            group_by(Groups, Names, ReCluster) %>%
-            summarise(n = n()) %>% #, Set = first(Set)
-            mutate(freq = n / sum(n) *100) %>%
-            ungroup() %>%
-            as.data.frame() %>%
-    
-    filter(ReCluster %in% subset_to_be_plotted) %>% 
-    ggplot(aes(x = Groups, y = freq, fill = ReCluster, group = Groups)) +
-    geom_boxplot(outlier.shape = NA) +
-    geom_jitter(size = 0.2) +
-    theme_bw()  +  #THEME +
-    ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") + #label = "p.signif"
-    theme(legend.position = "none", 
-          strip.text = element_text(size = 14, face='bold')) +
-    facet_wrap(.~ReCluster, scales = "free_y", nrow = 1) + 
-    
-    scale_fill_manual(values=cols) + #**
-    theme(axis.text.y=element_text(size=12, colour = 'black'), 
-          axis.text.x=element_text(size=12, colour = 'black'),
-          axis.title.x = element_text(face="bold", size=14, colour = 'black'),
-          axis.title.y = element_text(face="bold", size=14, colour = 'black'), 
-          strip.text.x = element_text(size = 14, face ='bold', colour = 'black')) + #    ylab('% PBMC') + xlab('Age groups')
-    ylab('% in PBMCs') + xlab('Age groups')
-  
-  plt_age
+# --- Define the CD4 T cell subtypes to plot (Level 3 annotation) ---
+subset_to_be_plotted <- c('CD4_naive', 'CD4_ISGhi', 'CD4_Tregs', 'CD4_memory', 'CD4_Proliferating')
+
+# --- Compute per-sample CD4 T cell subtype proportions and build boxplot ---
+# Step 1: assign ordered factor levels to cell type (ReCluster) and age group (Groups)
+# Step 2: count cells per sample x cell type combination
+# Step 3: compute frequency as % of all cells in that sample x age group
+# Step 4: keep only the five CD4 T cell subtypes of interest
+# Step 5: plot one facet per CD4 T cell subtype (free y-axis scale), with pairwise t-test p-values
+box_plot_pbmc_L2 <- LifeSpan_ALL_MetaData %>%
+
+  mutate(ReCluster = factor(LS_L4)) %>%                           # Level 3 cluster annotation
+  mutate(Groups = factor(Groups, levels = age_groups)) %>%        # ordered age groups
+  group_by(Groups, Names, ReCluster) %>%
+  summarise(n = n()) %>%                                           # cell count per sample x cluster
+  mutate(freq = n / sum(n) * 100) %>%                             # % of total PBMCs per sample
+  ungroup() %>%
+  as.data.frame() %>%
+  filter(ReCluster %in% subset_to_be_plotted) %>%                 # keep CD4 T cell subtypes only
+
+  ggplot(aes(x = Groups, y = freq, fill = ReCluster, group = Groups)) +
+  geom_boxplot(outlier.shape = NA) +                              # boxplot without outlier symbols
+  geom_jitter(size = 0.2) +                                       # overlay individual sample points
+  theme_bw() +
+
+  # Pairwise t-test between all age group combinations; p-values displayed above brackets
+  #ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") +
+  ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") + #label = "p.signif"
+  #ggpubr::stat_compare_means(comparisons = my_comparisons, label = "p.signif", hide.ns = F, vjust = 0.5) +
+
+  theme(legend.position = "none",                                 # legend redundant with facet labels
+        strip.text = element_text(size = 14, face = 'bold')) +
+  facet_wrap(. ~ ReCluster, scales = "free_y", nrow = 1) +       # one panel per CD4 T cell subtype
+
+  scale_fill_manual(values = cols) +                              # apply CD4 T cell subtype color palette
+
+  theme(axis.text.y  = element_text(size = 12, colour = 'black'),
+        axis.text.x  = element_text(size = 12, colour = 'black'),
+        axis.title.x = element_text(face = "bold", size = 14, colour = 'black'),
+        axis.title.y = element_text(face = "bold", size = 14, colour = 'black'),
+        strip.text.x = element_text(size = 14, face = 'bold', colour = 'black')) +
+  ylab('% in PBMCs') + xlab('Age groups')
+
+box_plot_pbmc_L2
+
+# --- Save figure as PDF ---
+ggsave("./boxplot_CD4_Tcells_level3_in_PBMCs_03132026.pdf", box_plot_pbmc_L2,
+       width = 4.2, height = 3, units = "in", scale = 3)
