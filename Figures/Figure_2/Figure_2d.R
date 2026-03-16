@@ -82,5 +82,5 @@ box_plot_lineage <- LifeSpan_ALL_MetaData %>%
 box_plot_lineage
 
 # --- Save figure as PDF ---
-ggsave("./Boxplot_DCs_in_lineage_03132026.pdf", box_plot_lineage,
+ggsave("./Boxplot_pDCs_in_lineage_03132026.pdf", box_plot_lineage,
        width = 4.2, height = 3, units = "in", scale = 3)
