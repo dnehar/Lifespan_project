@@ -27,6 +27,7 @@ box_plot_lineage <- LifeSpan_ALL_MetaData %>%
   mutate(freq = n / sum(n) *100) %>%
   ungroup() %>%
   as.data.frame() %>%
+  filter(ReCluster %in% c('pDC')) %>% 
   ggplot(aes(x = Groups, y = freq, fill = ReCluster, group = Groups)) +
   geom_boxplot(outlier.shape = NA) +
   geom_jitter(size = 0.2) +
@@ -35,7 +36,6 @@ box_plot_lineage <- LifeSpan_ALL_MetaData %>%
   theme(legend.position = "none", 
         strip.text = element_text(size = 10, face='bold')) +
   facet_wrap(.~ReCluster, scales = "free_y", nrow = 1) + 
-  
   scale_fill_manual(values=cols) + #**
   theme(axis.text.y=element_text(size=12, colour = 'black'), 
         axis.text.x=element_text(size=12, colour = 'black',angle = 90),
