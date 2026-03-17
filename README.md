@@ -66,6 +66,6 @@ Lifespan_project/
 ├── Ext_Data_Fig/          # Scripts used to generate Supplementary Figures
 ├── GSEA_analysis/          #  Scripts used to perform GSEA  
 ├── age_associated_changes/          #  Scripts used to perform age associated changes
-├──  celltypist_models # CellTypist models and related scripts
+├── celltypist_models # CellTypist models and related scripts
 
 ```
