@@ -1,32 +1,42 @@
+# =============================================================================
+# Supplementary Figure 1b — UMAP plot on PBMC (Level 2, n=18 clusters)
+#
+# Input:  umaps_coordinates.rds  — available at dnehar/Lifespan_project/umaps_coordinates.rds
+# Output: UMAP_PBMCs_LS_L2_13022026.pdf
+# =============================================================================
+
 library(dplyr)
 library(ggplot2)
 
-# load metadata
-MetaData <- readRDS('./pbmcs_v1.rds')
-LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
+LS_list <- readRDS("./umaps_coordinates.rds")
+df <- LS_list[['pbmc']]
 
-  MetaData <- LifeSpan_ALL_MetaData
-  Number <- data.frame(MetaData %>% count(Names, Groups)) #Gender,
-  Number %>% group_by(Groups) %>% summarize(Mean= mean(n), SD=sd(n)) -> LNB
-  
-  # plot number of Highly variable gene acros age groups
+cols <- c(
+   "B_naive" = "#1c9099",
+   "B_memory" = "#283779",
+   "CD4_ISGhi" = "#697d35",
+   "CD4_memory" = "#90aa3c",
+   "CD4_naive" = "#193a1c",
+   "CD4_Tregs" = "#137d82",
+   "CD8_memory" = "#fba919",
+   "CD8_naive" = "#f37421",
+   "CD14_mono" = "#f6a2a7",
+   "CD16_mono" = "#f9d3d7",
+   "Mgk" = "#932169",
+   "CD56bright_NK" = "#f2e4a0",
+   "CD56dim_NK" = "#fee000",
+   "pDCs" = "#a5a4a4")
+     
+p <- df %>%
+    ggplot(aes(x = X_umap1, y = X_umap2, color = LS_L2)) +
+    geom_point(size = 0.1) +
+    scale_color_manual(values = cols, drop = FALSE) +
+    theme_void() +
+    guides(color = guide_legend(override.aes = list(size = 3))) +
+    labs(title = "PBMCs - Level 2")
 
-  px <- ggplot(data=Number, aes(x=Groups, y=n, fill=Groups)) +
-    geom_violin(aes(fill = Groups), trim = TRUE)  +
-    stat_summary(fun.data = "mean_sdl") +
-    geom_dotplot(binaxis='y', stackdir='center',stackratio=1.5, dotsize=1) + #,binwidth = 20
-    #+ coord_flip() 
-    scale_fill_manual(values=col_age_gp) +
-    ylab("number of cells") +
-    xlab("age groups") +
-    scale_x_discrete(limits = c("HI","HC","HY","HO"))+
-    theme(legend.position="none", 
-          axis.text.x=element_text(size=18), 
-          axis.text.y=element_text(size=18), 
-          axis.title.x = element_text(face="bold", size=18),
-          axis.title.y = element_text(face="bold", size=18),
-          plot.title = element_text(hjust = 0.5,face='bold',size=14),
-          panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(fill=NA, color = 'black', size=1))
-  print(px)
+print(p)
+
+# save plot
+ggsave('./UMAP_PBMCs_LS_L2_13022026.pdf', 
+       p, width = 7, height = 6, dpi = 300)
