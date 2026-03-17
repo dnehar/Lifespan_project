@@ -10,8 +10,6 @@
 
 library(dplyr); library(ggplot2)
 
-)
-
 # --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
 # Required columns from meta_small: Age_groups, Age_in_months, sample_id, LS_L4
 MetaData <- readRDS('./pbmcs_v1.rds')
