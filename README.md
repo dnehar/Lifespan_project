@@ -62,5 +62,10 @@ We also used four publicly available datasets:
 
 ```
 Lifespan_project/
-├── scripts/          # Analysis scripts
+├── Figures/          # Scripts used to generate main figures
+├── Ext_Data_Fig/          # Scripts used to generate Supplementary Figures
+├── GSEA_analysis/          #  Scripts used to perform GSEA  
+├── age_associated_changes/          #  Scripts used to perform age associated changes
+├──  celltypist_models # CellTypist models and related scripts
+
 ```
