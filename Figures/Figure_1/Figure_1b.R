@@ -24,12 +24,12 @@ df <- LS_list[['pbmc']]
    "HSPC" = "#b0479a")
      
 p <- df %>%
-    ggplot(aes(x = SC_umap1, y = SC_umap2, color = Final_annotations)) +
+    ggplot(aes(x = X_umap1, y = X_umap2, color = LS_L1)) +
     geom_point(size = 0.1) +
     scale_color_manual(values = cols, drop = FALSE) +
     theme_void() +
     guides(color = guide_legend(override.aes = list(size = 3))) +
-    labs(title = subset_name, color = "Final annotations")
+    labs(title = subset_name, color = "Level 1")
 
 return(p)
 
