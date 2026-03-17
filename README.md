@@ -23,16 +23,21 @@
 Our goal is to analyze the infant immune system within the broader context of the human lifespan, with a focus on identifying key features of early‑life immunity.
 
 ## Cohort information (scRNAseq):
-We performed integrated single‑cell RNA‑seq on peripheral blood mononuclear cells from 95 healthy individuals ranging from 2 months to 105 years of age. We further integrated our dataset with previously published single‑cell studies to enhance coverage across the lifespan.
+We performed integrated single‑cell RNA‑seq on peripheral blood mononuclear cells from 167 healthy individuals ranging from 2 months to 105 years of age. We further integrated our dataset with previously published single‑cell studies to enhance coverage across the lifespan.
 
 **Cohort breakdown:**
 
-| Group | scRNAseq (n=95) | snATACseq (n=23) |
-|---|---|---|
-| Infants | 27 | 8 |
-| Children | 23 | 4 |
-| Young adults | 18 | 5 |
-| Older adults | 27 | 6 |
+| Group | scRNAseq (n=167) | scATACseq (n=23) |
+|---|---:|---:|
+| Infants (2–24 months) | 36 | 9 (infants and children) |
+| Children (2–12 years) | 26 |  |
+| Adolescents (12–18 years) | 20 | 3 |
+| Young adults (18–40 years) | 24 | 6 (young and middle-aged adults) |
+| Middle-aged (45–65 years) | 16 |  |
+| Older adults (65–85 years) | 33 | 5 |
+| Oldest old (85–105 years) | 12 |  |
+
+Notes: scATACseq grouping reflects how samples were combined for ATAC profiling ("infants and children" and "young and middle-aged adults"). Total scATACseq n = 23.
 
 We also used four publicly available datasets:
 
@@ -58,20 +63,4 @@ We also used four publicly available datasets:
 ```
 Lifespan_project/
 ├── scripts/          # Analysis scripts
-├── data/             # Input data files (not tracked by git)
-├── Figures/          # Figure outputs
-├── Ext_Data_Fig/     # Extended data figures
-├── GSEA_analysis/    # Gene Set Enrichment Analysis files
-├── age_associated_changes/  # Age-associated changes analysis
-└── celltypist_model/ # CellTypist model files
 ```
-
-## Citation / How to cite:
-
-> Citation information will be added upon publication. Please check back later.
-
-## Contact:
-
-For questions or feedback, please contact the corresponding author or open an issue in this repository.
-
-> Contact information will be updated upon publication.
