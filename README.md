@@ -22,7 +22,7 @@
 ## Goal of the study:
 Our goal is to analyze the infant immune system within the broader context of the human lifespan, with a focus on identifying key features of early‑life immunity.
 
-## Cohort information (scRNAseq):
+## Cohort information (scRNAseq and scATACseq):
 We performed integrated single‑cell RNA‑seq on peripheral blood mononuclear cells from 167 healthy individuals ranging from 2 months to 105 years of age. We further integrated our dataset with previously published single‑cell studies to enhance coverage across the lifespan.
 
 **Cohort breakdown:**
