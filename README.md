@@ -37,8 +37,6 @@ We performed integrated single‑cell RNA‑seq on peripheral blood mononuclear 
 | Older adults (65–85 years) | 33 | 5 |
 | Oldest old (85–105 years) | 12 |  |
 
-Notes: scATACseq grouping reflects how samples were combined for ATAC profiling ("infants and children" and "young and middle-aged adults"). Total scATACseq n = 23.
-
 We also used four publicly available datasets:
 
 - [Deng et al. Nat. Aging 2025](https://pubmed.ncbi.nlm.nih.gov/41136751) ([GSE231906](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE231906)): n=21.
