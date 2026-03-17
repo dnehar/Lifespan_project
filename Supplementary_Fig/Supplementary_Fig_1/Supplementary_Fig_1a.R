@@ -10,12 +10,6 @@
 
 library(dplyr); library(ggplot2)
 
-# --- Color palette — one color per NK cell subtype (Level 4 annotation) ---
-cols <- c(
-  "CD56bright_NK"    = "#f2e4a0",
-  "CD56dim_NK"       = "#fee000",
-  "Adaptive_NK"      = "#feb24c",
-  "Proliferating_NK" = "#ccb72d"
 )
 
 # --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
@@ -23,9 +17,8 @@ cols <- c(
 MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
-# --- load colors
- cols <- c(
-   # Level 1
+
+# --- Color palette  cols <- c(
    "CD4_Tcells" = "#193a1c",
    "CD8_Tcells" = "#f37421",
    "gd_Tcells" = "#80622f",
