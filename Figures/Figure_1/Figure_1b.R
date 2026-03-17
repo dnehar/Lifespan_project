@@ -29,9 +29,9 @@ p <- df %>%
     scale_color_manual(values = cols, drop = FALSE) +
     theme_void() +
     guides(color = guide_legend(override.aes = list(size = 3))) +
-    labs(title = subset_name, color = "Level 1")
+    labs(title = "PBMCs - Level 1")
 
-return(p)
+print(p)
 
 # save plot
 ggsave('./UMAP_PBMCs_LS_L1_13022026.pdf', 
