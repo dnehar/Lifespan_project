@@ -2,7 +2,7 @@
 # Supplementary Fig. 1d  — violin plots showing number of cells accross age groups
 #
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
-# Output: ./Piechart_Platform_ageGroups_03182026.pdf
+# Output: ./violin_plot_number_cells_age_group_03162026.pdf
 # =============================================================================
 
 library(dplyr); library(ggplot2)
