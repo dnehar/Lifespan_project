@@ -1,88 +1,69 @@
-library(dplyr)
-library(ggplot2)
+
+f <- "./analysis/gsea/combined_gsea_across_LS_L3_subsets.csv"
+#f <- "./analysis/gsea/combined_gsea_across_LS_L2_subsets.csv"
+
+df <- read.csv(f, check.names = FALSE)
+str(df)  # should show columns: Term, fdr, es, nes, lead_genes, subset
+head(df)
+
+df <- df %>%
+  mutate(
+    subset = gsub("^age_changes_", "", subset),
+    subset = gsub("_[0-9]{8}$", "", subset)   # remove any trailing _YYYYMMDD
+  )
+head(df)
 
 
-# load metadata
-MetaData <- readRDS('./pbmcs_v1.rds')
-pheno <- MetaData[['pheno']] %>% as.data.frame()
-LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
+top_n <- 10
 
-#color 
- cols <- c('CD4_Naive'= '#193a1c',
-            'CD4_Naive_SOX4'='#a4de02ff',
-          'CD8_Naive'= '#f37421',
-           'CD8_Naive_SOX4'= '#ffdeadff')
-age_groups <- c('HI', 'HC','HY','HO')
- my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
+#df_plot %>% filter(Term %in% c('TGF-beta Signaling', 'Interferon Alpha Response',#'IL-2/STAT5 Signaling',
+                            #   'TNF-alpha Signaling via NF-kB','Interferon Gamma Response')) -> df_plot #
 
 
-# 1- naive CD4 T cells  
+#df <- df %>% filter(!subset %in% c('doublets')) 
+# Desired facet order
+#b_order <- subset_to_be_plotted
 
-subset_to_be_plotted <-  c('CD4_Naive', 'CD4_Naive_SOX4')
+df_fac <- df %>%
+  filter(subset %in% subset_to_be_plotted) %>%
+  mutate(
+    subset_clean = gsub("^age_changes_", "", subset),
+    subset_clean = gsub("_[0-9]{8}$", "", subset_clean),
+    # <-- enforce facet order here
+    subset_clean = factor(subset_clean, levels = subset_to_be_plotted),
+    neglog10_fdr = -log10(pmax(fdr, 1e-300))
+  ) %>%
+  group_by(subset_clean) %>%
+  slice_min(order_by = fdr, n = top_n, with_ties = FALSE) %>%
+  ungroup() %>%
+  # reorder terms within each facet by NES
+  mutate(Term_re = reorder_within(Term, nes, subset_clean))
 
-plt_age1 <- LifeSpan_ALL_MetaData %>% 
-    mutate(ReCluster = factor(Final_annotations)) %>% #, levels = ordered_SC
-    mutate(Groups = factor(Groups, levels = age_groups)) %>%
-    group_by(Groups, Names, ReCluster) %>%
-    summarise(n = n()) %>% #, Set = first(Set)
-    mutate(freq = n / sum(n) *100) %>%
-    ungroup() %>%
-    as.data.frame() %>%
-    filter(ReCluster %in% subset_to_be_plotted) %>% 
+p_fac <- ggplot(df_fac, aes(x = Term_re, y = nes, fill = neglog10_fdr)) +
+  geom_col(width = 0.75, color = "black", linewidth = 0.2) +
+  coord_flip() +
+  geom_hline(yintercept = 0, linewidth = 0.3, color = "grey40") +
+  scale_fill_viridis(option = "C", direction = 1, name = expression(-log[10]~FDR)) +
+  facet_wrap(~ subset_clean, scales = "free_y", nrow = 1) + #***
+  scale_x_reordered() +
+  labs(
+    title = "GSEA NES across subsets",
+    x = "Pathway / Term",
+    y = "NES"
+  ) +
+  theme_minimal(base_size = 10) +
+  theme(
+    panel.grid.minor = element_blank(),
+    strip.text       = element_text(face = "bold", colour = 'black'),
+    axis.text.y      = element_text(size = 8, colour = 'black'),
+    axis.text.x      = element_text(size = 8, colour = 'black'),
+    axis.title.x     = element_text(face = "bold", size = 8, colour = 'black'),
+    axis.title.y     = element_text(face = "bold", size = 8, colour = 'black')
+  )
 
-    ggplot(aes(x = Groups, y = freq, fill = ReCluster, group = Groups)) +
-    geom_boxplot(outlier.shape = NA) +
-    geom_jitter(size = 0.2) +
-    theme_bw()  +  #THEME +
-    #ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") +
-    ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") + #label = "p.signif"
-    #ggpubr::stat_compare_means(comparisons = my_comparisons, label = "p.signif", hide.ns = F, vjust = 0.5) + 
-    theme(legend.position = "none", 
-          strip.text = element_text(size = 14, face='bold')) +
-    facet_wrap(.~ReCluster, scales = "free_y", nrow = 1) + 
-    
-    scale_fill_manual(values=cols) + #**
-    theme(axis.text.y=element_text(size=12, colour = 'black'), 
-          axis.text.x=element_text(size=12, colour = 'black'),
-          axis.title.x = element_text(face="bold", size=14, colour = 'black'),
-          axis.title.y = element_text(face="bold", size=14, colour = 'black'), 
-          strip.text.x = element_text(size = 14, face ='bold', colour = 'black')) + #    ylab('% PBMC') + xlab('Age groups')
-    ylab('% in naive CD4 T cells') + xlab('Age groups')
-  
-  plt_age2
-  
+p_fac
 
-# 2- naive CD8 T cells  
 
-subset_to_be_plotted <-  c('CD8_Naive', 'CD8_Naive_SOX4')
-
-plt_age2 <- LifeSpan_ALL_MetaData %>% 
-    mutate(ReCluster = factor(Final_annotations)) %>% #, levels = ordered_SC
-    mutate(Groups = factor(Groups, levels = age_groups)) %>%
-    group_by(Groups, Names, ReCluster) %>%
-    summarise(n = n()) %>% #, Set = first(Set)
-    mutate(freq = n / sum(n) *100) %>%
-    ungroup() %>%
-    as.data.frame() %>%
-    filter(ReCluster %in% subset_to_be_plotted) %>% 
-
-    ggplot(aes(x = Groups, y = freq, fill = ReCluster, group = Groups)) +
-    geom_boxplot(outlier.shape = NA) +
-    geom_jitter(size = 0.2) +
-    theme_bw()  +  #THEME +
-    #ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") +
-    ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") + #label = "p.signif"
-    #ggpubr::stat_compare_means(comparisons = my_comparisons, label = "p.signif", hide.ns = F, vjust = 0.5) + 
-    theme(legend.position = "none", 
-          strip.text = element_text(size = 14, face='bold')) +
-    facet_wrap(.~ReCluster, scales = "free_y", nrow = 1) + 
-    scale_fill_manual(values=cols) + #**
-    theme(axis.text.y=element_text(size=12, colour = 'black'), 
-          axis.text.x=element_text(size=12, colour = 'black'),
-          axis.title.x = element_text(face="bold", size=14, colour = 'black'),
-          axis.title.y = element_text(face="bold", size=14, colour = 'black'), 
-          strip.text.x = element_text(size = 14, face ='bold', colour = 'black')) + #    ylab('% PBMC') + xlab('Age groups')
-    ylab('% in naive CD4 T cells') + xlab('Age groups')
-  
-  plt_age2
+ggsave("./Figure_2026/GSEA/age_changes/Barplot_gsea_age_changes_CD4_Tmem_top10.pdf", 
+       p_fac, width=length(subset_to_be_plotted), height=0.8,  units="in", scale=3, dpi=100)
 
