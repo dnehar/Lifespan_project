@@ -72,7 +72,7 @@ p_corr_pbmc_L4 <- LifeSpan_ALL_MetaData %>%
     axis.title.x = element_text(face = "bold", size = 18, colour = "black"),
     axis.title.y = element_text(face = "bold", size = 18, colour = "black")
   ) +
-  ylab('% Lineage')  + xlab('Age (years)')
+  ylab('% PBMCs')  + xlab('Age (years)')
 p_corr_pbmc_L4
 
 
