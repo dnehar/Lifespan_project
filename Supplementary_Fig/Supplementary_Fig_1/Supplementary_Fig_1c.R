@@ -1,45 +1,63 @@
-library(dplyr)
-library(ggplot2)
-library(reshape2)
 
+# =============================================================================
+# Supplementary Fig. 1c  — Piechart showing platform (3' and 5' 10X platforms) information across age groups
+#
+# Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
+# Output: ./Piechart_Platform_ageGroups_03182026.pdf
+# =============================================================================
 
-# load metadata
+library(dplyr); library(ggplot2)
+
+# --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
+# MetaData is a list containing:
+#   $meta_small : per-cell metadata (cell type annotations, sample IDs, age groups, etc.)
+#   $pheno      : per-sample metadata (sample_id, age, sex, etc.)
 MetaData <- readRDS('./pbmcs_v1.rds')
-pheno <- MetaData[['meta_small']] %>% as.data.frame()
+LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
+pheno <- MetaData[['pheno']] %>% as.data.frame()
 
-  MetaData <- LifeSpan_ALL_MetaData
-  HI <- MetaData %>% filter (Groups =="HI") %>% dplyr::select(n_genes) 
-  HC <- MetaData %>% filter (Groups =="HC") %>% dplyr::select(n_genes)  
-  HY <- MetaData %>% filter (Groups =="HY") %>% dplyr::select(n_genes) 
-  HO <- MetaData %>% filter (Groups =="HO") %>% dplyr::select(n_genes)  
+age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
-mat <-  MetaData %>% dplyr::select(Groups,n_genes)
-mat1 <- melt(mat)
+# color palette ---
+col_plat <- c('#a8dde3','#fbb36a')
+
+p_plaform <- pheno %>%
+  group_by(Age_groups, Platform) %>%
+  summarise(n = n(), .groups = "drop_last") %>%
+  mutate(freq = n / sum(n) * 100) %>%
+  mutate(Age_groups = factor(Age_groups, levels = age_groups)) %>%
+  ggplot(aes(x = "", y = freq, fill = Platform)) +
   
-# reorder age groups  
-  mat1$Groups <- factor(mat1$Groups, levels = c("HI","HC","HY","HO"))
-# plot 
-  K <- ggplot(mat1, aes(x=value, fill=Groups)) + 
-    geom_histogram(position="identity") +
-    geom_vline(aes(xintercept=mean(value)), color="black",
-               linetype="dashed")+
-    facet_wrap(~Groups,ncol = 4 ,scales = "free") + 
-    scale_fill_manual(values=col_age_gp) + #***
-    scale_color_grey()+
-    theme(legend.position="none", 
-          axis.text.y=element_text(size=18), 
-          axis.text.x=element_text(size=18, angle = 90),
-          axis.title.x = element_text(face="bold", size=18),
-          axis.title.y = element_text(face="bold", size=18),
-          plot.title = element_text(hjust = 0.5,face='bold',size=14),
-          panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(fill=NA, color = 'black', size=1))+
-    theme(strip.text.x = element_text(size = 16),
-          strip.background = element_rect(colour = 'black',fill='#C0C0C0')) +
-    xlab("number of genes in age groups")
+  # Pie slices
+  geom_bar(stat = "identity", width = 1, color = "white") +
   
-print(K)
-  ggsave("../PANELS/Number_of_genes_per_age_groups.pdf",  
-         K , width=3.5, height=1.2,  units="in", scale=3)
+  # --- NEW: Add counts in the middle of each slice ---
+  geom_text(aes(label = n),
+            position = position_stack(vjust = 0.5),
+            size = 4, color = "black", fontface = "bold") +
   
+  coord_polar("y", start = 0) +
+  
+  facet_wrap(
+    . ~ Age_groups,
+    scales = "free_y",
+    nrow = 2,
+    labeller = labeller(Age_groups =
+                          c(
+                            'Infants'='Infants (n=36): 2m-2y',
+                            'Child'='Child (n=26): 2y-12y',
+                            'Adolescent'='Adolescent (n=20): 12y-18y',
+                            'Young'='Young (n=24): 18y-40y',
+                            'Middle_aged'='Middle_aged (n=16): 40y-65y',
+                            'Older'='Older (n=33): 65y-85y',
+                            'Oldest_old'='Oldest_old (n=12): 85y-105y'
+                          ))
+  ) +
+  scale_fill_manual(values = col_plat) +
+  theme_void() +
+  theme(strip.text = element_text(size = 14, face = "bold"))
+
+print(p_plaform)
+
+ggsave("./Piechart_Platform_ageGroups_03182026.pdf", p_plaform,
+       width=6.2, height=2.2,  units="in", scale=3)
