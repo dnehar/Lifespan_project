@@ -1,9 +1,9 @@
 
 # =============================================================================
-# Supplementary Fig. 1a  — Pie char showing Biological sex information across age groups
+# Supplementary Fig. 1a  — Piechart showing Biological sex information across age groups
 #
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
-# Output: ./Piechart_Platform_ageGroups_03182026.pdf
+# Output: ./Piechart_Sex_ageGroups_03182026.pdf
 # =============================================================================
 
 library(dplyr); library(ggplot2)
