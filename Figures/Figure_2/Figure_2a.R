@@ -19,7 +19,7 @@ df <- LS_list[['Dendritic_Cells']]
   "pDC" = "#a5a4a4")
      
 p <- df %>%
-    ggplot(aes(x = X_umap1, y = X_umap2, color = LS_L1)) +
+    ggplot(aes(x = SC_umap1, y = SC_umap2, color = Final_annotations)) +
     geom_point(size = 0.1) +
     scale_color_manual(values = cols, drop = FALSE) +
     theme_void() +
