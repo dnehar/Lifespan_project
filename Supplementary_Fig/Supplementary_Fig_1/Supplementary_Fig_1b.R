@@ -1,9 +1,9 @@
 
 # =============================================================================
-# Supplementary Fig. 1b  — Pie char showing platform (3' and 5' 10X platforms) information across age groups
+# Supplementary Fig. 1b  — Piechart showing Studies (in house + publicly available) information across age groups
 #
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
-# Output: ./Piechart_Platform_ageGroups_03182026.pdf
+# Output: ./Piechart_Studies_ageGroups_03182026.pdf
 # =============================================================================
 
 library(dplyr); library(ggplot2)
@@ -19,10 +19,14 @@ pheno <- MetaData[['pheno']] %>% as.data.frame()
 age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
 # color palette ---
-col_plat <- c('#a8dde3','#fbb36a')
+Studies_cols <- c("Nehar-Belaid_et_al" = "#f15d64",
+                  "Wang_et_al_NC" ='#80622f',
+                  "Deng_et_al_2025" = "#56B4E9",
+                  "Wang_et_al_FI" = "#a5a4a4",
+                  "Wang_et_al_2025" = "#f37421")
 
-p_plaform <- pheno %>%
-  group_by(Age_groups, Platform) %>%
+p_Study <- pheno %>%
+  group_by(Age_groups, Study) %>%
   summarise(n = n(), .groups = "drop_last") %>%
   mutate(freq = n / sum(n) * 100) %>%
   mutate(Age_groups = factor(Age_groups, levels = age_groups)) %>%
@@ -53,11 +57,11 @@ p_plaform <- pheno %>%
                             'Oldest_old'='Oldest_old (n=12): 85y-105y'
                           ))
   ) +
-  scale_fill_manual(values = col_plat) +
+  scale_fill_manual(values = Studies_cols) +
   theme_void() +
   theme(strip.text = element_text(size = 14, face = "bold"))
 
-print(p_plaform)
+print(p_Study)
 
-ggsave("./Piechart_Platform_ageGroups_03182026.pdf", p_plaform,
+ggsave("./Piechart_Studies_ageGroups_03182026.pdf", p_Study,
        width=6.2, height=2.2,  units="in", scale=3)
