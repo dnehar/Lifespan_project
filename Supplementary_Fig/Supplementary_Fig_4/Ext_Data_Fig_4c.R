@@ -1,9 +1,7 @@
-
-
 # =============================================================================
 # Supplementary Fig. 4c— Scatter plots of NK subset frequencies vs. age in Infants 
 #
-# This script computes frequencies of three NK subsets 
+# This script computes frequencies of four NK subsets 
 # as a percentage of PBMCs,
 # restricted to the Infants age group, and displays their correlation with age (in months)
 # as scatter plots with linear regression fits and Pearson correlation coefficients.
