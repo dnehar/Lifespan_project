@@ -1,5 +1,5 @@
 #=============================================================================
-  # Supplementary Fig. 3c— Scatter plots of DCsubset frequencies vs. age 
+  # Supplementary Fig. 3c— Scatter plots of DC subset frequencies vs. age 
   #
   # This script computes frequencies of five DC subsets 
   # as a percentage of DCs,
