@@ -11,11 +11,9 @@ library(ggplot2)
 LS_list <- readRDS("./umaps_coordinates.rds")
 df <- LS_list[['Monocytes']]
 
- cols <- c("moDC" = "#ed2024",
-  "cDC1" = "#771215",
-  "cDC2" = "#d84598",
-  "AXL_DC" = "#a41e21",
-  "pDC" = "#a5a4a4")
+ cols <- c( "CD14_mono" = "#f6a2a7", 
+           "CD16_mono" = "#f9d3d7",
+           "ISGhi_CD14_mono" = "#f15d64")
      
 p <- df %>%
     ggplot(aes(x = X_umap1, y = X_umap2, color = Final_annotations)) +
