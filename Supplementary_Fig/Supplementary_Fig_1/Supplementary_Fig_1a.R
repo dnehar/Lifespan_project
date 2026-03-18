@@ -19,14 +19,14 @@ pheno <- MetaData[['pheno']] %>% as.data.frame()
 age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
 # color palette ---
-col_plat <- c('#a8dde3','#fbb36a')
+col_sex <-   c('#a8ddb5','#a5a4a4')
 
-p_plaform <- donor_table %>%
-  group_by(Age_groups, Platform) %>%
+pPC_sex <- pheno %>%
+  group_by(Age_groups, Sex) %>%
   summarise(n = n(), .groups = "drop_last") %>%
   mutate(freq = n / sum(n) * 100) %>%
   mutate(Age_groups = factor(Age_groups, levels = age_groups)) %>%
-  ggplot(aes(x = "", y = freq, fill = Platform)) +
+  ggplot(aes(x = "", y = freq, fill = Sex)) +
   
   # Pie slices
   geom_bar(stat = "identity", width = 1, color = "white") +
@@ -53,11 +53,15 @@ p_plaform <- donor_table %>%
                             'Oldest_old'='Oldest_old (n=12): 85y-105y'
                           ))
   ) +
-  scale_fill_manual(values = col_plat) +
+  scale_fill_manual(values = col_sex) +
   theme_void() +
   theme(strip.text = element_text(size = 14, face = "bold"))
 
-print(p_plaform)
+pPC_sex
+
+ggsave("./Piechart_Sex_ageGroups_01062026.pdf", pPC_sex,
+       width=6.2, height=2.2,  units="in", scale=3)
+
 
 ggsave("./Piechart_Platform_ageGroups_03182026.pdf", p_plaform,
        width=6.2, height=2.2,  units="in", scale=3)
