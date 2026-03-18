@@ -16,7 +16,7 @@ df <- LS_list[['Monocytes']]
            "ISGhi_CD14_mono" = "#f15d64")
      
 p <- df %>%
-    ggplot(aes(x = X_umap1, y = X_umap2, color = Final_annotations)) +
+    ggplot(aes(x = SC_umap1, y = SC_umap2, color = Final_annotations)) +
     geom_point(size = 0.1) +
     scale_color_manual(values = cols, drop = FALSE) +
     theme_void() +
