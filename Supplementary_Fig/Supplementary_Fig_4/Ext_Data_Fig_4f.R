@@ -21,15 +21,15 @@ pheno <- MetaData[['pheno']] %>% as.data.frame()
 
 age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
-
 # color palette ---
 cols <- c(  "B_transitional" = "#756bb1",
             "B_ABC" = "#41b8ea",
             "B_ISGhi" = "#9ecae1",   
             "B_naive" = "#1c9099",
-            "B_memory" = "#283779",)
+            "B_memory" = "#283779",  
+            "PCs" = "#8856a7")
 
-subset_to_be_plotted <- c('B_naive','B_transitional', 'B_ISGhi','B_ABC','B_memory')
+subset_to_be_plotted <- c('B_naive','B_transitional', 'B_ISGhi','B_ABC','B_memory','PCs')
 
 p_corr_lineage <- LifeSpan_ALL_MetaData %>%
   
