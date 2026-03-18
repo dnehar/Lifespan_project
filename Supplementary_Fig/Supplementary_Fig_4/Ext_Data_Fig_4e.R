@@ -1,7 +1,7 @@
 # =============================================================================
 # Supplementary Fig. 4e— Scatter plots of B cell subset frequencies vs. age 
 #
-# This script computes frequencies of three B cell subsets 
+# This script computes frequencies of six B cell subsets 
 # as a percentage of PBMCs,
 # as scatter plots with linear regression fits and Pearson correlation coefficients.
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
@@ -25,9 +25,10 @@ cols <- c(  "B_transitional" = "#756bb1",
             "B_ABC" = "#41b8ea",
             "B_ISGhi" = "#9ecae1",   
             "B_naive" = "#1c9099",
-            "B_memory" = "#283779",)
+            "B_memory" = "#283779",  
+            "PCs" = "#8856a7")
 
-subset_to_be_plotted <- c('B_naive','B_transitional', 'B_ISGhi','B_ABC','B_memory')
+subset_to_be_plotted <- c('B_naive','B_transitional', 'B_ISGhi','B_ABC','B_memory','PCs')
 
   
 p_corr_pbmc_L4 <- LifeSpan_ALL_MetaData %>%
