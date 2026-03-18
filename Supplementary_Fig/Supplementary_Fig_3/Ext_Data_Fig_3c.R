@@ -5,7 +5,7 @@
   # as a percentage of DCs,
   # as scatter plots with linear regression fits and Pearson correlation coefficients.
   # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
-  # Output: ./corplot_DCs_in_DCs_03182026.pdf
+  # Output: ./corplot_DCs_in_lineage_03182026.pdf
   # =============================================================================
 
 library(dplyr); library(ggplot2)
@@ -72,7 +72,7 @@ p_corr_lineage <- LifeSpan_ALL_MetaData %>%
 p_corr_lineage
 
 
-ggsave("./corplot_DCs_in_DCs_03182026.pdf", p_corr_lineage,
+ggsave("./corplot_DCs_in_lineage_03182026.pdf", p_corr_lineage,
        width=2, height=1.1,  units="in", scale=3)
 
 
