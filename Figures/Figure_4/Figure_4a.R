@@ -24,7 +24,7 @@ p <- df %>%
   scale_color_manual(values = cols, drop = FALSE) +
   theme_void() +
   guides(color = guide_legend(override.aes = list(size = 3))) +
-  labs(title = "NK cell subsets")
+  labs(title = "B cell subsets")
 
 print(p)
 
