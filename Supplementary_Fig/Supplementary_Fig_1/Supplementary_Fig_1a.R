@@ -9,13 +9,16 @@
 library(dplyr); library(ggplot2)
 
 # --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
-# Required columns from meta_small: Age_groups, Age_in_months, sample_id, LS_L4
+# MetaData is a list containing:
+#   $meta_small : per-cell metadata (cell type annotations, sample IDs, age groups, etc.)
+#   $pheno      : per-sample metadata (sample_id, age, sex, etc.)
 MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
+pheno <- MetaData[['pheno']] %>% as.data.frame()
 
 age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
-sample_info <- read.csv('./sample_info_01082026.csv')                          
+# color palette ---
 col_plat <- c('#a8dde3','#fbb36a')
 
 p_plaform <- donor_table %>%
@@ -54,7 +57,7 @@ p_plaform <- donor_table %>%
   theme_void() +
   theme(strip.text = element_text(size = 14, face = "bold"))
 
-p_plaform
+print(p_plaform)
 
 ggsave("./Piechart_Platform_ageGroups_03182026.pdf", p_plaform,
        width=6.2, height=2.2,  units="in", scale=3)
