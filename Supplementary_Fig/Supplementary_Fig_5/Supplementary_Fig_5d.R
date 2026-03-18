@@ -1,45 +1,79 @@
-#color 
-cols <- c("CD4_T_Naive"="#193a1c",
-            "CD4_T_ISGhi"="#697d35",
-            "CD4_Tregs"="#137d82",
-            "CD4_T_Memory"="#1c572b")
-            
 
-age_groups <- c("HI", "HC", "HY", "HO")
-my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
+#=============================================================================
+# Supplementary Fig. 5d— Scatter plots of CD4 T cell subset frequencies vs. age in infants  
+#
+# This script computes frequencies of five CD4 T cell subsets 
+# as a percentage of CD4 T cell,
+# as scatter plots with linear regression fits and Pearson correlation coefficients.
+# Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
+# Output: ./corplot_CD4_T_cells_in_lineage_infants_03182026.pdf
 
-# subset to be plotted 
-subset_to_be_plotted <- c("CD4_T_Naive","CD4_T_ISGhi","CD4_Tregs","CD4_T_Memory") #"CD4_CTL",
+# =============================================================================
 
-# Scatter plot - age groups 
-plt_cor1<- LifeSpan_ALL_MetaData %>% 
-            mutate(ReCluster = factor(subset_simple_clustering)) %>% #
-            mutate(subset_simple_clustering = gsub(pattern = "CD4_CTL", replacement = "CD4_T_Memory", x = subset_simple_clustering)) %>%
-            mutate(Groups = factor(Groups, levels = age_groups)) %>%
-            group_by(Groups, Names,Age_months, ReCluster) %>%
-filter(ReCluster %in% subset_to_be_plotted) %>%             
-summarise(n = n()) %>% #, Set = first(Set)
-            mutate(freq = n / sum(n) *100) %>%
-            ungroup() %>%
-            as.data.frame() %>%
- 
-  mutate(ReCluster = factor(ReCluster, levels = subset_to_be_plotted)) %>%
-  filter(Groups %in% c('HI')) %>% 
+library(dplyr); library(ggplot2)
 
-  ggplot(aes(x = Age_months, y = freq, fill=ReCluster)) +
-  geom_smooth(method = "lm", aes(color=ReCluster)) + #, color = c('#f37421ff','#ffdeadff')
-  geom_point(aes(shape = Groups, color=ReCluster)) +
-  scale_fill_manual(values=cols) + 
-  scale_color_manual(values = cols)+
+# --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
+# MetaData is a list containing:
+#   $meta_small : per-cell metadata (cell type annotations, sample IDs, age groups, etc.)
+#   $pheno      : per-sample metadata (sample_id, age, sex, etc.)
+MetaData <- readRDS('./pbmcs_v1.rds')
+LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
+pheno <- MetaData[['pheno']] %>% as.data.frame()
+
+age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
+
+# color palette ---
+cols <- c("CD4_ISGhi" = "#697d35",
+          "CD4_memory" = "#90aa3c",
+          "CD4_naive" = "#193a1c",
+          "CD4_Tregs" = "#137d82",
+          "CD4_Proliferating" = "#2a9d8f")
+
+subset_to_be_plotted <- c('CD4_naive','CD4_Tregs', 'CD4_ISGhi','CD4_memory','CD4_Proliferating')
+
+
+p_corr_lineage <- LifeSpan_ALL_MetaData %>%
+  
+  mutate(ReCluster = factor(LS_L3)) %>% #***
+  mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
+  group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
+  filter(ReCluster %in% subset_to_be_plotted) %>%  
+  summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
+  mutate(freq = n / sum(n) *100) %>%
+  ungroup() %>%
+  as.data.frame() %>%
+  filter(Groups %in% c('Infants')) %>% 
+  ggplot(aes(x = Age_in_yrs, y = freq, fill=ReCluster)) +
+  geom_point(shape = 21, aes(fill = ReCluster), color = "black", size = 3, stroke = 0.5) + #stroke: thickness of the border
+  geom_smooth(method = "lm", aes(color=ReCluster)) + 
+  scale_fill_manual(values=cols) + #**** 
+  scale_color_manual(values = cols)+ #****
   ggpubr::stat_cor() +
-  theme_bw() +
+  #theme_bw() +
   theme(legend.position = "none", 
-        strip.text = element_text(size = 14)) +
-  facet_wrap(.~ReCluster, scales = "free_y", nrow = 1) +
-  theme(axis.text.y=element_text(size=12, colour = 'black'), 
-        axis.text.x=element_text(size=12, colour = 'black'),
-        axis.title.x = element_text(face="bold", size=14, colour = 'black'),
-        axis.title.y = element_text(face="bold", size=14, colour = 'black'), 
-        strip.text.x = element_text(size = 14, face ='bold', colour = 'black')) +#    ylab('% PBMC') + xlab('Age groups') #    ylab('% PBMC') + xlab('Age groups'
-  ylab('% CD4 T cells') + xlab('Age (months)')
-plt_cor1
+        strip.text = element_text(size = 13, face ='bold')) +
+  facet_wrap(.~ReCluster, scales = "free_y", nrow = 1) + #***
+  theme_bw() +
+  # -------- ALL TEXT IN BLACK 
+  theme(
+    legend.position = "none",
+    
+    # Facet strip labels
+    strip.text = element_text(size = 13, face = "bold", colour = "black"),
+    
+    # Axis tick labels
+    axis.text.y  = element_text(size = 16, colour = "black"),
+    axis.text.x  = element_text(size = 16, colour = "black"),
+    
+    # Axis titles
+    axis.title.x = element_text(face = "bold", size = 18, colour = "black"),
+    axis.title.y = element_text(face = "bold", size = 18, colour = "black")
+  ) +
+  ylab('% PBMC')  + xlab('Age (years)')
+p_corr_lineage
+
+
+ggsave("./corplot_CD4_T_cells_in_lineage_infants_03182026.pdf", p_corr_lineage,
+       width=2, height=1.1,  units="in", scale=3)
+
+
