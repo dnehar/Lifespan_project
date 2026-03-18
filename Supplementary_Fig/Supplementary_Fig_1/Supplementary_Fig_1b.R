@@ -21,7 +21,7 @@ age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older'
 # color palette ---
 col_plat <- c('#a8dde3','#fbb36a')
 
-p_plaform <- donor_table %>%
+p_plaform <- pheno %>%
   group_by(Age_groups, Platform) %>%
   summarise(n = n(), .groups = "drop_last") %>%
   mutate(freq = n / sum(n) * 100) %>%
