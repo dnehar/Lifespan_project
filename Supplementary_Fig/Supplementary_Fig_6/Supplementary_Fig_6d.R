@@ -23,23 +23,24 @@ pheno <- MetaData[['pheno']] %>% as.data.frame()
 
 age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
-# color palette ---
-cols <- c('TH2'= '#1c7b3d',
-          'TH17'= '#3cb54a',
-          'CXCR5+_TFH-like'= '#74c168',
-          'TH10'= '#a4de02ff',#'#a4de02ff', 
-          'TPH'= '#697d35',
-          'GZMK_TH1_like'= '#7fcdbb',
-          'CD4_TEMRA'='#1c572b',
-          'TH22'= '#edf8b1')
+# --- Color palette — one color per CD8 T cell subtype (Level 3 annotation) ---
+cols <- c(
+  "CD8_CM"     = "#f59e2f",
+  "CD8_GZMK"   = "#fba919",
+  "CD8_MAIT"   = "#fbb36a",
+  "CD8_TEMRA"  = "#d28529",
+  "CD8_gdT"    = "#80622f",
+  "CD8aa"      = "#c46b1c",
+  "CD8_naive"  = "#f37421")
 
-subset_to_be_plotted <-  c('CXCR5+_TFH-like', 'TH22', 'TH17', 'GZMK_TH1_like', 'TH2', 'TH10',
-                           'TPH', 'CD4_TEMRA')
+  # --- Define the CD8 T cell subtypes to plot (Level 3 annotation) ---
+  subset_to_be_plotted <- c('CD8_naive', 'CD8_CM', 'CD8_GZMK', 'CD8_MAIT', 'CD8_TEMRA',
+                            'CD8_gdT', 'CD8aa')
 
 
 p_corr_lineage <- LifeSpan_ALL_MetaData %>%
   
-  mutate(ReCluster = factor(LS_L4)) %>% #***
+  mutate(ReCluster = factor(LS_L3)) %>% #***
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
   group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   filter(ReCluster %in% subset_to_be_plotted) %>%  
