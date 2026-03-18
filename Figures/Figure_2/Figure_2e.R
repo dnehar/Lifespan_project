@@ -2,7 +2,7 @@
 # Figure 2e — UMAP plot monocyte subsets
 #
 # Input:  umaps_coordinates.rds  — available at dnehar/Lifespan_project/umaps_coordinates.rds
-# Output: UMAP_DC_subsets_13022026.pdf
+# Output: UMAP_monocyte_subsets_13022026.pdf
 # =============================================================================
 
 library(dplyr)
