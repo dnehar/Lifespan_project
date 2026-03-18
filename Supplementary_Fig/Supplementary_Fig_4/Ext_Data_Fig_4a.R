@@ -1,51 +1,75 @@
-library(dplyr)
-library(ggplot2)
+# =============================================================================
+# Supplementary Fig. 4a— Scatter plots of NK subset frequencies vs. age 
+#
+# This script computes frequencies of three NK subsets 
+# as a percentage of PBMCs,
+# as scatter plots with linear regression fits and Pearson correlation coefficients.
+# Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
+# Output: ./corplot_NK_in_pbmcs_03182026.pdf
+# =============================================================================
 
-# load metadata
+library(dplyr); library(ggplot2)
+
+# --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
+# MetaData is a list containing:
+#   $meta_small : per-cell metadata (cell type annotations, sample IDs, age groups, etc.)
+#   $pheno      : per-sample metadata (sample_id, age, sex, etc.)
 MetaData <- readRDS('./pbmcs_v1.rds')
-pheno <- MetaData[['pheno']] %>% as.data.frame()
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
+pheno <- MetaData[['pheno']] %>% as.data.frame()
 
-#color 
-cols <- c('NK_CD16'= '#fee000',
-            'NK_XCL1'= '#f2e4a0',
-            'NK_cycling'= '#ccb72d',
-            'NK_CD16_KLRC2'='#feb24c')
+age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
+# color palette ---
+cols <- c(  "CD56bright_NK" = "#f2e4a0",
+            "CD56dim_NK" = "#fee000",  
+            "Adaptive_NK" = "#feb24c",
+            "Proliferating_NK" = "#ccb72d")
 
-age_groups <- c("HI", "HC", "HY", "HO")
-my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
+subset_to_be_plotted <- c('CD56bright_NK','CD56dim_NK', 'Adaptive_NK','Proliferating_NK')
+#subset_to_be_plotted <- c('CD14_mono','ISGhi_CD14_mono', 'CD16_mono')
 
-# subset to be plotted 
-subset_to_be_plotted <- c('NK_CD16','NK_XCL1','NK_cycling','NK_CD16_KLRC2')
-
-plt_cor1 <- LifeSpan_ALL_MetaData %>%
   
-  mutate(Groups = factor(Groups, levels = c("HI", "HC", "HY", "HO"))) %>%
-  mutate(ReCluster = factor(Final_annotations, levels = ordered_SC)) %>% #*****
-  mutate(Age_days = Age_months*30) %>% 
-  group_by(Groups, Names,Age_months,Age_days, ReCluster) %>%
+p_corr_pbmc_L4 <- LifeSpan_ALL_MetaData %>%
+
+  mutate(ReCluster = factor(LS_L4)) %>% #***
+  mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
+  group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
   mutate(freq = n / sum(n) *100) %>%
   ungroup() %>%
   as.data.frame() %>%
-  filter(ReCluster %in% subset_to_be_plotted) %>% 
-
-  ggplot(aes(x = Age_months, y = freq, fill=ReCluster)) +
-  geom_smooth(method = "lm", aes(color=ReCluster)) + #, color = c('#f37421ff','#ffdeadff')
-  geom_point(aes(shape = Groups, color=ReCluster)) +
-  scale_fill_manual(values=cols) + 
-  scale_color_manual(values = cols)+
+  filter(ReCluster %in% subset_to_be_plotted) %>%  
+  #filter(Groups %in% c('Infants')) %>% 
+  ggplot(aes(x = Age_in_yrs, y = freq, fill=ReCluster)) +
+  geom_point(shape = 21, aes(fill = ReCluster), color = "black", size = 3, stroke = 0.5) + #stroke: thickness of the border
+  geom_smooth(method = "lm", aes(color=ReCluster)) + 
+  scale_fill_manual(values=cols) + #**** 
+  scale_color_manual(values = cols)+ #****
   ggpubr::stat_cor() +
-  theme_bw() +
+  #theme_bw() +
   theme(legend.position = "none", 
-        strip.text = element_text(size = 14)) +
-  facet_wrap(.~ReCluster, scales = "free_y", nrow = 1) +
-  theme(axis.text.y=element_text(size=12, colour = 'black'), 
-        axis.text.x=element_text(size=12, colour = 'black'),
-        axis.title.x = element_text(face="bold", size=14, colour = 'black'),
-        axis.title.y = element_text(face="bold", size=14, colour = 'black'), 
-        strip.text.x = element_text(size = 14, face ='bold', colour = 'black')) +#    ylab('% PBMC') + xlab('Age groups') #    ylab('% PBMC') + xlab('Age groups'
-  ylab('% PBMCs') + xlab('Age (months)')
-plt_cor1
+        strip.text = element_text(size = 13, face ='bold')) +
+  facet_wrap(.~ReCluster, scales = "free_y", nrow = 1) + #***
+  theme_bw() +
+  # -------- ALL TEXT IN BLACK 
+  theme(
+    legend.position = "none",
+    
+    # Facet strip labels
+    strip.text = element_text(size = 13, face = "bold", colour = "black"),
+    
+    # Axis tick labels
+    axis.text.y  = element_text(size = 16, colour = "black"),
+    axis.text.x  = element_text(size = 16, colour = "black"),
+    
+    # Axis titles
+    axis.title.x = element_text(face = "bold", size = 18, colour = "black"),
+    axis.title.y = element_text(face = "bold", size = 18, colour = "black")
+  ) +
+  ylab('% PBMC')  + xlab('Age (years)')
+p_corr_pbmc_L4
 
+
+ggsave("./corplot_NK_in_pbmcs_03182026.pdf", p_corr_pbmc_L4,
+       width=2, height=1.1,  units="in", scale=3)
