@@ -1,7 +1,7 @@
 # =============================================================================
 # Supplementary Fig. 4a— Scatter plots of NK subset frequencies vs. age 
 #
-# This script computes frequencies of three NK subsets 
+# This script computes frequencies of four NK subsets 
 # as a percentage of PBMCs,
 # as scatter plots with linear regression fits and Pearson correlation coefficients.
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
