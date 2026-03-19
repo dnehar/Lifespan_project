@@ -66,7 +66,7 @@ p_corr_lineage <- LifeSpan_ALL_MetaData %>%
     axis.title.x = element_text(face = "bold", size = 18, colour = "black"),
     axis.title.y = element_text(face = "bold", size = 18, colour = "black")
   ) +
-  ylab('% PBMC')  + xlab('Age (years)')
+  ylab('% monocytes')  + xlab('Age (years)')
 p_corr_lineage
 
 
