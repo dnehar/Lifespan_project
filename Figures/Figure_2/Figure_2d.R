@@ -35,6 +35,8 @@ my_comparisons <- list(c('Infants', 'Child'),
                        c('Young', 'Middle_aged'),
                        c('Middle_aged', 'Older'),
                        c('Older', 'Oldest_old'))
+# --- Define the DC subtypes to plot ---
+subset_to_be_plotted <- c('moDC', 'cDC1', 'cDC2', 'AXL_DC', 'pDC')
 
 # --- Compute pDC frequency within DC lineage and build boxplot ---
 # Step 1: assign ordered factor levels to DC subtype (ReCluster) and age group (Groups)
