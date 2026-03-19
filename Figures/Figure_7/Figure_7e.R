@@ -65,9 +65,9 @@ p_corr_lineage_infants <- LifeSpan_ALL_MetaData %>%
     axis.title.x = element_text(face = "bold", size = 18, colour = "black"),
     axis.title.y = element_text(face = "bold", size = 18, colour = "black")
   ) +
-  ylab('% Lineage')  + xlab('Age (years)')
+  ylab('% PBMCs')  + xlab('Age (years)')
 
-p_corr_lineage_infants
+p_corr_pbmcs_infants
 
-ggsave("./corplot_SOX4_CD4_T_cells__in_PBMCs_infants_03132026.pdf", p_corr_lineage_infants,
+ggsave("./corplot_SOX4_CD4_T_cells__in_PBMCs_infants_03132026.pdf", p_corr_pbmcs_infants,
        width=5, height=1.18,   units="in", scale=3)
