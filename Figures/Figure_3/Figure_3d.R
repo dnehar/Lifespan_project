@@ -39,17 +39,17 @@ age_groups <- c('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older
 # Step 6: plot scatter with linear regression line and Pearson correlation per NK subtype
 p_corr_lineage_infants <- LifeSpan_ALL_MetaData %>%
   
-  mutate(ReCluster = factor(LS_L4, levels = order_LS_L4)) %>%           # Level 4 NK annotation (ordered)
+  mutate(ReCluster = factor(LS_L4, levels = subset_to_be_plotted)) %>%           # Level 4 NK annotation (ordered)
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%           # ordered age groups
   filter(ReCluster %in% subset_to_be_plotted) %>%                        # keep NK subtypes only
-  group_by(Groups, sample_id, Age_in_months, ReCluster) %>%
+  group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   summarise(n = n()) %>%                                                  # cell count per donor x cluster
   #summarise(n = n()) %>% #, Set = first(Set)
   mutate(freq = n / sum(n) *100) %>%                                     # % of NK cells per donor
   ungroup() %>%
   as.data.frame() %>%
   filter(Groups %in% c('Infants')) %>%                                    # restrict to Infants only
-  ggplot(aes(x = Age_in_months, y = freq, fill=ReCluster)) +
+  ggplot(aes(x = Age_in_yrs, y = freq, fill=ReCluster)) +
   geom_point(shape = 21, aes(fill = ReCluster), color = "black", size = 3, stroke = 0.5)+  # filled scatter points
   geom_smooth(method = "lm", aes(color=ReCluster)) +                     # linear regression fit per subtype
   #geom_smooth(method = "lm", formula = y ~ poly(x, 2), aes(color=ReCluster)) +
