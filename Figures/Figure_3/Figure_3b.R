@@ -38,11 +38,11 @@ subset_to_be_plotted <- c('CD56dim_NK', 'CD56bright_NK', 'Adaptive_NK', 'Prolife
 # Step 3: compute frequency as % of all cells in that sample x age group
 # Step 4: keep only the four NK cell subtypes of interest
 # Step 5: plot one facet per NK cell subtype (free y-axis scale), with pairwise t-test p-values
-box_plot_pbmc_L2 <- LifeSpan_ALL_MetaData %>%
+box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
 
-  mutate(ReCluster = factor(Final_annotations)) %>%               # Level 2 cluster annotation
-  mutate(Groups = factor(Groups, levels = age_groups)) %>%        # ordered age groups
-  group_by(Groups, Names, ReCluster) %>%
+  mutate(ReCluster = factor(LS_L4)) %>%               # Level 4 cluster annotation
+  mutate(Groups = factor(Age_groups, levels = age_groups)) %>%        # ordered age groups
+  group_by(Groups, sample_id, ReCluster) %>%
   summarise(n = n()) %>%                                           # cell count per sample x cluster
   mutate(freq = n / sum(n) * 100) %>%                             # % of total PBMCs per sample
   ungroup() %>%
@@ -72,8 +72,9 @@ box_plot_pbmc_L2 <- LifeSpan_ALL_MetaData %>%
         strip.text.x = element_text(size = 14, face = 'bold', colour = 'black')) +
   ylab('% in PBMCs') + xlab('Age groups')
 
-box_plot_pbmc_L2
+box_plot_pbmc
+
 
 # --- Save figure as PDF ---
-ggsave("./boxplot_NK_cells_in_PBMCs_03132026.pdf", box_plot_pbmc_L2,
+ggsave("./boxplot_NK_cells_in_PBMCs_03132026.pdf", box_plot_pbmc,
        width = 4.2, height = 3, units = "in", scale = 3)
