@@ -1,13 +1,13 @@
 
 # =============================================================================
-# Supplementary Fig. 6c— Scatter plots of memory CD4 T  subset frequencies vs. age in Infants 
+# Supplementary Fig. 6c— Scatter plots of D8 T cell, MAIT and gd T subset frequencies vs. age in Infants 
 #
-# This script computes frequencies of two memory CD4 T  subsets 
+# This script computes frequencies of CD8 T cell, MAIT and gd T subsets 
 # as a percentage of PBMCs,
 # restricted to the Infants age group, and displays their correlation with age (in months)
 # as scatter plots with linear regression fits and Pearson correlation coefficients.
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
-# Output: ./corplot_Tmemory_in_pbmcs_infants_03182026.pdf
+# Output: ./corplot_T_CD8_T_cells_in_pbmcs_infants_03182026.pdf
 # =============================================================================
 
 library(dplyr); library(ggplot2)
@@ -77,6 +77,6 @@ p_corr_pbmc_L4 <- LifeSpan_ALL_MetaData %>%
 p_corr_pbmc_L4
 
 
-ggsave("./corplot_Tmemory_in_pbmcs_infants_03182026.pdf", p_corr_pbmc_L4,
+ggsave("./corplot_T_CD8_T_cells_in_pbmcs_infants_03182026.pdf", p_corr_pbmc_L4,
        width=2, height=1.1,  units="in", scale=3)
 
