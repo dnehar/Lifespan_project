@@ -28,9 +28,9 @@ my_comparisons <- combn(age_groups, 2, FUN = list, simplify = T)
 # --- Define the SOX4 CD4 T cell subtypes to plot (Level 4 annotation) ---
 subset_to_be_plotted <- c('CD4_naive_SOX4-', 'CD4_naive_SOX4+')
 
-p_corr_lineage_infants <- LifeSpan_ALL_MetaData %>%
+p_corr_pbmcs_infants <- LifeSpan_ALL_MetaData %>%
   
-  mutate(ReCluster = factor(LS_L4, levels = order_LS_L4)) %>% #***
+  mutate(ReCluster = factor(LS_L4, levels = subset_to_be_plotted)) %>% #***
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
   group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
