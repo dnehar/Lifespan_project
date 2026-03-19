@@ -1,6 +1,6 @@
 
 # =============================================================================
-# Supplementary Fig. 6c— Scatter plots of D8 T cell, MAIT and gd T subset frequencies vs. age in Infants 
+# Supplementary Fig. 7c— Scatter plots of D8 T cell, MAIT and gd T subset frequencies vs. age in Infants 
 #
 # This script computes frequencies of CD8 T cell, MAIT and gd T subsets 
 # as a percentage of PBMCs,
