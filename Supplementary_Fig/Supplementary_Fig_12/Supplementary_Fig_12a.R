@@ -1,6 +1,6 @@
 
 # =============================================================================
-# Supplementary Fig. 1c  — Piechart showing infered CMV information across age groups
+# Supplementary Fig. 12a  — Piechart showing infered CMV information across age groups
 #
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
 # Output: ./Piechart_CMV_ageGroups_03182026.pdf
