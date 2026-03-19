@@ -1,13 +1,14 @@
 
-  
+  # =============================================================================
+# Supplementary Fig. 7f— 
+# =============================================================================
+
   #https://www.science.org/doi/10.1126/sciimmunol.abf0125?url_ver=Z39.88-2003&rfr_id=ori:rid:crossref.org&rfr_dat=cr_pub%20%200pubmed
-  
   GD_T <- readRDS('/Users/nehard/MyProjects/DU_lab/LS95/public_data/GSE149356_Human_GDT_Seurat.rds')
   GD_T <- UpdateSeuratObject(GD_T)
 
 
-    Supplementary Figure. 7f :
-
+  Supplementary Figure. 7f (left panel):
   # SOX4 expression
   gd_FP <- FeaturePlot(GD_T, features = c('SOX4'),
               pt.size =0.5, 
@@ -17,7 +18,7 @@
          width=2.5, height=2,  units="in", scale=3, dpi=100)
  
  
- Supplementary Figure. 7f :
+ Supplementary Figure. 7f (right panel):
 
  DP_sox4 <- DimPlot(GD_T, cols= c('Adult'='#4c459c','Newborn'='#96daf7'),
                        group.by = 'group')
