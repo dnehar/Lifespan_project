@@ -1,7 +1,7 @@
 
 
 #=============================================================================
-# Supplementary Fig. 6d— Scatter plots of memory CD4 T  subset frequencies vs. age in infants  
+# Supplementary Fig. 7d— Scatter plots of memory CD4 T  subset frequencies vs. age in infants  
 #
 # This script computes frequencies of two memory CD4 T  subsets 
 # as a percentage of memory CD4 T ,
