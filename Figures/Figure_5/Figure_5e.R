@@ -11,8 +11,8 @@ pheno <- MetaData[['pheno']] %>% as.data.frame()
 
 
 #color 
-cols <- c('naive_Tregs'= '#137d82',
-            'mem_Tregs'= '#56bbbf')
+cols <- c("Tregs_naive" = "#137d82",
+          "Tregs_mem" = "#56bbbf")
             
 
 age_groups <- c('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
@@ -22,9 +22,12 @@ ordered_names <- unique(pheno$sample_id)
 
 
 # subset to be plotted 
-subset_to_be_plotted <- c("naive_Tregs", "mem_Tregs")
+subset_to_be_plotted <- c( "Tregs_naive", "Tregs_mem")
+
+ordered_names <- unique(pheno$sample_id)
 
 BP <- LifeSpan_ALL_MetaData %>% 
+  
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
   mutate(ReCluster = factor(LS_L4)) %>% #*****
   filter(ReCluster %in% subset_to_be_plotted) %>% 
@@ -34,9 +37,7 @@ BP <- LifeSpan_ALL_MetaData %>%
   ungroup() %>%
   as.data.frame() %>% #head()
   ggplot(aes(x = sample_id, y = freq, fill = ReCluster, group=ReCluster)) +
-  #scale_fill_manual(values=col) + #***
   scale_fill_manual(values=cols) + #**
-  #scale_fill_manual(values=cols_Lineage) + #***
   scale_x_discrete(limits=ordered_names) + #labels= labels
   theme(axis.text.y=element_text(size=16), 
         axis.text.x=element_text(size=16, angle = 90),
@@ -44,7 +45,8 @@ BP <- LifeSpan_ALL_MetaData %>%
         axis.title.y = element_text(face="bold", size=18),
         legend.position = "none") + #    ylab('% PBMC') + xlab('Age groups')
   
-  ylab('% of PBMCs') + xlab('Individuals (n=167)')
+  ylab('% of Lineage') + xlab('Individuals (n=167)')
+
 
 # gg stream 
 BP_Tregs <- BP +   ggstream::geom_stream(color = 'black', 
