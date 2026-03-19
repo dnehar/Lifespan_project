@@ -1,7 +1,7 @@
 # =============================================================================
-# Supplementary Fig. 7a— Scatter plots of CD8 T cell subset frequencies vs. age 
+# Supplementary Fig. 7a— Scatter plots of CD8 T cell, MAIT and gd T cell subset frequencies vs. age 
 #
-# This script computes frequencies of seven CD8 T cell  subsets 
+# This script computes frequencies of CD8 T cell, MAIT and gd T cell  subsets 
 # as a percentage of PBMCs,
 # as scatter plots with linear regression fits and Pearson correlation coefficients.
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
