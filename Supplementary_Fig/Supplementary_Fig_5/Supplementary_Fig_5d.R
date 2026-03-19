@@ -34,7 +34,7 @@ subset_to_be_plotted <- c('CD4_naive','CD4_Tregs', 'CD4_ISGhi','CD4_memory','CD4
 
 p_corr_lineage <- LifeSpan_ALL_MetaData %>%
   
-  mutate(ReCluster = factor(LS_L3)) %>% #***
+  mutate(ReCluster = factor(LS_L3, levels= subset_to_be_plotted)) %>% #***
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
   group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   filter(ReCluster %in% subset_to_be_plotted) %>%  
@@ -69,7 +69,7 @@ p_corr_lineage <- LifeSpan_ALL_MetaData %>%
     axis.title.x = element_text(face = "bold", size = 18, colour = "black"),
     axis.title.y = element_text(face = "bold", size = 18, colour = "black")
   ) +
-  ylab('% PBMC')  + xlab('Age (years)')
+  ylab('% CD4 T cells')  + xlab('Age (years)')
 p_corr_lineage
 
 
