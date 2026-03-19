@@ -2,11 +2,11 @@
   # =============================================================================
 # Supplementary Fig. 7f— 
 # =============================================================================
+library(dplyr); library(ggplot2)
 
   #https://www.science.org/doi/10.1126/sciimmunol.abf0125?url_ver=Z39.88-2003&rfr_id=ori:rid:crossref.org&rfr_dat=cr_pub%20%200pubmed
-  GD_T <- readRDS('/Users/nehard/MyProjects/DU_lab/LS95/public_data/GSE149356_Human_GDT_Seurat.rds')
+  GD_T <- readRDS('/GSE149356_Human_GDT_Seurat.rds') # download and load object GSE149356
   GD_T <- UpdateSeuratObject(GD_T)
-
 
   Supplementary Figure. 7f (left panel):
   # SOX4 expression
