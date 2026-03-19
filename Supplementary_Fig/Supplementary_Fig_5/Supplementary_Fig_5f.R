@@ -30,7 +30,7 @@ subset_to_be_plotted <- c('Tregs_naive','Tregs_mem')
 
 p_corr_lineage <- LifeSpan_ALL_MetaData %>%
   
-  mutate(ReCluster = factor(LS_L4)) %>% #***
+  mutate(ReCluster = factor(LS_L4, levels=subset_to_be_plotted)) %>% #***
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
   group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   filter(ReCluster %in% subset_to_be_plotted) %>%  
@@ -65,7 +65,7 @@ p_corr_lineage <- LifeSpan_ALL_MetaData %>%
     axis.title.x = element_text(face = "bold", size = 18, colour = "black"),
     axis.title.y = element_text(face = "bold", size = 18, colour = "black")
   ) +
-  ylab('% PBMC')  + xlab('Age (years)')
+  ylab('% Tregs')  + xlab('Age (years)')
 p_corr_lineage
 
 
