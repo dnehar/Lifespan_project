@@ -33,7 +33,7 @@ subset_to_be_plotted <- c('CD4_naive','CD4_Tregs', 'CD4_ISGhi','CD4_memory','CD4
   
 p_corr_pbmc_L4 <- LifeSpan_ALL_MetaData %>%
 
-  mutate(ReCluster = factor(LS_L3)) %>% #***
+  mutate(ReCluster = factor(LS_L3, levels= subset_to_be_plotted)) %>% #***
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
   group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
