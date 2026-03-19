@@ -25,7 +25,7 @@ MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 # --- Define ordered age groups (youngest to oldest) ---
-age_groups <- c("HI", "HC", "HY", "HO")
+age_groups <- c('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
 # --- Define all pairwise comparisons between age groups ---
 # Used by ggpubr::stat_compare_means to annotate p-values on the plot
@@ -40,11 +40,11 @@ subset_to_be_plotted <- c('CD4_naive', 'CD4_ISGhi', 'CD4_Tregs', 'CD4_memory', '
 # Step 3: compute frequency as % of all cells in that sample x age group
 # Step 4: keep only the five CD4 T cell subtypes of interest
 # Step 5: plot one facet per CD4 T cell subtype (free y-axis scale), with pairwise t-test p-values
-box_plot_pbmc_L2 <- LifeSpan_ALL_MetaData %>%
+box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
 
-  mutate(ReCluster = factor(LS_L4)) %>%                           # Level 3 cluster annotation
-  mutate(Groups = factor(Groups, levels = age_groups)) %>%        # ordered age groups
-  group_by(Groups, Names, ReCluster) %>%
+  mutate(ReCluster = factor(LS_L3, levels=subset_to_be_plotted)) %>%               # Level 4 cluster annotation
+  mutate(Groups = factor(Age_groups, levels = age_groups)) %>%        # ordered age groups
+  group_by(Groups, sample_id, ReCluster) %>%
   summarise(n = n()) %>%                                           # cell count per sample x cluster
   mutate(freq = n / sum(n) * 100) %>%                             # % of total PBMCs per sample
   ungroup() %>%
@@ -57,10 +57,7 @@ box_plot_pbmc_L2 <- LifeSpan_ALL_MetaData %>%
   theme_bw() +
 
   # Pairwise t-test between all age group combinations; p-values displayed above brackets
-  #ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") +
   ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") + #label = "p.signif"
-  #ggpubr::stat_compare_means(comparisons = my_comparisons, label = "p.signif", hide.ns = F, vjust = 0.5) +
-
   theme(legend.position = "none",                                 # legend redundant with facet labels
         strip.text = element_text(size = 14, face = 'bold')) +
   facet_wrap(. ~ ReCluster, scales = "free_y", nrow = 1) +       # one panel per CD4 T cell subtype
@@ -74,8 +71,8 @@ box_plot_pbmc_L2 <- LifeSpan_ALL_MetaData %>%
         strip.text.x = element_text(size = 14, face = 'bold', colour = 'black')) +
   ylab('% in PBMCs') + xlab('Age groups')
 
-box_plot_pbmc_L2
+box_plot_pbmc
 
 # --- Save figure as PDF ---
-ggsave("./boxplot_CD4_Tcells_level3_in_PBMCs_03132026.pdf", box_plot_pbmc_L2,
+ggsave("./boxplot_CD4_Tcells_level3_in_PBMCs_03132026.pdf", box_plot_pbmc,
        width = 4.2, height = 3, units = "in", scale = 3)
