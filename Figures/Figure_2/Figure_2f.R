@@ -13,9 +13,9 @@ library(dplyr); library(ggplot2)
 
 # --- Color palette — one color per monocyte subtype (Level 2 annotation) ---
 cols <- c(
-  'CD14_mo_ISGhi' = '#f15d64',
-  'CD14_mo'       = '#f6a2a7',
-  'CD16_mo'       = '#f9d3d7'
+  'CD14_mono' = '#f15d64',
+  'ISGhi_CD14_mono'       = '#f6a2a7',
+  'CD16_mono'       = '#f9d3d7'
 )
 
 # --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
@@ -30,19 +30,19 @@ age_groups <- c('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older
 my_comparisons <- combn(age_groups, 2, FUN = list, simplify = T)
 
 # --- Define the monocyte subtypes to plot (Level 2 annotation) ---
-subset_to_be_plotted <- c('CD14_mo', 'CD14_mo_ISGhi', 'CD16_mo')
+subset_to_be_plotted <- c('CD14_mono', 'ISGhi_CD14_mono', 'CD16_mono')
 
 # --- Compute per-sample monocyte subtype proportions and build boxplot ---
 
 box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
   mutate(ReCluster = factor(LS_L4)) %>%               # Level 4 cluster annotation
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%        # ordered age groups
-  group_by(Groups, sample_id, ReCluster) %>%   
+  group_by(Groups, sample_id, ReCluster) %>%
   summarise(n = n()) %>%                                           # cell count per sample x cluster
   mutate(freq = n / sum(n) * 100) %>%                             # % of total PBMCs per sample
   ungroup() %>%
   as.data.frame() %>%
-  filter(ReCluster %in% subset_to_be_plotted) %>%                 # keep monocyte subtypes only
+  filter(ReCluster %in% subset_to_be_plotted) %>%                 # keep NK cell subtypes only
 
   ggplot(aes(x = Groups, y = freq, fill = ReCluster, group = Groups)) +
   geom_boxplot(outlier.shape = NA) +                              # boxplot without outlier symbols
@@ -56,9 +56,9 @@ box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
 
   theme(legend.position = "none",                                 # legend redundant with facet labels
         strip.text = element_text(size = 14, face = 'bold')) +
-  facet_wrap(. ~ ReCluster, scales = "free_y", nrow = 1) +       # one panel per monocyte subtype
+  facet_wrap(. ~ ReCluster, scales = "free_y", nrow = 1) +       # one panel per NK cell subtype
 
-  scale_fill_manual(values = cols) +                              # apply monocyte subtype color palette
+  scale_fill_manual(values = cols) +                              # apply NK cell subtype color palette
 
   theme(axis.text.y  = element_text(size = 12, colour = 'black'),
         axis.text.x  = element_text(size = 12, colour = 'black'),
@@ -67,7 +67,8 @@ box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
         strip.text.x = element_text(size = 14, face = 'bold', colour = 'black')) +
   ylab('% in PBMCs') + xlab('Age groups')
 
-print(box_plot_pbmc)
+box_plot_pbmc
+
 
 # --- Save figure as PDF ---
 ggsave("./boxplot_monocytes_in_PBMCs_03132026.pdf", box_plot_pbmc,
