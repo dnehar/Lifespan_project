@@ -14,11 +14,9 @@ cols={"CD4_naive_SOX4-" : "#193a1c",
    "CD8_naive_SOX4-" :"#f37421"}
 
 # plot pseudobulked counts (counts x samples):
-
 # 1 - naive CD4 T cells 
 naive_CD4=sc.read('./naive_CD4.h5ad')
-sc.pp.combat(naive_CD4, key='Batch', covariates=['Age_groups','LS_L4'])
-
+sc.pp.combat(naive_CD4, key='Batch', covariates=['Age_groups','LS_L4']) #Batch = Studies 
 
 ## Boxplot SOX4+ vs. SOX4-
 gputils.Boxplot_one_gene(naive_CD4,
@@ -36,7 +34,7 @@ gputils.cor_plot_multiple_genes(naive_CD4,
                                 ncols=5)
 # 2 - naive CD8 T cells 
 naive_CD8=sc.read('./naive_CD8.h5ad')
-sc.pp.combat(naive_CD4, key='Batch', covariates=['Age_groups','LS_L4'])
+sc.pp.combat(naive_CD4, key='Batch', covariates=['Age_groups','LS_L4'])  #Batch = Studies 
 
 ## Boxplot SOX4+ vs. SOX4-
 gputils.Boxplot_one_gene(naive_CD8,
