@@ -12,10 +12,7 @@ library(dplyr); library(ggplot2)
 
 # --- Color palette — one color per DC subtype (Level 4 annotation) ---
 
-cols <- c(
-  
-  # Level 2
-  "B_naive" = "#1c9099",
+cols <- c("B_naive" = "#1c9099",
   "B_memory" = "#283779",
   "CD4_ISGhi" = "#697d35",
   "CD4_memory" = "#90aa3c",
@@ -29,7 +26,6 @@ cols <- c(
   "CD56bright_NK" = "#f2e4a0",
   "CD56dim_NK" = "#fee000",
   "pDCs" = "#a5a4a4",
-  
   # Level 3
   "ISGhi_CD14_mono" = "#f15d64",
   "CD4_Proliferating" = "#2a9d8f",
@@ -48,9 +44,7 @@ cols <- c(
   "AXL_DC" = "#a41e21",
   "pDC" = "#a5a4a4",
   "Adaptive_NK" = "#feb24c",
-  "Proliferating_NK" = "#ccb72d",
-  
-  # Level 4 additions
+  "Proliferating_NK" = "#ccb72d",  
   "gdT_Vd2_GZMK" = "#d29734",
   "gdT_Vd2_GZMB" = "#d8bd93",
   "gdT_Vd1_SOX4" = "#56bbbf",
@@ -62,8 +56,6 @@ cols <- c(
   "CD4_naive_SOX4+" = "#a4de02ff",
   "CD8_naive_SOX4+" = "#ffdeadff",
   "CD8_naive_SOX4-" = "#f37421",
-  
-  #Tmem - helpers
   'TH2'= '#1c7b3d',
   'TH17'= '#3cb54a',
   'CXCR5+_TFH-like'= '#74c168',
