@@ -32,15 +32,14 @@ p_corr_lineage_infants <- LifeSpan_ALL_MetaData %>%
   
   mutate(ReCluster = factor(LS_L4, levels = order_LS_L4)) %>% #***
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
-  filter(ReCluster %in% subset_to_be_plotted) %>% 
-  group_by(Groups, sample_id, Age_in_months, ReCluster) %>%
+  group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
-  #summarise(n = n()) %>% #, Set = first(Set)
   mutate(freq = n / sum(n) *100) %>%
   ungroup() %>%
   as.data.frame() %>%
+  filter(ReCluster %in% subset_to_be_plotted) %>% 
   filter(Groups %in% c('Infants')) %>% 
-  ggplot(aes(x = Age_in_months, y = freq, fill=ReCluster)) +
+  ggplot(aes(x = Age_in_yrs, y = freq, fill=ReCluster)) +
   geom_point(shape = 21, aes(fill = ReCluster), color = "black", size = 3, stroke = 0.5)+
   geom_smooth(method = "lm", aes(color=ReCluster)) + #, color = c('#f37421ff','#ffdeadff')
   #geom_smooth(method = "lm", formula = y ~ poly(x, 2), aes(color=ReCluster)) +
