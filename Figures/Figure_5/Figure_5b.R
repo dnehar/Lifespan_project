@@ -29,7 +29,12 @@ age_groups <- c('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older
 
 # --- Define all pairwise comparisons between age groups ---
 # Used by ggpubr::stat_compare_means to annotate p-values on the plot
-my_comparisons <- combn(age_groups, 2, FUN = list, simplify = T)
+my_comparisons <- list (c('Infants', 'Child'),
+                        c('Child','Adolescent'),
+                        c('Adolescent', 'Young'),
+                        c('Young', 'Middle_aged'),
+                        c('Middle_aged', 'Older'),
+                        c('Older', 'Oldest_old'))
 
 # --- Define the CD4 T cell subtypes to plot (Level 3 annotation) ---
 subset_to_be_plotted <- c('CD4_naive', 'CD4_ISGhi', 'CD4_Tregs', 'CD4_memory', 'CD4_Proliferating')
