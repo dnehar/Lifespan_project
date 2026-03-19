@@ -28,19 +28,18 @@ my_comparisons <- combn(age_groups, 2, FUN = list, simplify = T)
 # --- Define the SOX4 CD8 T cell subtypes to plot (Level 4 annotation) ---
 subset_to_be_plotted <- c('CD8_naive_SOX4-', 'CD8_naive_SOX4+')
 
-p_corr_lineage_infants <- LifeSpan_ALL_MetaData %>%
+p_corr_pbmcs_infants <- LifeSpan_ALL_MetaData %>%
   
-  mutate(ReCluster = factor(LS_L4, levels = order_LS_L4)) %>% #***
+  mutate(ReCluster = factor(LS_L4, levels = subset_to_be_plotted)) %>% #***
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
-  filter(ReCluster %in% subset_to_be_plotted) %>% 
-  group_by(Groups, sample_id, Age_in_months, ReCluster) %>%
+  group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
-  #summarise(n = n()) %>% #, Set = first(Set)
   mutate(freq = n / sum(n) *100) %>%
   ungroup() %>%
   as.data.frame() %>%
+  filter(ReCluster %in% subset_to_be_plotted) %>% 
   filter(Groups %in% c('Infants')) %>% 
-  ggplot(aes(x = Age_in_months, y = freq, fill=ReCluster)) +
+  ggplot(aes(x = Age_in_yrs, y = freq, fill=ReCluster)) +
   geom_point(shape = 21, aes(fill = ReCluster), color = "black", size = 3, stroke = 0.5)+
   geom_smooth(method = "lm", aes(color=ReCluster)) + #, color = c('#f37421ff','#ffdeadff')
   #geom_smooth(method = "lm", formula = y ~ poly(x, 2), aes(color=ReCluster)) +
@@ -66,9 +65,9 @@ p_corr_lineage_infants <- LifeSpan_ALL_MetaData %>%
     axis.title.x = element_text(face = "bold", size = 18, colour = "black"),
     axis.title.y = element_text(face = "bold", size = 18, colour = "black")
   ) +
-  ylab('% Lineage')  + xlab('Age (years)')
+  ylab('% PBMCs')  + xlab('Age (years)')
 
-p_corr_lineage_infants
+p_corr_pbmcs_infants
 
 ggsave("./corplot_SOX4_CD8_T_cells__in_PBMCs_infants_03132026.pdf", p_corr_lineage_infants,
        width=5, height=1.18,   units="in", scale=3)
