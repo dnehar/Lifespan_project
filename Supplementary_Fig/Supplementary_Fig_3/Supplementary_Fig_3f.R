@@ -69,7 +69,6 @@ p_corr_lineage <- LifeSpan_ALL_MetaData %>%
   ylab('% monocytes')  + xlab('Age (years)')
 p_corr_lineage
 
-
 ggsave("./corplot_monocyte_in_lineage_03182026.pdf", p_corr_lineage,
        width=2, height=1.1,  units="in", scale=3)
 
