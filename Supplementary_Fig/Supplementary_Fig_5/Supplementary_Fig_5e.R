@@ -16,6 +16,7 @@ library(dplyr); library(ggplot2)
 #   $meta_small : per-cell metadata (cell type annotations, sample IDs, age groups, etc.)
 #   $pheno      : per-sample metadata (sample_id, age, sex, etc.)
 MetaData <- readRDS('./pbmcs_v1.rds')
+
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 pheno <- MetaData[['pheno']] %>% as.data.frame()
 
@@ -30,7 +31,7 @@ subset_to_be_plotted <- c('Tregs_naive','Tregs_mem')
   
 p_corr_pbmc_L4 <- LifeSpan_ALL_MetaData %>%
 
-  mutate(ReCluster = factor(LS_L4)) %>% #***
+  mutate(ReCluster = factor(LS_L4, levels=subset_to_be_plotted)) %>% #***
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
   group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
