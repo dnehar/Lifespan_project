@@ -23,7 +23,7 @@ MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
 # --- Define ordered age groups (youngest to oldest) ---
-age_groups <- c("HI", "HC", "HY", "HO")
+age_groups <- c('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
 # --- Define all pairwise comparisons between age groups ---
 # Used by ggpubr::stat_compare_means to annotate p-values on the plot
@@ -33,16 +33,11 @@ my_comparisons <- combn(age_groups, 2, FUN = list, simplify = T)
 subset_to_be_plotted <- c('CD14_mo', 'CD14_mo_ISGhi', 'CD16_mo')
 
 # --- Compute per-sample monocyte subtype proportions and build boxplot ---
-# Step 1: assign ordered factor levels to cell type (ReCluster) and age group (Groups)
-# Step 2: count cells per sample x cell type combination
-# Step 3: compute frequency as % of all cells in that sample x age group
-# Step 4: keep only the three monocyte subtypes of interest
-# Step 5: plot one facet per monocyte subtype (free y-axis scale), with pairwise t-test p-values
-box_plot_pbmc_L2 <- LifeSpan_ALL_MetaData %>%
 
-  mutate(ReCluster = factor(Final_annotations)) %>%               # Level 2 cluster annotation
-  mutate(Groups = factor(Groups, levels = age_groups)) %>%        # ordered age groups
-  group_by(Groups, Names, ReCluster) %>%
+box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
+  mutate(ReCluster = factor(LS_L4)) %>%               # Level 4 cluster annotation
+  mutate(Groups = factor(Age_groups, levels = age_groups)) %>%        # ordered age groups
+  group_by(Groups, sample_id, ReCluster) %>%   
   summarise(n = n()) %>%                                           # cell count per sample x cluster
   mutate(freq = n / sum(n) * 100) %>%                             # % of total PBMCs per sample
   ungroup() %>%
@@ -72,8 +67,8 @@ box_plot_pbmc_L2 <- LifeSpan_ALL_MetaData %>%
         strip.text.x = element_text(size = 14, face = 'bold', colour = 'black')) +
   ylab('% in PBMCs') + xlab('Age groups')
 
-box_plot_pbmc_L2
+print(box_plot_pbmc)
 
 # --- Save figure as PDF ---
-ggsave("./boxplot_monocytes_in_PBMCs_03132026.pdf", box_plot_pbmc_L2,
+ggsave("./boxplot_monocytes_in_PBMCs_03132026.pdf", box_plot_pbmc,
        width = 4.2, height = 3, units = "in", scale = 3)
