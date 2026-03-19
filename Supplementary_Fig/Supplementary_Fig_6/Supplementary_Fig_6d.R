@@ -40,7 +40,7 @@ cols <- c(
 
 p_corr_lineage <- LifeSpan_ALL_MetaData %>%
   
-  mutate(ReCluster = factor(LS_L3)) %>% #***
+  mutate(ReCluster = factor(LS_L3, levels=p_corr_pbmc_L4)) %>% #***
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
   group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   filter(ReCluster %in% subset_to_be_plotted) %>%  
