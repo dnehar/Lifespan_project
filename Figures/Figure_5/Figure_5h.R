@@ -23,6 +23,7 @@ cols <- c(
   'TH22'             = '#edf8b1'
 )
 
+
 # --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
 MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
@@ -32,7 +33,12 @@ age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older'
 
 # --- Define all pairwise comparisons between age groups ---
 # Used by ggpubr::stat_compare_means to annotate p-values on the plot
-my_comparisons <- combn(age_groups, 2, FUN = list, simplify = T)
+my_comparisons <- list (c('Infants', 'Child'),
+                        c('Child','Adolescent'),
+                        c('Adolescent', 'Young'),
+                        c('Young', 'Middle_aged'),
+                        c('Middle_aged', 'Older'),
+                        c('Older', 'Oldest_old'))
 
 # --- Define the memory CD4 T cell subtypes to plot (Level 4 annotation) ---
 subset_to_be_plotted <- c('CXCR5+_TFH-like', 'TH22', 'TH17', 'GZMK_TH1_like',
