@@ -30,8 +30,12 @@ age_groups <- c('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older
 
 # --- Define all pairwise comparisons between age groups ---
 # Used by ggpubr::stat_compare_means to annotate p-values on the plot
-my_comparisons <- combn(age_groups, 2, FUN = list, simplify = T)
-
+my_comparisons <- list (c('Infants', 'Child'),
+                        c('Child','Adolescent'),
+                        c('Adolescent', 'Young'),
+                        c('Young', 'Middle_aged'),
+                        c('Middle_aged', 'Older'),
+                        c('Older', 'Oldest_old'))
 # --- Define the B cell subtypes to plot (Level 2 annotation) ---
 subset_to_be_plotted <- c('B_transitional', 'B_naive', 'B_memory', 'B_ABC', 'B_ISGhi', 'PCs')
 
