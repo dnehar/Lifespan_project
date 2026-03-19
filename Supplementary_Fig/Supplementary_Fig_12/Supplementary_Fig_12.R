@@ -1,5 +1,5 @@
 # =============================================================================
-# Supplementary Figure 11 — Boxplots of PBMC subsets proportions across age groups (Level 4)
+# Supplementary Figure 12b — Boxplots of PBMC subsets proportions across age groups (Level 4)
 #
 # This script computes per-sample frequencies of 46 subsets as a percentage of total PBMCs,
 # and displays their distribution across seven age groups acording to infered CMV using boxplots with
@@ -7,62 +7,6 @@
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
 # Output: ./boxplot_PBMCs_LS_L4_CMV_differences_03132026.pdf
 # =============================================================================
-
-Supplementary Figure 11a 
-
-# --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
-MetaData <- readRDS('./pbmcs_v1.rds')
-LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
-
-donor_table <- LifeSpan_ALL_MetaData |> dplyr::distinct(sample_id, .keep_all = TRUE)
-head(donor_table)
-dim(donor_table)
-
-age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
-cmv_cols <- c('Pos'='#faa31b',
-              'Neg'='#1eb8d4')
-
-p_CMV <- donor_table %>%
-  group_by(Age_groups, CMVerify_prediction) %>%
-  summarise(n = n(), .groups = "drop_last") %>%
-  mutate(freq = n / sum(n) * 100) %>%
-  mutate(Age_groups = factor(Age_groups, levels = age_groups)) %>%
-  ggplot(aes(x = "", y = freq, fill = CMVerify_prediction)) +
-  
-  # Pie slices
-  geom_bar(stat = "identity", width = 1, color = "white") +
-  
-  # --- NEW: Add counts in the middle of each slice ---
-  geom_text(aes(label = n),
-            position = position_stack(vjust = 0.5),
-            size = 4, color = "black", fontface = "bold") +
-  
-  coord_polar("y", start = 0) +
-  
-  facet_wrap(
-    . ~ Age_groups,
-    scales = "free_y",
-    nrow = 2,
-    labeller = labeller(Age_groups =
-                          c(
-                            'Infants'='Infants (n=36): 2m-2y',
-                            'Child'='Child (n=26): 2y-12y',
-                            'Adolescent'='Adolescent (n=20): 12y-18y',
-                            'Young'='Young (n=24): 18y-40y',
-                            'Middle_aged'='Middle_aged (n=16): 40y-65y',
-                            'Older'='Older (n=33): 65y-85y',
-                            'Oldest_old'='Oldest_old (n=12): 85y-105y'
-                          ))
-  ) +
-  scale_fill_manual(values = cmv_cols) +
-  theme_void() +
-  theme(strip.text = element_text(size = 14, face = "bold"))
-
-p_CMV
-
- 
-Supplementary Figure 11b 
-
 
 library(dplyr); library(ggplot2)
 
