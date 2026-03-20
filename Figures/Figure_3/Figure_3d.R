@@ -31,12 +31,7 @@ subset_to_be_plotted <- c('CD56dim_NK', 'CD56bright_NK', 'Adaptive_NK', 'Prolife
 age_groups <- c('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
 # --- Compute NK cell subtype proportions and build correlation scatter plots ---
-# Step 1: assign ordered factor levels to NK subtype (ReCluster) and age group (Groups)
-# Step 2: filter to keep only the four NK cell subtypes of interest
-# Step 3: count cells per age group x donor x age in months x NK subtype combination
-# Step 4: compute frequency as % of NK cells within each donor x age group
-# Step 5: restrict to Infants age group only
-# Step 6: plot scatter with linear regression line and Pearson correlation per NK subtype
+
 p_corr_lineage_infants <- LifeSpan_ALL_MetaData %>%
   
   mutate(ReCluster = factor(LS_L4, levels = subset_to_be_plotted)) %>%           # Level 4 NK annotation (ordered)
@@ -44,7 +39,6 @@ p_corr_lineage_infants <- LifeSpan_ALL_MetaData %>%
   filter(ReCluster %in% subset_to_be_plotted) %>%                        # keep NK subtypes only
   group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   summarise(n = n()) %>%                                                  # cell count per donor x cluster
-  #summarise(n = n()) %>% #, Set = first(Set)
   mutate(freq = n / sum(n) *100) %>%                                     # % of NK cells per donor
   ungroup() %>%
   as.data.frame() %>%
@@ -52,7 +46,6 @@ p_corr_lineage_infants <- LifeSpan_ALL_MetaData %>%
   ggplot(aes(x = Age_in_yrs, y = freq, fill=ReCluster)) +
   geom_point(shape = 21, aes(fill = ReCluster), color = "black", size = 3, stroke = 0.5)+  # filled scatter points
   geom_smooth(method = "lm", aes(color=ReCluster)) +                     # linear regression fit per subtype
-  #geom_smooth(method = "lm", formula = y ~ poly(x, 2), aes(color=ReCluster)) +
   scale_fill_manual(values=cols) +                                        # apply NK color palette (fill)
   scale_color_manual(values = cols)+                                      # apply NK color palette (line)
   ggpubr::stat_cor() +                                                    # add Pearson R and p-value
