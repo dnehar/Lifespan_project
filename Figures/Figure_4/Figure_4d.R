@@ -32,13 +32,6 @@ subset_to_be_plotted <- c('B_naive', 'B_transitional', 'B_ABC', 'B_memory', 'B_I
 age_groups <- c('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
 # --- Compute B cell subtype proportions and build correlation scatter plots ---
-# Step 1: assign ordered factor levels to B cell subtype (ReCluster) and age group (Groups)
-# Step 2: filter to keep only the four B cell subtypes of interest
-# Step 3: count cells per age group x donor x age in months x B cell subtype combination
-# Step 4: compute frequency as % of B cells within each donor x age group
-# Step 5: restrict to Infants age group only
-# Step 6: plot scatter with linear regression line and Pearson correlation per B cell subtype
-
 
 p_corr_lineage_infants <- LifeSpan_ALL_MetaData %>%
   
@@ -47,7 +40,6 @@ p_corr_lineage_infants <- LifeSpan_ALL_MetaData %>%
   filter(ReCluster %in% subset_to_be_plotted) %>% 
   group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   summarise(n = n()) %>% 
-  #summarise(n = n()) %>% #, Set = first(Set)
   mutate(freq = n / sum(n) *100) %>%
   ungroup() %>%
   as.data.frame() %>%
@@ -55,7 +47,6 @@ p_corr_lineage_infants <- LifeSpan_ALL_MetaData %>%
   ggplot(aes(x = Age_in_yrs, y = freq, fill=ReCluster)) +
   geom_point(shape = 21, aes(fill = ReCluster), color = "black", size = 3, stroke = 0.5)+
   geom_smooth(method = "lm", aes(color=ReCluster)) + #, color = c('#f37421ff','#ffdeadff')
-  #geom_smooth(method = "lm", formula = y ~ poly(x, 2), aes(color=ReCluster)) +
   scale_fill_manual(values=cols) + #**** 
   scale_color_manual(values = cols)+ #****
   ggpubr::stat_cor() +
