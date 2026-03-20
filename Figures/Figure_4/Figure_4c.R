@@ -42,11 +42,7 @@ my_comparisons <- list(c('Infants', 'Child'),
                        c('Older', 'Oldest_old'))
 
 # --- Compute B cell subtype proportions and build stacked bar plot ---
-# Step 1: assign ordered factor levels to age group (Groups) and B cell subtype (ReCluster)
-# Step 2: filter to keep only the six B cell subtypes of interest
-# Step 3: count cells per age group x B cell subtype combination
-# Step 4: compute frequency as % of total B cells within each age group
-# Step 5: plot stacked bar chart — one bar per age group, filled by B cell subtype
+
 BP_1 <- LifeSpan_ALL_MetaData %>%
 
   mutate(Groups    = factor(Age_groups, levels = age_groups)) %>%        # ordered age groups
