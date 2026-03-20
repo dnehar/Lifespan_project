@@ -43,11 +43,6 @@ subset_to_be_plotted <- c('moDC', 'cDC1', 'cDC2', 'AXL_DC', 'pDC')
 age_groups <- c('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
 # --- Compute per-sample DC subtype proportions and build boxplot ---
-# Step 1: assign ordered factor levels to cell type (ReCluster) and age group (Groups)
-# Step 2: count cells per sample x cell type combination
-# Step 3: compute frequency as % of all cells in that sample x age group
-# Step 4: keep only the three DC subtypes of interest
-# Step 5: plot one facet per DC subtype (free y-axis scale), with pairwise t-test p-values
 
 box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
   mutate(ReCluster = factor(LS_L4)) %>%               # Level 4 cluster annotation
