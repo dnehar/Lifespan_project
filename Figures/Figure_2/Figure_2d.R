@@ -39,13 +39,7 @@ my_comparisons <- list(c('Infants', 'Child'),
 subset_to_be_plotted <- c('moDC', 'cDC1', 'cDC2', 'AXL_DC', 'pDC')
 
 # --- Compute pDC frequency within DC lineage and build boxplot ---
-# Step 1: assign ordered factor levels to DC subtype (ReCluster) and age group (Groups)
-# Step 2: filter to keep only the five DC subtypes that define the lineage denominator
-# Step 3: count cells per age group x donor x DC subtype
-# Step 4: compute pDC frequency as % of total DC lineage cells per donor
-# Step 5: retain only pDC rows for plotting
-# Step 6: plot one boxplot per age group; overlay individual donor points (jitter)
-#         and add pairwise p-values for consecutive age groups (hide NS)
+
 box_plot_lineage <- LifeSpan_ALL_MetaData %>%
   mutate(ReCluster = factor(LS_L4, levels = order_LS_L4)) %>%       # Level 4 DC annotation (ordered)
   mutate(Groups    = factor(Age_groups, levels = age_groups)) %>%    # ordered age groups
