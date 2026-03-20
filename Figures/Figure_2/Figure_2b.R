@@ -65,16 +65,12 @@ box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
   theme_bw() +
 
   # Pairwise t-test between all age group combinations; p-values displayed above brackets
-  #ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") +
-  ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") + #label = "p.signif"
-  #ggpubr::stat_compare_means(comparisons = my_comparisons, label = "p.signif", hide.ns = F, vjust = 0.5) +
-
+  ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") + 
   theme(legend.position = "none",                                 # legend redundant with facet labels
         strip.text = element_text(size = 14, face = 'bold')) +
   facet_wrap(. ~ ReCluster, scales = "free_y", nrow = 1) +       # one panel per monocyte subtype
 
   scale_fill_manual(values = cols) +                              # apply monocyte subtype color palette
-
   theme(axis.text.y  = element_text(size = 12, colour = 'black'),
         axis.text.x  = element_text(size = 12, colour = 'black'),
         axis.title.x = element_text(face = "bold", size = 14, colour = 'black'),
