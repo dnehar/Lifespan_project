@@ -38,7 +38,6 @@ my_comparisons <- list (c('Infants', 'Child'),
 subset_to_be_plotted <- c('CD14_mono', 'ISGhi_CD14_mono', 'CD16_mono')
 
 # --- Compute per-sample monocyte subtype proportions and build boxplot ---
-
 box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
   mutate(ReCluster = factor(LS_L4)) %>%               # Level 4 cluster annotation
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%        # ordered age groups
@@ -47,21 +46,18 @@ box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
   mutate(freq = n / sum(n) * 100) %>%                             # % of total PBMCs per sample
   ungroup() %>%
   as.data.frame() %>%
-  filter(ReCluster %in% subset_to_be_plotted) %>%                 # keep NK cell subtypes only
-
+  filter(ReCluster %in% subset_to_be_plotted) %>%                 # keep monocyte cell subtypes only
   ggplot(aes(x = Groups, y = freq, fill = ReCluster, group = Groups)) +
   geom_boxplot(outlier.shape = NA) +                              # boxplot without outlier symbols
   geom_jitter(size = 0.2) +                                       # overlay individual sample points
   theme_bw() +
-
   # Pairwise t-test between all age group combinations; p-values displayed above brackets
   ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") + #label = "p.signif"
   theme(legend.position = "none",                                 # legend redundant with facet labels
         strip.text = element_text(size = 14, face = 'bold')) +
-  facet_wrap(. ~ ReCluster, scales = "free_y", nrow = 1) +       # one panel per NK cell subtype
+  facet_wrap(. ~ ReCluster, scales = "free_y", nrow = 1) +       # one panel per monocyte cell subtype
 
-  scale_fill_manual(values = cols) +                              # apply NK cell subtype color palette
-
+  scale_fill_manual(values = cols) +                              # apply monocyte cell subtype color palette
   theme(axis.text.y  = element_text(size = 12, colour = 'black'),
         axis.text.x  = element_text(size = 12, colour = 'black'),
         axis.title.x = element_text(face = "bold", size = 14, colour = 'black'),
