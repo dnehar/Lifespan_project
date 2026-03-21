@@ -4,7 +4,7 @@
 #
 # This script computes per-sample frequencies of five DC subtypes
 # (moDC, cDC1, cDC2, AXL_DC and pDC) as a percentage of total PBMCs,
-# and displays their distribution across four age groups (HI, HC, HY, HO)
+# and displays their distribution across four age groups
 # using boxplots with all pairwise t-test comparisons.
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
 # Output: ./boxplot_DCs_in_PBMCs_03132026.pdf
