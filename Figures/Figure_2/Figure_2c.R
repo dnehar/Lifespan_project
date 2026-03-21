@@ -41,11 +41,7 @@ my_comparisons <- list(c('Infants', 'Child'),
                        c('Older', 'Oldest_old'))
 
 # --- Compute DC subtype proportions and build stacked bar plot ---
-# Step 1: assign ordered factor levels to age group (Groups) and DC subtype (ReCluster)
-# Step 2: filter to keep only the five DC subtypes of interest
-# Step 3: count cells per age group x DC subtype combination
-# Step 4: compute frequency as % of total DC cells within each age group
-# Step 5: plot stacked bar chart — one bar per age group, filled by DC subtype
+
 BP_1 <- LifeSpan_ALL_MetaData %>%
   
   mutate(Groups    = factor(Age_groups, levels = age_groups)) %>%   # ordered age groups
@@ -56,10 +52,8 @@ BP_1 <- LifeSpan_ALL_MetaData %>%
   mutate(freq = n / sum(n) * 100) %>%                               # % of DC cells per age group
   ungroup() %>%
   as.data.frame() %>%
-
   ggplot(aes(x = Groups, y = freq, fill = ReCluster, group = ReCluster)) +
   geom_bar(stat = "identity", color = "black") +                    # stacked bar, black outline
-
   scale_fill_manual(values = cols) +                                # apply DC color palette
   scale_x_discrete(limits = age_groups) +                           # enforce age group order on x-axis
   theme(
@@ -79,5 +73,5 @@ BP_1 <- LifeSpan_ALL_MetaData %>%
 BP_1
 
 # --- Save output ---
-ggsave("./Figure_2026/Barplot_DCs_age_groups_01062026.pdf", BP_1,
+ggsave("./Barplot_DCs_age_groups_01062026.pdf", BP_1,
        width = 1.7, height = 1.8, units = "in", scale = 3)
