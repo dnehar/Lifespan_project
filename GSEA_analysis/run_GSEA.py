@@ -12,10 +12,10 @@ input_dir  = "./age_changes/LS_L3/Deqseq_outputs/"             # folder containi
 pattern    = "*.csv"                       # glob pattern for files
 gene_sets  = "MSigDB_Hallmark_2020"        # OR a path to a .gmt file, e.g., "RTE_Signature_with_DN.gmt"
 outdir     = "./age_changes/LS_L3/gsea_across_subsets"       # where results/plots will be written
-min_size   = 10
-max_size   = 500
-perms      = 1000
-seed       = 6
+min_size   = 10    # minimum gene set size to include in analysis
+max_size   = 500   # maximum gene set size to include in analysis
+perms      = 1000  # number of permutations for significance estimation
+seed       = 6     # random seed for reproducibility
 
 # Plotting controls
 fdr_filter_for_plot = 0.05    # show terms significant in at least 1 subset
@@ -27,6 +27,11 @@ os.makedirs(outdir, exist_ok=True)
 # Helpers
 # --------------------------
 def detect_gene_col(df: pd.DataFrame) -> str:
+    """
+    Detect the gene identifier column in a DESeq2 DataFrame.
+    Checks a list of common column name conventions (e.g., 'gene', 'SYMBOL',
+    'Unnamed: 0'). Falls back to the first column if none match.
+    """
     for c in ["gene","Gene","symbol","SYMBOL","GeneSymbol","Gene.name","GENE","Unnamed: 0"]:
         if c in df.columns:
             return c
@@ -34,9 +39,17 @@ def detect_gene_col(df: pd.DataFrame) -> str:
 
 def build_rnk_from_deseq(df: pd.DataFrame) -> pd.Series:
     """
-    Build a robust ranking Series for preranked GSEA:
-    Priority: DESeq2 'stat'
-    Fallback: signed -log10(p) using pvalue/padj and the sign of log2FoldChange
+    Build a gene ranking Series suitable for preranked GSEA.
+
+    Strategy:
+      1. Primary:  Use DESeq2 Wald test statistic ('stat') directly — the most
+                   statistically principled ranking metric.
+      2. Fallback: Compute signed -log10(p-value), using the sign of log2FoldChange
+                   to indicate up- vs. down-regulation. P-values are clipped at
+                   1e-300 to avoid log(0).
+
+    Duplicate gene entries are resolved by keeping the entry with the largest
+    absolute rank score. Inf/-Inf and NaN values are dropped before returning.
     """
     gene_col = detect_gene_col(df)
     df = df.dropna(subset=[gene_col]).copy()
@@ -74,6 +87,15 @@ def build_rnk_from_deseq(df: pd.DataFrame) -> pd.Series:
     return rnk
 
 def prerank_one(csv_path: str) -> pd.DataFrame:
+    """
+    Run gseapy prerank GSEA on a single DESeq2 CSV file.
+
+    Derives the subset name from the filename, builds a ranked gene list,
+    runs GSEA, and saves both the full gseapy result table (res2d) and a
+    compact summary CSV to a per-subset subdirectory under `outdir`.
+
+    Returns a DataFrame with columns: Term, fdr, es, nes, lead_genes, subset.
+    """
     subset = os.path.splitext(os.path.basename(csv_path))[0]
     df = pd.read_csv(csv_path)
     rnk = build_rnk_from_deseq(df)
@@ -93,7 +115,7 @@ def prerank_one(csv_path: str) -> pd.DataFrame:
         threads=1,
     )
 
-    # -- Your "out_df" construction, but with subset column added --
+    # Build a compact summary DataFrame from the gseapy results dict, adding the subset label
     out = []
     for term in list(pre_res.results):
         r = pre_res.results[term]
@@ -114,7 +136,7 @@ def prerank_one(csv_path: str) -> pd.DataFrame:
     return out_df
 
 # --------------------------
-# Main loop: run prereank for every CSV
+# Main loop: run prerank GSEA for every CSV and collect results
 # --------------------------
 all_csvs = sorted(glob.glob(os.path.join(input_dir, pattern)))
 if not all_csvs:
@@ -135,11 +157,12 @@ combined_df = pd.concat(combined, ignore_index=True)
 combined_df.to_csv(os.path.join(outdir, "combined_gsea_across_subsets.csv"), index=False)
 
 # --------------------------
-# Combined bubble plot:
-#   x = subset
-#   y = Term
-#   hue(color) = NES
-#   size = -log10(FDR)
+# Combined bubble plot across all subsets:
+#   Each dot = one (Term, subset) pair
+#   x-axis  : cell subset (one column per CSV input)
+#   y-axis  : enriched gene set term
+#   color   : NES (Normalized Enrichment Score); red = enriched, blue = depleted
+#   dot size: -log10(FDR); larger = more significant
 # --------------------------
 dfp = combined_df.copy()
 dfp = dfp[dfp['fdr'].notna()]
