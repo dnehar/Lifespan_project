@@ -45,11 +45,7 @@ my_comparisons <- list(c('Infants', 'Child'),
                        c('Older', 'Oldest_old'))
 
 # --- Compute CD8 T cell subtype proportions and build stacked bar plot ---
-# Step 1: assign ordered factor levels to age group (Groups) and T cell subtype (ReCluster)
-# Step 2: filter to keep only the seven CD8 T cell subtypes of interest
-# Step 3: count cells per age group x T cell subtype combination
-# Step 4: compute frequency as % of total CD8 T cells within each age group
-# Step 5: plot stacked bar chart — one bar per age group, filled by T cell subtype
+
 BP_1 <- LifeSpan_ALL_MetaData %>%
 
   mutate(Groups    = factor(Age_groups, levels = age_groups)) %>%        # ordered age groups
