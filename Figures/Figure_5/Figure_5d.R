@@ -3,7 +3,7 @@
 #
 # This script computes per-sample frequencies of two Treg subtypes
 # (Tregs_naive, Tregs_mem) as a percentage of total PBMCs, and displays their
-# distribution across four age groups (HI, HC, HY, HO) using boxplots with
+# distribution across seven age groups ('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old') using boxplots with
 # all pairwise t-test comparisons.
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
 # Output: ./boxplot_Tregs_in_PBMCs_03132026.pdf
@@ -32,11 +32,7 @@ my_comparisons <- combn(age_groups, 2, FUN = list, simplify = T)
 subset_to_be_plotted <- c('Tregs_naive', 'Tregs_mem')
 
 # --- Compute per-sample Treg subtype proportions and build boxplot ---
-# Step 1: assign ordered factor levels to cell type (ReCluster) and age group (Groups)
-# Step 2: count cells per sample x cell type combination
-# Step 3: compute frequency as % of all cells in that sample x age group
-# Step 4: keep only the two Treg subtypes of interest
-# Step 5: plot one facet per Treg subtype (free y-axis scale), with pairwise t-test p-values
+
 box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
   
   mutate(ReCluster = factor(LS_L4, levels = subset_to_be_plotted)) %>%               # Level 4 cluster annotation
