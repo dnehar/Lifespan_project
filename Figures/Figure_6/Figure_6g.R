@@ -42,11 +42,6 @@ my_comparisons <- list(c('Infants', 'Child'),
                        c('Older', 'Oldest_old'))
 
 # --- Compute gd T cell subtype proportions and build stacked bar plot ---
-# Step 1: assign ordered factor levels to age group and T cell subtype (ReCluster)
-# Step 2: filter to keep only the five gd T cell subtypes of interest
-# Step 3: count cells per age group x T cell subtype combination
-# Step 4: compute frequency as % of total gd T cells within each age group
-# Step 5: plot stacked bar chart — one bar per age group, filled by gd T cell subtype
 
 BP_1 <- LifeSpan_ALL_MetaData %>%
 
