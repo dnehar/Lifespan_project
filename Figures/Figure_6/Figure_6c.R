@@ -3,8 +3,8 @@
 #
 # This script computes per-sample frequencies of seven CD8 T cell subtypes
 # (CD8_naive, CD8_CM, CD8_GZMK, CD8_MAIT, CD8_TEMRA, CD8_gdT, CD8aa) as a
-# percentage of total PBMCs, and displays their distribution across four age groups
-# (HI, HC, HY, HO) using boxplots with all pairwise t-test comparisons.
+# percentage of total PBMCs, and displays their distribution across seven age groups
+# ('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old') using boxplots with all pairwise t-test comparisons.
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
 # Output: ./boxplot_CD8_T_cells_in_PBMCs_03132026.pdf
 # =============================================================================
