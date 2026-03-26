@@ -4,7 +4,7 @@
 # This script computes per-sample frequencies of five CD4 T cell subtypes
 # (CD4_naive, CD4_ISGhi, CD4_Tregs, CD4_memory, CD4_Proliferating) as a
 # percentage of total PBMCs, and displays their distribution across four age
-# groups (HI, HC, HY, HO) using boxplots with all pairwise t-test comparisons.
+# groups (nfants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old') using boxplots with all pairwise t-test comparisons.
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
 # Output: ./boxplot_CD4_Tcells_level3_in_PBMCs_03132026.pdf
 # =============================================================================
@@ -40,11 +40,7 @@ my_comparisons <- list (c('Infants', 'Child'),
 subset_to_be_plotted <- c('CD4_naive', 'CD4_ISGhi', 'CD4_Tregs', 'CD4_memory', 'CD4_Proliferating')
 
 # --- Compute per-sample CD4 T cell subtype proportions and build boxplot ---
-# Step 1: assign ordered factor levels to cell type (ReCluster) and age group (Groups)
-# Step 2: count cells per sample x cell type combination
-# Step 3: compute frequency as % of all cells in that sample x age group
-# Step 4: keep only the five CD4 T cell subtypes of interest
-# Step 5: plot one facet per CD4 T cell subtype (free y-axis scale), with pairwise t-test p-values
+
 box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
 
   mutate(ReCluster = factor(LS_L3, levels=subset_to_be_plotted)) %>%               # Level 4 cluster annotation
