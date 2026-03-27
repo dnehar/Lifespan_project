@@ -1,5 +1,5 @@
 
-# Example of Level 3 clustering: 
+# Example of Level 3 clustering: can be found here: dnehar/Lifespan_project/GSEA_analysis/
 f <- "./analysis/gsea/combined_gsea_across_LS_L3_subsets.csv"
 
 df <- read.csv(f, check.names = FALSE)
