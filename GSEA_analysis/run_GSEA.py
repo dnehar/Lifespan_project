@@ -8,7 +8,7 @@ import gseapy as gp
 # --------------------------
 # USER CONFIG
 # --------------------------
-input_dir  = "./age_changes/LS_L3/Deqseq_outputs/"             # folder containing your DESeq2 CSVs
+input_dir  = "./age_changes/LS_L3/Deqseq_outputs/"             # folder containing DESeq2 CSVs (age associated genes or peaks)
 pattern    = "*.csv"                       # glob pattern for files
 gene_sets  = "MSigDB_Hallmark_2020"        # OR a path to a .gmt file, e.g., "RTE_Signature_with_DN.gmt"
 outdir     = "./age_changes/LS_L3/gsea_across_subsets"       # where results/plots will be written
