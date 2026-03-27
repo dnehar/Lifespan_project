@@ -1,6 +1,6 @@
 
+# Example of Level 3 clustering: 
 f <- "./analysis/gsea/combined_gsea_across_LS_L3_subsets.csv"
-#f <- "./analysis/gsea/combined_gsea_across_LS_L2_subsets.csv"
 
 df <- read.csv(f, check.names = FALSE)
 str(df)  # should show columns: Term, fdr, es, nes, lead_genes, subset
