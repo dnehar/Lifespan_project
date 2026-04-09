@@ -15,12 +15,12 @@ sc.pp.combat(naive_CD4, key='Batch', covariates=['Age_groups', 'LS_L4'])  # Batc
 
 # plots
 gputils.Boxplot_one_gene(naive_CD4,
-                 gene="CD38",  # previously: CTLA4
+                 gene="CD38",  
                  source='raw',
                  log_transform=True)
 
 gputils.Boxplot_one_gene(naive_CD4,
-                 gene="SOX4",  # previously: CTLA4
+                 gene="SOX4", 
                  source='raw',
                  log_transform=True)
 
