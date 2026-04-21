@@ -34,15 +34,6 @@ subset_to_be_plotted <- c('CD8_naive', 'CD8_CM', 'CD8_GZMK', 'CD8_MAIT', 'CD8_TE
 # --- Define ordered age groups (youngest to oldest) ---
 age_groups <- c('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
-# --- Define pairwise comparisons between consecutive age groups ---
-# NOTE: my_comparisons is defined here for reference but is not used in this
-# stacked bar plot. It would be needed if adding stat_compare_means (e.g. in boxplot version).
-my_comparisons <- list(c('Infants', 'Child'),
-                       c('Child', 'Adolescent'),
-                       c('Adolescent', 'Young'),
-                       c('Young', 'Middle_aged'),
-                       c('Middle_aged', 'Older'),
-                       c('Older', 'Oldest_old'))
 
 # --- Compute CD8 T cell subtype proportions and build stacked bar plot ---
 
