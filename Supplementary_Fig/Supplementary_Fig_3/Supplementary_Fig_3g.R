@@ -32,9 +32,7 @@ cols <- c( "CD14_mono" = "#f6a2a7",
            "CD16_mono" = "#f9d3d7", 
            "ISGhi_CD14_mono" = "#f15d64")
 
-subset_to_be_plotted <- c('CD14_mo', 'CD16_mo')
-
-# --- Compute pDC frequency within DC lineage and build boxplot ---
+subset_to_be_plotted <- c('CD14_mono', 'CD16_mono')
 
 box_plot_lineage <- LifeSpan_ALL_MetaData %>%
   mutate(ReCluster = factor(LS_L3)) %>%       # Level 4 DC annotation (ordered)
@@ -45,7 +43,6 @@ box_plot_lineage <- LifeSpan_ALL_MetaData %>%
   mutate(freq = n / sum(n) * 100) %>%                                # pDC % of DC lineage per donor
   ungroup() %>%
   as.data.frame() %>%
-  filter(ReCluster %in% c('pDC')) %>%                                # retain pDC rows only for plotting
   ggplot(aes(x = Groups, y = freq, fill = ReCluster, group = Groups)) +
   geom_boxplot(outlier.shape = NA) +                                 # boxplot; outliers shown via jitter below
   geom_jitter(size = 0.2) +                                          # individual donor-level data points
@@ -74,5 +71,5 @@ box_plot_lineage <- LifeSpan_ALL_MetaData %>%
 box_plot_lineage
 
 # --- Save figure as PDF ---
-ggsave("./Boxplot_pDCs_in_lineage_03132026.pdf", box_plot_lineage,
+ggsave("./Boxplot_monocytes_in_lineage_03132026.pdf", box_plot_lineage,
        width = 4.2, height = 3, units = "in", scale = 3)
