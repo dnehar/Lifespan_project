@@ -3,8 +3,8 @@
 #
 # This script computes per-sample frequencies of four NK cell subtypes
 # (CD56dim_NK, CD56bright_NK, Adaptive_NK, Proliferating_NK) as a percentage
-# of total PBMCs, and displays their distribution across four age groups
-# (HI, HC, HY, HO) using boxplots with all pairwise t-test comparisons.
+# of total PBMCs, and displays their distribution across seven age groups
+# using boxplots with all pairwise Wilcoxon comparisons.
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
 # Output: ./boxplot_NK_cells_in_PBMCs_03132026.pdf
 # =============================================================================
@@ -41,7 +41,7 @@ subset_to_be_plotted <- c('CD56dim_NK', 'CD56bright_NK', 'Adaptive_NK', 'Prolife
 
 box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
 
-  mutate(ReCluster = factor(LS_L4)) %>%               # Level 4 cluster annotation
+  mutate(ReCluster = factor(LS_L4, levels = subset_to_be_plotted)) %>%               # Level 4 cluster annotation
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%        # ordered age groups
   group_by(Groups, sample_id, ReCluster) %>%
   summarise(n = n()) %>%                                           # cell count per sample x cluster
@@ -55,8 +55,8 @@ box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
   geom_jitter(size = 0.2) +                                       # overlay individual sample points
   theme_bw() +
 
-  # Pairwise t-test between all age group combinations; p-values displayed above brackets
-  ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") + #label = "p.signif"
+  # Pairwise Wilcoxon between all age group combinations; p-values displayed above brackets
+  ggpubr::stat_compare_means(comparisons = my_comparisons, aes(label = paste0("p = ", after_stat(p.format)))) +
   theme(legend.position = "none",                                 # legend redundant with facet labels
         strip.text = element_text(size = 14, face = 'bold')) +
   facet_wrap(. ~ ReCluster, scales = "free_y", nrow = 1) +       # one panel per NK cell subtype
