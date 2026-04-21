@@ -4,7 +4,8 @@
 # This script computes per-sample frequencies of five gd T cell subtypes
 # (gdT_Vd1_Naive, gdT_Vd1_SOX4, gdT_Vd1_KLRF1, gdT_Vd2_GZMK, gdT_Vd2_GZMB) as a
 # percentage of total PBMCs, and displays their distribution across seven age groups
-# ('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old') using boxplots with all pairwise t-test comparisons.
+# ('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old') 
+# using boxplots with all pairwise wilcoxon comparisons.
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
 # Output: ./boxplot_gd_T_cells_in_PBMCs_03132026.pdf
 # =============================================================================
@@ -55,8 +56,8 @@ box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
   geom_jitter(size = 0.2) +                                       # overlay individual sample points
   theme_bw() +
   
-  # Pairwise t-test between all age group combinations; p-values displayed above brackets
-  ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") + #label = "p.signif"
+  # Pairwise wilcoxon between all age group combinations; p-values displayed above brackets
+  ggpubr::stat_compare_means(comparisons = my_comparisons, aes(label = paste0("p = ", after_stat(p.format)))) +
   
   theme(legend.position = "none",                                 # legend redundant with facet labels
         strip.text = element_text(size = 14, face = 'bold')) +
