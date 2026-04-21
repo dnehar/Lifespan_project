@@ -9,14 +9,6 @@
 
 library(dplyr); library(ggplot2)
 
-# --- Color palette — one color per DC subtype (Level 4 annotation) ---
-cols <- c(
-  "moDC"   = "#ed2024",
-  "cDC1"   = "#771215",
-  "cDC2"   = "#d84598",
-  "AXL_DC" = "#a41e21",
-  "pDC"    = "#a5a4a4"
-)
 
 # --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
 # Required columns from meta_small: Age_groups, LS_L4, sample_id
@@ -34,13 +26,18 @@ my_comparisons <- list(c('Infants', 'Child'),
                        c('Young', 'Middle_aged'),
                        c('Middle_aged', 'Older'),
                        c('Older', 'Oldest_old'))
-# --- Define the DC subtypes to plot ---
-subset_to_be_plotted <- c('moDC', 'cDC1', 'cDC2', 'AXL_DC', 'pDC')
+
+# color palette ---
+cols <- c( "CD14_mono" = "#f6a2a7",
+           "CD16_mono" = "#f9d3d7", 
+           "ISGhi_CD14_mono" = "#f15d64")
+
+subset_to_be_plotted <- c('CD14_mo', 'CD16_mo')
 
 # --- Compute pDC frequency within DC lineage and build boxplot ---
 
 box_plot_lineage <- LifeSpan_ALL_MetaData %>%
-  mutate(ReCluster = factor(LS_L4, levels = order_LS_L4)) %>%       # Level 4 DC annotation (ordered)
+  mutate(ReCluster = factor(LS_L3)) %>%       # Level 4 DC annotation (ordered)
   mutate(Groups    = factor(Age_groups, levels = age_groups)) %>%    # ordered age groups
   filter(ReCluster %in% subset_to_be_plotted) %>%                    # keep DC lineage subtypes only
   group_by(Groups, sample_id, ReCluster) %>%
