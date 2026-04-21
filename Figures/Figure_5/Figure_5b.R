@@ -4,7 +4,8 @@
 # This script computes per-sample frequencies of five CD4 T cell subtypes
 # (CD4_naive, CD4_ISGhi, CD4_Tregs, CD4_memory, CD4_Proliferating) as a
 # percentage of total PBMCs, and displays their distribution across four age
-# groups (nfants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old') using boxplots with all pairwise t-test comparisons.
+# groups (Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old') 
+# using boxplots with all pairwise Wilcoxon comparisons.
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
 # Output: ./boxplot_CD4_Tcells_level3_in_PBMCs_03132026.pdf
 # =============================================================================
@@ -57,8 +58,8 @@ box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
   geom_jitter(size = 0.2) +                                       # overlay individual sample points
   theme_bw() +
 
-  # Pairwise t-test between all age group combinations; p-values displayed above brackets
-  ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") + #label = "p.signif"
+  # Pairwise Wilcoxon between all age group combinations; p-values displayed above brackets
+  ggpubr::stat_compare_means(comparisons = my_comparisons, aes(label = paste0("p = ", after_stat(p.format)))) +
   theme(legend.position = "none",                                 # legend redundant with facet labels
         strip.text = element_text(size = 14, face = 'bold')) +
   facet_wrap(. ~ ReCluster, scales = "free_y", nrow = 1) +       # one panel per CD4 T cell subtype
