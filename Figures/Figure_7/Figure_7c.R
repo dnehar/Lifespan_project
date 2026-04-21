@@ -46,7 +46,7 @@ box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
   mutate(freq = n / sum(n) * 100) %>%                             # % of total PBMCs per sample
   ungroup() %>%
   as.data.frame() %>%
-  filter(ReCluster %in% subset_to_be_plotted) %>%                 # keep NK cell subtypes only
+  filter(ReCluster %in% subset_to_be_plotted) %>%                 # keep naive CD4 T cell subtypes only
   
   ggplot(aes(x = Groups, y = freq, fill = ReCluster, group = Groups)) +
   geom_boxplot(outlier.shape = NA) +                              # boxplot without outlier symbols
