@@ -45,7 +45,7 @@ age_groups <- c('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older
 # --- Compute per-sample DC subtype proportions and build boxplot ---
 
 box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
-  mutate(ReCluster = factor(LS_L4)) %>%               # Level 4 cluster annotation
+  mutate(ReCluster = factor(LS_L4, levels = subset_to_be_plotted)) %>%               # Level 4 cluster annotation
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%        # ordered age groups
   group_by(Groups, sample_id, ReCluster) %>%   
   summarise(n = n()) %>%                                           # cell count per sample x cluster
