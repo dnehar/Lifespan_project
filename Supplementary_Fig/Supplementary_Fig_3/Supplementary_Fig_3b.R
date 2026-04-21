@@ -31,7 +31,7 @@ subset_to_be_plotted <- c('moDC', 'cDC1', 'cDC2', 'AXL_DC', 'pDC')
  
 p_corr_pbmc_L4 <- LifeSpan_ALL_MetaData %>%
 
-  mutate(ReCluster = factor(LS_L4)) %>% #***
+  mutate(ReCluster = factor(LS_L4, levels= subset_to_be_plotted)) %>% #***
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
   group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
