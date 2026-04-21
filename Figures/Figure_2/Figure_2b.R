@@ -59,8 +59,8 @@ box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
   geom_jitter(size = 0.2) +                                       # overlay individual sample points
   theme_bw() +
 
-  # Pairwise t-test between all age group combinations; p-values displayed above brackets
-  ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") + 
+  # Pairwise Wilcoxon between all age group combinations; p-values displayed above brackets
+  ggpubr::stat_compare_means(comparisons = my_comparisons, aes(label = paste0("p = ", after_stat(p.format)))) +
   theme(legend.position = "none",                                 # legend redundant with facet labels
         strip.text = element_text(size = 14, face = 'bold')) +
   facet_wrap(. ~ ReCluster, scales = "free_y", nrow = 1) +       # one panel per monocyte subtype
