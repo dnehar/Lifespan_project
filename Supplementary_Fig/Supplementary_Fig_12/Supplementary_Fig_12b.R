@@ -39,7 +39,7 @@ cmv_comp <- list (c('Infants_Pos','Infants_Neg'),
                   c('Middle_aged_Pos','Middle_aged_Neg'),
                   c('Older_Pos','Older_Neg'),
                   c( 'Oldest_old_Pos','Oldest_old_Neg'))
-
+LifeSpan_ALL_MetaData$infered_CMV <- LifeSpan_ALL_MetaData$CMVerify_prediction 
 LifeSpan_ALL_MetaData$groups_cmv <- paste0(LifeSpan_ALL_MetaData$Age_groups, "_",LifeSpan_ALL_MetaData$infered_CMV)
 head(LifeSpan_ALL_MetaData)
 
@@ -82,6 +82,6 @@ plt_cmv <- LifeSpan_ALL_MetaData %>%
 
 plt_cmv
 
-ggsave("./boxplot_PBMCs_LS_L4_CMV_differences_03132026.pdfdf", 
+ggsave("./boxplot_PBMCs_LS_L4_CMV_differences_03132026.pdf", 
        plt_cmv,
        width=8, height=6,  units="in", scale=3, dpi=100)
