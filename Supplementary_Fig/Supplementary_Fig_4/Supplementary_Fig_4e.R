@@ -28,12 +28,12 @@ cols <- c(  "B_transitional" = "#756bb1",
             "B_memory" = "#283779",  
             "PCs" = "#8856a7")
 
-subset_to_be_plotted <- c('B_naive','B_transitional', 'B_ISGhi','B_ABC','B_memory','PCs')
+subset_to_be_plotted <- c('B_transitional', 'B_naive','B_ISGhi','B_ABC','B_memory','PCs')
 
   
 p_corr_pbmc_L4 <- LifeSpan_ALL_MetaData %>%
 
-  mutate(ReCluster = factor(LS_L4)) %>% #***
+  mutate(ReCluster = factor(LS_L4, levels = subset_to_be_plotted)) %>% #***
   mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
   group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
   summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
