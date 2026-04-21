@@ -86,7 +86,7 @@ BP <- LifeSpan_ALL_MetaData %>%
         axis.title.x = element_text(face = "bold", size = 18),
         axis.title.y = element_text(face = "bold", size = 18),
         legend.position = "none") +
-  ylab('% of PBMCs') + xlab('Individuals (n=167)')
+  ylab('% Lineage') + xlab('Individuals (n=167)')
 
 # --- Add stream geometry (bw = bandwidth for smoothing; type = "proportional") ---
 CD4_T <- BP + ggstream::geom_stream(color = 'black',
@@ -121,7 +121,7 @@ BP <- LifeSpan_ALL_MetaData %>%
         axis.title.x = element_text(face = "bold", size = 18),
         axis.title.y = element_text(face = "bold", size = 18),
         legend.position = "none") +
-  ylab('% of PBMCs') + xlab('Individuals (n=167)')
+  ylab('% Lineage') + xlab('Individuals (n=167)')
 
 # --- Add stream geometry ---
 CD8_T <- BP + ggstream::geom_stream(color = 'black',
@@ -156,7 +156,7 @@ BP <- LifeSpan_ALL_MetaData %>%
         axis.title.x = element_text(face = "bold", size = 18),
         axis.title.y = element_text(face = "bold", size = 18),
         legend.position = "none") +
-  ylab('% of PBMCs') + xlab('Individuals (n=167)')
+  ylab('% Lineage') + xlab('Individuals (n=167)')
 
 # --- Add stream geometry ---
 Bcells <- BP + ggstream::geom_stream(color = 'black',
