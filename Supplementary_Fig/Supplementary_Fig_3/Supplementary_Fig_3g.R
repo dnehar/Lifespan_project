@@ -1,83 +1,81 @@
-
-
 # =============================================================================
-# Supplementary Fig. 2d  — Scatter plots of PBMCs subset frequencies vs. age in Infants (Level 2 - clustering)
-#
-# This script computes frequencies of nine PBMC cell subtypes
-# as scatter plots with linear regression fits and Pearson correlation coefficients.
+# Figure 2d — Boxplot of CD14 and CD16 monocytes frequency as a percentage of monocytes across age groups
+# This script computes the frequency of pDC cells as a percentage of all DC
+# lineage cells (CD14 mo and CD16 mo) per donor, and displays their
+# distribution across seven age groups as a boxplot with pairwise statistics.
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
-# Output: ./corplot_PBMCs_cells_LS_L2_03132026.pdf
+# Output: ./Boxplot_mono_in_lineage_03132026.pdf
 # =============================================================================
 
 library(dplyr); library(ggplot2)
 
+# --- Color palette — one color per DC subtype (Level 4 annotation) ---
+cols <- c(
+  "moDC"   = "#ed2024",
+  "cDC1"   = "#771215",
+  "cDC2"   = "#d84598",
+  "AXL_DC" = "#a41e21",
+  "pDC"    = "#a5a4a4"
+)
 
 # --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
-# Required columns from meta_small: Age_groups, Age_in_months, sample_id, LS_L4
+# Required columns from meta_small: Age_groups, LS_L4, sample_id
 MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
-# --- Color palette 
- cols <- c(
-    "B_naive" = "#1c9099",
-   "B_memory" = "#283779",
-   "CD4_ISGhi" = "#697d35",
-   "CD4_memory" = "#90aa3c",
-   "CD4_naive" = "#193a1c",
-   "CD4_Tregs" = "#137d82",
-   "CD8_memory" = "#fba919",
-   "CD8_naive" = "#f37421",
-   "CD14_mono" = "#f6a2a7",
-   "CD16_mono" = "#f9d3d7",
-   "Mgk" = "#932169",
-   "CD56bright_NK" = "#f2e4a0",
-   "CD56dim_NK" = "#fee000",
-   "pDCs" = "#a5a4a4")
+# --- Define ordered age groups (youngest to oldest) ---
+age_groups <- c('Infants', 'Child', 'Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
 
-age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
-my_comparisons <- combn(age_groups,2, FUN = list, simplify = T)
+# --- Define pairwise comparisons between consecutive age groups ---
+# Used by ggpubr::stat_compare_means to add p-values to the boxplot
+my_comparisons <- list(c('Infants', 'Child'),
+                       c('Child', 'Adolescent'),
+                       c('Adolescent', 'Young'),
+                       c('Young', 'Middle_aged'),
+                       c('Middle_aged', 'Older'),
+                       c('Older', 'Oldest_old'))
+# --- Define the DC subtypes to plot ---
+subset_to_be_plotted <- c('moDC', 'cDC1', 'cDC2', 'AXL_DC', 'pDC')
 
-p_corr_pbmc_L1 <- LifeSpan_ALL_MetaData %>%
-  
-  mutate(ReCluster = factor(LS_L2)) %>% #***
-  mutate(Groups = factor(Age_groups, levels = age_groups)) %>%
-  group_by(Groups, sample_id, Age_in_yrs, ReCluster) %>%
-  summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
-  #summarise(n = n()) %>% #, Set = first(Set)
-  mutate(freq = n / sum(n) *100) %>%
+# --- Compute pDC frequency within DC lineage and build boxplot ---
+
+box_plot_lineage <- LifeSpan_ALL_MetaData %>%
+  mutate(ReCluster = factor(LS_L4, levels = order_LS_L4)) %>%       # Level 4 DC annotation (ordered)
+  mutate(Groups    = factor(Age_groups, levels = age_groups)) %>%    # ordered age groups
+  filter(ReCluster %in% subset_to_be_plotted) %>%                    # keep DC lineage subtypes only
+  group_by(Groups, sample_id, ReCluster) %>%
+  summarise(n = n()) %>%                                             # cell count per donor x group x cluster
+  mutate(freq = n / sum(n) * 100) %>%                                # pDC % of DC lineage per donor
   ungroup() %>%
   as.data.frame() %>%
-  #filter(ReCluster %in% subset_to_be_plotted) %>%  
-  ggplot(aes(x = Age_in_yrs, y = freq, fill=ReCluster)) +
-  geom_point(shape = 21, aes(fill = ReCluster), color = "black", size = 3, stroke = 0.5) + #stroke: thickness of the border
-  geom_smooth(method = "lm", aes(color=ReCluster)) + #, color = c('#f37421ff','#ffdeadff')
-  #geom_smooth(method = "lm", formula = y ~ poly(x, 2), aes(color=ReCluster)) +
-  scale_fill_manual(values=cols) + #**** 
-  scale_color_manual(values = cols)+ #****
-  ggpubr::stat_cor() +
-  #theme_bw() +
-  theme(legend.position = "none", 
-        strip.text = element_text(size = 13, face ='bold')) +
-  facet_wrap(.~ReCluster, scales = "free_y", nrow = 2) + #***
+  filter(ReCluster %in% c('pDC')) %>%                                # retain pDC rows only for plotting
+  ggplot(aes(x = Groups, y = freq, fill = ReCluster, group = Groups)) +
+  geom_boxplot(outlier.shape = NA) +                                 # boxplot; outliers shown via jitter below
+  geom_jitter(size = 0.2) +                                          # individual donor-level data points
   theme_bw() +
-  # -------- ALL TEXT IN BLACK 
-theme(
-  legend.position = "none",
-  
-  # Facet strip labels
-  strip.text = element_text(size = 13, face = "bold", colour = "black"),
-  
-  # Axis tick labels
-  axis.text.y  = element_text(size = 16, colour = "black"),
-  axis.text.x  = element_text(size = 16, colour = "black"),
-  
-  # Axis titles
-  axis.title.x = element_text(face = "bold", size = 18, colour = "black"),
-  axis.title.y = element_text(face = "bold", size = 18, colour = "black")
-) +
-ylab('% PBMC')  + xlab('Age (years)')
+  ggpubr::stat_compare_means(                                        # pairwise Wilcoxon tests
+    comparisons = my_comparisons,
+    label       = "p.format",
+    hide.ns     = TRUE,                                              # suppress non-significant comparisons
+    vjust       = 0.5
+  ) +
+  theme(
+    legend.position = "none",
+    strip.text      = element_text(size = 10, face = 'bold')
+  ) +
+  facet_wrap(.~ReCluster, scales = "free_y", nrow = 1) +            # one panel per DC subtype (here: pDC only)
+  scale_fill_manual(values = cols) +                                 # apply DC subtype color palette
+  theme(
+    axis.text.y    = element_text(size = 12, colour = 'black'),
+    axis.text.x    = element_text(size = 12, colour = 'black', angle = 90),
+    axis.title.x   = element_text(face = "bold", size = 14, colour = 'black'),
+    axis.title.y   = element_text(face = "bold", size = 14, colour = 'black'),
+    strip.text.x   = element_text(size = 14, face = 'bold', colour = 'black')
+  ) +
+  ylab('% of lineage') + xlab('Age groups')
 
-p_corr_pbmc_L1
+box_plot_lineage
 
-ggsave("./corplot_PBMCs_cells_LS_L2_03132026.pdf", p_corr_pbmc_L1,
-       width=5, height=2,  units="in", scale=3)
+# --- Save figure as PDF ---
+ggsave("./Boxplot_pDCs_in_lineage_03132026.pdf", box_plot_lineage,
+       width = 4.2, height = 3, units = "in", scale = 3)
