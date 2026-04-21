@@ -4,7 +4,7 @@
 # This script computes per-sample frequencies of three monocyte subtypes
 # (CD14_mo, CD14_mo_ISGhi, CD16_mo) as a percentage of total PBMCs,
 # and displays their distribution across four age groups (HI, HC, HY, HO)
-# using boxplots with all pairwise t-test comparisons.
+# using boxplots with all pairwise wilcoxon comparisons.
 # Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
 # Output: ./boxplot_monocytes_in_PBMCs_03132026.pdf
 # =============================================================================
@@ -51,8 +51,8 @@ box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
   geom_boxplot(outlier.shape = NA) +                              # boxplot without outlier symbols
   geom_jitter(size = 0.2) +                                       # overlay individual sample points
   theme_bw() +
-  # Pairwise t-test between all age group combinations; p-values displayed above brackets
-  ggpubr::stat_compare_means(comparisons = my_comparisons, method = "t.test") + #label = "p.signif"
+  # Pairwise wilcoxon between all age group combinations; p-values displayed above brackets
+  ggpubr::stat_compare_means(comparisons = my_comparisons, aes(label = paste0("p = ", after_stat(p.format)))) +
   theme(legend.position = "none",                                 # legend redundant with facet labels
         strip.text = element_text(size = 14, face = 'bold')) +
   facet_wrap(. ~ ReCluster, scales = "free_y", nrow = 1) +       # one panel per monocyte cell subtype
