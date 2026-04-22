@@ -74,7 +74,7 @@ p_corr_pbmcs_inf_CD4 <- LifeSpan_ALL_MetaData %>%
         axis.title.x = element_text(face = "bold", size = 18, colour = "black"),
         axis.title.y = element_text(face = "bold", size = 18, colour = "black")
     ) +
-    ylab('% PBMCs') + xlab('Age (years)')
+    ylab('% total CD4 T cells') + xlab('Age (years)')
 
 p_corr_pbmcs_inf_CD4
 
@@ -117,7 +117,7 @@ p_corr_pbmcs_inf_CD8 <- LifeSpan_ALL_MetaData %>%
         axis.title.x = element_text(face = "bold", size = 18, colour = "black"),
         axis.title.y = element_text(face = "bold", size = 18, colour = "black")
     ) +
-    ylab('% PBMCs') + xlab('Age (years)')
+    ylab('% total CD8 T cells') + xlab('Age (years)')
 
 p_corr_pbmcs_inf_CD8
 
