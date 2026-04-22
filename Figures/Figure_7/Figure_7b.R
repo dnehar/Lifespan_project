@@ -2,9 +2,9 @@ library(data.table); library(fgsea)
 
 msigdb.hs = getMsigdb(org = 'hs', id = 'SYM', version = '7.4')
 
-# --- Paths to your files (edit as needed) ---
-rnk_file <- "./analysis/gsea/prerank_data_GEX_Naive_CD8_Tcells.rnk" # after runing pyGSEA
-#rnk_file <- "./analysis/gsea/prerank_data_CD8_Tcells.rnk" # after runing pyGSEA
+# --- Paths to your prerank files (Naive_CD4_Tcells or Naive_CD8_Tcells)
+rnk_file <- "./analysis/gsea/prerank_data_GEX_Naive_CD8_Tcells.rnk" # after runing pyGSEA 
+#rnk_file <- "./analysis/gsea/prerank_data_GEX_Naive_CD4_Tcells.rnk" # after runing pyGSEA
 
 # Read .rnk; works whether or not there is a header
 rnk_dt <- fread(rnk_file, header = TRUE)
@@ -25,7 +25,6 @@ ranks <- setNames(ranks$stat, ranks$gene)
 # Quick sanity checks
 stopifnot(is.numeric(ranks), !is.null(names(ranks)), length(ranks) > 0)
 
-
 # ├├ HALLMARKS #### 
 set.seed(123)  # for reproducibility
 msigdb_ids = geneIds(subsetCollection(msigdb.hs, 'h'))
@@ -44,10 +43,7 @@ fgsea_res <- fgsea_res[order(padj, NES, decreasing = c(FALSE, TRUE))]
 
 
 # enrichment plot 
-#pathway_name <- c('HALLMARK_TGF_BETA_SIGNALING')
-pathway_name <- c('HALLMARK_TNFA_SIGNALING_VIA_NFKB')
-#pathway_name <- c('HALLMARK_TNFA_SIGNALING_VIA_NFKB')
-
+pathway_name <- c('HALLMARK_TGF_BETA_SIGNALING')
 
 row <- subset(fgsea_res, pathway == pathway_name)[1, ]
 
@@ -56,9 +52,37 @@ fdr_txt <- paste0("FDR = ", format(row$padj, digits = 3, scientific = TRUE))
 nes_txt <- paste0("NES = ", round(row$NES, 3))
 
 p2 <- plotEnrichment(
-  pathway = msigdb_ids$HALLMARK_TNFA_SIGNALING_VIA_NFKB, #**** #pathways[[pathway_name]],
+  pathway = msigdb_ids$HALLMARK_TGF_BETA_SIGNALING, #**** #pathways[[pathway_name]],
   stats   = ranks
 ) + ggtitle(pathway_name) + labs( subtitle = paste(nes_txt, p_txt, fdr_txt, sep = "  |  "))
 
 print(p2)
+
+# GSE1460_CD4_THYMOCYTE_VS_NAIVE_CD4_TCELL_ADULT_BLOOD_UP
+
+# ├├ C7 #### 
+set.seed(123)  # for reproducibility
+msigdb_ids = geneIds(subsetCollection(msigdb.hs, 'c7'))
+
+fgsea_res <- fgsea(
+  pathways = msigdb_ids,
+  stats    = ranks,
+  #minSize  = 15,      # tune: typical 15–500
+  #maxSize  = 500,
+  #nperm    = 10000    # increase for stable p/FDR; 10k is a common starting point
+)
+
+pathway_name <- 'GSE1460_CD4_THYMOCYTE_VS_NAIVE_CD4_TCELL_ADULT_BLOOD_UP'
+row <- subset(fgsea_res, pathway == pathway_name)[1, ]
+
+p_txt   <- paste0("p = ", format(row$pval, digits = 3, scientific = TRUE))
+fdr_txt <- paste0("FDR = ", format(row$padj, digits = 3, scientific = TRUE))
+nes_txt <- paste0("NES = ", round(row$NES, 3))
+
+p33 <- plotEnrichment(
+  pathway = msigdb_ids$GSE1460_CD4_THYMOCYTE_VS_NAIVE_CD4_TCELL_ADULT_BLOOD_UP, #pathways[[pathway_name]],
+  stats   = ranks
+) + ggtitle(pathway_name) + labs( subtitle = paste(nes_txt, p_txt, fdr_txt, sep = "  |  "))
+
+print(p33)
 
