@@ -1,5 +1,37 @@
 
 
+# =============================================================================
+# Supplementary Fig. 9e — Scatter plots of D8 T cell, MAIT and gd T subset frequencies vs. age in Infants 
+#
+# This script computes frequencies of CD8 T cell, MAIT and gd T subsets 
+# as a percentage of PBMCs,
+# restricted to the Infants age group, and displays their correlation with age (in months)
+# as scatter plots with linear regression fits and Pearson correlation coefficients.
+# Input:  pbmcs_v1.rds  — available at dnehar/Lifespan_project/pbmcs_v1.rds
+# Output: ./corplot_T_CD8_T_cells_in_pbmcs_infants_03182026.pdf
+# =============================================================================
+
+library(dplyr); library(ggplot2)
+
+# --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
+# MetaData is a list containing:
+#   $meta_small : per-cell metadata (cell type annotations, sample IDs, age groups, etc.)
+#   $pheno      : per-sample metadata (sample_id, age, sex, etc.)
+MetaData <- readRDS('./pbmcs_v1.rds')
+LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
+pheno <- MetaData[['pheno']] %>% as.data.frame()
+
+age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older', 'Oldest_old')
+
+# --- Color palette — one color per CD8 T cell subtype (Level 3 annotation) ---
+cols <- c(
+  "CD8_CM"     = "#f59e2f",
+  "CD8_GZMK"   = "#fba919",
+  "CD8_MAIT"   = "#fbb36a",
+  "CD8_TEMRA"  = "#d28529",
+  "CD8_gdT"    = "#80622f",
+  "CD8aa"      = "#c46b1c",
+  "CD8_naive"  = "#f37421")
 
 ### CD4+ T cells
 subset_to_be_plotted <- c('CD4_naive','CD4_ISGhi', 'CD4_Tregs','CD4_memory','CD4_Proliferating')
