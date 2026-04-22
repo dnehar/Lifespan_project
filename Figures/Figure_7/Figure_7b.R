@@ -1,3 +1,11 @@
+# =============================================================================
+# Figure 7a — GSEA plots 
+# get sets used: 'GSE1460_CD4_THYMOCYTE_VS_NAIVE_CD4_TCELL_ADULT_BLOOD_UP' and 
+# 'HALLMARK_TGF_BETA_SIGNALING'
+# Input:  prerank_data_GEX_Naive_CD8_Tcells.rnk  — available at dnehar/Lifespan_project/GSEA_analysis/
+# Output: ./Enrichment_plot_TGFb_naive_CD8_Tcells.pdf' or 'Enrichment_plot_THYMOCYTE_naive_CD8_Tcells.pdf'
+# =============================================================================
+
 library(data.table); library(fgsea)
 
 msigdb.hs = getMsigdb(org = 'hs', id = 'SYM', version = '7.4')
@@ -25,7 +33,10 @@ ranks <- setNames(ranks$stat, ranks$gene)
 # Quick sanity checks
 stopifnot(is.numeric(ranks), !is.null(names(ranks)), length(ranks) > 0)
 
+#================================================================================#
 # ├├ HALLMARKS #### 
+#================================================================================#
+
 set.seed(123)  # for reproducibility
 msigdb_ids = geneIds(subsetCollection(msigdb.hs, 'h'))
 
@@ -57,8 +68,12 @@ p2 <- plotEnrichment(
 ) + ggtitle(pathway_name) + labs( subtitle = paste(nes_txt, p_txt, fdr_txt, sep = "  |  "))
 
 print(p2)
+ggsave("./Enrichment_plot_TGFb_naive_CD8_Tcells.pdf", 
+       p2, width=2.5, height=1,  units="in", scale=3, dpi=100
 
+#================================================================================#
 # GSE1460_CD4_THYMOCYTE_VS_NAIVE_CD4_TCELL_ADULT_BLOOD_UP
+#================================================================================#
 
 # ├├ C7 #### 
 set.seed(123)  # for reproducibility
@@ -85,4 +100,6 @@ p33 <- plotEnrichment(
 ) + ggtitle(pathway_name) + labs( subtitle = paste(nes_txt, p_txt, fdr_txt, sep = "  |  "))
 
 print(p33)
+ggsave("./Enrichment_plot_THYMOCYTE_naive_CD8_Tcells.pdf", 
+       p33, width=2.5, height=1,  units="in", scale=3, dpi=100)
 
