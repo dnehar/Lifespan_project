@@ -127,7 +127,7 @@ box_plot_lineage_CD4 <- LifeSpan_ALL_MetaData %>%
         strip.text.x = element_text(size = 14, face = 'bold', colour = 'black')) +
   
   # Add axis labels
-  ylab('% of lineage') + xlab('Age groups')
+  ylab( '% total CD4 T cells') + xlab('Age groups')
 
 # Display the CD4 boxplot
 box_plot_lineage_CD4
@@ -207,7 +207,7 @@ box_plot_lineage_CD8 <- LifeSpan_ALL_MetaData %>%
         strip.text.x = element_text(size = 14, face = 'bold', colour = 'black')) +
   
   # Add axis labels
-  ylab('% of lineage') + xlab('Age groups')
+  ylab('% total CD8 T cells') + xlab('Age groups')
 
 # Display the CD8 boxplot
 box_plot_lineage_CD8
