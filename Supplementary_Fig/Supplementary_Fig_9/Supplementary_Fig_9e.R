@@ -25,13 +25,11 @@ age_groups <- c('Infants', 'Child','Adolescent', 'Young', 'Middle_aged', 'Older'
 
 # --- Color palette — one color per CD8 T cell subtype (Level 3 annotation) ---
 cols <- c(
-  "CD8_CM"     = "#f59e2f",
-  "CD8_GZMK"   = "#fba919",
-  "CD8_MAIT"   = "#fbb36a",
-  "CD8_TEMRA"  = "#d28529",
-  "CD8_gdT"    = "#80622f",
-  "CD8aa"      = "#c46b1c",
-  "CD8_naive"  = "#f37421")
+  "CD8_naive_SOX4+" = "#ffdeadff",
+  "CD8_naive_SOX4-" = "#f37421",
+    "CD4_naive_SOX4-" = "#193a1c",
+  "CD4_naive_SOX4+" = "#a4de02ff"
+)
 
 ### CD4+ T cells
 subset_to_be_plotted <- c('CD4_naive','CD4_ISGhi', 'CD4_Tregs','CD4_memory','CD4_Proliferating')
