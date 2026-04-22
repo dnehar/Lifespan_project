@@ -3,8 +3,8 @@ library(data.table); library(fgsea)
 msigdb.hs = getMsigdb(org = 'hs', id = 'SYM', version = '7.4')
 
 # --- Paths to your prerank files (Naive_CD4_Tcells or Naive_CD8_Tcells)
-rnk_file <- "./analysis/gsea/prerank_data_GEX_Naive_CD8_Tcells.rnk" # see. dnehar/Lifespan_project/
-#rnk_file <- "./analysis/gsea/prerank_data_GEX_Naive_CD4_Tcells.rnk" # see. dnehar/Lifespan_project/
+rnk_file <- "./analysis/gsea/prerank_data_GEX_Naive_CD8_Tcells.rnk" # see. 'dnehar/Lifespan_project/GSEA_analysis/'
+#rnk_file <- "./analysis/gsea/prerank_data_GEX_Naive_CD4_Tcells.rnk" # see. 'dnehar/Lifespan_project/GSEA_analysis/'
 
 # Read .rnk; works whether or not there is a header
 rnk_dt <- fread(rnk_file, header = TRUE)
