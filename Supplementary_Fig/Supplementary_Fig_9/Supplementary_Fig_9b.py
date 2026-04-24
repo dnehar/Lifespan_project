@@ -1,0 +1,59 @@
+import numpy as np
+import pandas as pd
+import scanpy as sc
+import seaborn as sns
+
+import gene_plot_utils as gputils
+
+# plot pseudobulked counts (counts x samples) in naive CD4 and CD8 T cells across age groups:
+
+# 1 - naive CD4 T cells
+# load data
+naive_CD4 = sc.read('./naive_CD4.h5ad')
+# batch correct
+sc.pp.combat(naive_CD4, key='Batch', covariates=['Age_groups', 'LS_L4'])  # Batch = Studies
+
+# plots
+gputils.Boxplot_one_gene(naive_CD4,
+                 gene="SMC4",  
+                 source='raw',
+                 log_transform=True)
+
+gputils.Boxplot_one_gene(naive_CD4,
+                 gene="IKZF2", 
+                 source='raw',
+                 log_transform=True)
+
+
+# 2 - naive CD8 T cells
+# load data
+naive_CD8 = sc.read('./naive_CD8.h5ad')
+# batch correct
+sc.pp.combat(naive_CD8, key='Batch', covariates=['Age_groups', 'LS_L4'])  # Batch = Studies
+
+gputils.Boxplot_one_gene(naive_CD8,
+                 gene="SMC4", 
+                 source='raw',
+                 log_transform=True)
+
+gputils.Boxplot_one_gene(naive_CD8,
+                 gene="IKZF2", 
+                 source='raw',
+                 log_transform=True)
+
+# 3 - gd T cells
+# load data
+gdTcells = sc.read('./gdTcells.h5ad')
+# batch correct
+sc.pp.combat(gdTcells, key='Batch', covariates=['Age_groups', 'LS_L4'])  # Batch = Studies
+
+gputils.Boxplot_one_gene(gdTcells,
+                 gene="ID3", 
+                 source='raw',
+                 log_transform=True)
+
+gputils.Boxplot_one_gene(gdTcells,
+                 gene="SMC4", 
+                 source='raw',
+                 log_transform=True)
+
