@@ -1,5 +1,6 @@
-# Supplementary_Fig_9a.R
-
+# =============================================================================
+# Supplementary Figure 9a 
+# =============================================================================
 # This script is designed to process and analyze data for Supplementary Figure 9a.
 # It includes various sections, each with distinct purposes and functionalities.
 
@@ -7,32 +8,29 @@
 library(ggplot2) # For data visualization
 library(dplyr)  # For data manipulation
 
-# Set the working directory
-setwd("/path/to/directory") # Change this to your working directory
+summary_counts <- read.csv('./summary_DEG_L3.csv') # file available here : '/Lifespan_project/age_associated_changes/'
 
-# Load data
-# Reads the data from a CSV file. Make sure the file path is correct.
-data <- read.csv("/path/to/data.csv")
+# Barplot grouped by file (NS hidden by default; flip coord for readability)
+plot_df <- summary_counts %>% filter(dir %in% c("Up","Down"))
 
-# Data cleaning
-# This section performs necessary cleaning steps such as handling missing values and filtering data.
-data <- data %>%
-  filter(!is.na(value)) %>% # Remove rows with NA values in the 'value' column
-  mutate(category = factor(category)) # Convert 'category' column to a factor
-
-# Data analysis
-# Analyze the data and summarize key statistics.
-summary_stats <- data %>%
-  group_by(category) %>%
-  summarize(mean_value = mean(value), sd_value = sd(value))
-
-# Data visualization
-# Create a plot to visualize the results.
-ggplot(data, aes(x = category, y = value)) +
-  geom_boxplot() + # Use boxplot to show the distribution of values
+p_all <- ggplot(plot_df, aes(x = fct_reorder(file, n, .fun = max), y = n, fill = dir)) +
+  geom_col(width = 0.7, )+
+  #position = position_dodge(width = 0.8)) +
+  coord_flip() +
   theme_minimal() +
-  labs(title = "Supplementary Figure 9a", x = "Category", y = "Value")
+  scale_fill_manual(values = c(Down = "#4575b4", Up = "#d73027")) +
+  coord_flip() +
+  scale_x_discrete(expand = c(0, 0)) +
+  labs(
+    title = "Differentially expressed genes per contrast",
+    subtitle = paste0("padj ≤ ", padj_threshold,
+                      ", |log2FC| ≥ ", log2fc_threshold),
+    x = NULL, y = "Gene count", fill = "Direction"
+  ) +
+  theme_minimal(base_size = 12)
 
-# Save plot
-# Save the generated plot to the working directory.
-ggsave("Supplementary_Fig_9a_plot.png") # Change the file name as needed
+print(p_all)
+
+ggsave('../../../Figure_2026/DE/number_DEG_LS_L303022026.pdf', 
+       p_all, width = 7, height = 6, dpi = 300)
+
