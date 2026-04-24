@@ -1,0 +1,105 @@
+file,dir,n
+age changes Adaptive NK ,Down,11
+age changes Adaptive NK ,NA,4361
+age changes Adaptive NK ,NS,11674
+age changes Adaptive NK ,Up,4
+age changes AXL DC ,NS,8062
+age changes B ABC ,NA,3284
+age changes B ABC ,NS,9744
+age changes B ABC ,Up,1
+age changes B ISGhi ,NS,10198
+age changes B memory ,Down,8
+age changes B memory ,NA,3465
+age changes B memory ,NS,12757
+age changes B memory ,Up,11
+age changes B naive ,Down,7
+age changes B naive ,NA,3058
+age changes B naive ,NS,14406
+age changes B naive ,Up,45
+age changes B transitional ,NA,1790
+age changes B transitional ,NS,11388
+age changes B transitional ,Up,11
+age changes CD14 mono ,Down,24
+age changes CD14 mono ,NA,3902
+age changes CD14 mono ,NS,14355
+age changes CD14 mono ,Up,1
+age changes CD16 mono ,Down,5
+age changes CD16 mono ,NA,3454
+age changes CD16 mono ,NS,12729
+age changes CD4 ISGhi ,Down,4
+age changes CD4 ISGhi ,NA,2481
+age changes CD4 ISGhi ,NS,11720
+age changes CD4 ISGhi ,Up,11
+age changes CD4 memory ,Down,87
+age changes CD4 memory ,NA,3258
+age changes CD4 memory ,NS,15283
+age changes CD4 memory ,Up,17
+age changes CD4 naive ,Down,113
+age changes CD4 naive ,NA,1513
+age changes CD4 naive ,NS,17532
+age changes CD4 naive ,Up,217
+age changes CD4 Proliferating ,Down,1
+age changes CD4 Proliferating ,NA,5279
+age changes CD4 Proliferating ,NS,7685
+age changes CD4 Tregs ,Down,31
+age changes CD4 Tregs ,NA,3427
+age changes CD4 Tregs ,NS,11268
+age changes CD4 Tregs ,Up,3
+age changes CD56bright NK ,Down,2
+age changes CD56bright NK ,NA,3594
+age changes CD56bright NK ,NS,10656
+age changes CD56bright NK ,Up,5
+age changes CD56dim NK ,Down,15
+age changes CD56dim NK ,NA,3798
+age changes CD56dim NK ,NS,13954
+age changes CD56dim NK ,Up,18
+age changes CD8 CM ,Down,22
+age changes CD8 CM ,NA,3227
+age changes CD8 CM ,NS,10614
+age changes CD8 CM ,Up,8
+age changes CD8 GZMK ,Down,77
+age changes CD8 GZMK ,NA,2565
+age changes CD8 GZMK ,NS,13891
+age changes CD8 GZMK ,Up,2
+age changes CD8 MAIT ,Down,7
+age changes CD8 MAIT ,NA,4711
+age changes CD8 MAIT ,NS,10466
+age changes CD8 MAIT ,Up,2
+age changes CD8 naive ,Down,29
+age changes CD8 naive ,NA,706
+age changes CD8 naive ,NS,16236
+age changes CD8 naive ,Up,1069
+age changes CD8 TEMRA ,Down,63
+age changes CD8 TEMRA ,NA,2739
+age changes CD8 TEMRA ,NS,14796
+age changes CD8 TEMRA ,Up,2
+age changes CD8aa ,Down,38
+age changes CD8aa ,NA,3137
+age changes CD8aa ,NS,10281
+age changes CD8aa ,Up,28
+age changes cDC1 ,NS,9240
+age changes cDC2 ,Down,2
+age changes cDC2 ,NA,3932
+age changes cDC2 ,NS,9585
+age changes gdT ,Down,80
+age changes gdT ,NA,3848
+age changes gdT ,NS,12586
+age changes gdT ,Up,11
+age changes HSPC ,Down,1
+age changes HSPC ,NS,10716
+age changes ISGhi CD14 mono ,Down,3
+age changes ISGhi CD14 mono ,NA,2907
+age changes ISGhi CD14 mono ,NS,12085
+age changes Mgk ,Down,23
+age changes Mgk ,NA,3549
+age changes Mgk ,NS,10505
+age changes moDC ,NS,11250
+age changes PCs ,Down,1
+age changes PCs ,NA,4105
+age changes PCs ,NS,9119
+age changes PCs ,Up,3
+age changes pDC ,Down,3
+age changes pDC ,NA,4620
+age changes pDC ,NS,8616
+age changes Proliferating NK ,NA,6363
+age changes Proliferating NK ,NS,5792
