@@ -74,9 +74,10 @@ order_LS_L4 <- c('moDC',  'cDC1', 'cDC2','AXL_DC', 'pDC', 'CD14_mono','ISGhi_CD1
                  'CXCR5+_TFH-like','GZMK_TH1_like','TH10', 'TH17', 'TH2', 'TH22', 'TPH',  'CD4_TEMRA')
 
 
-MetaData <- readRDS('/Users/nehard/MyProjects/DU_lab/LS95/LS95_manuscript/SUBMITTED/NatCom_LS/Revisions/GitHub/pbmcs_v1.rds')
-
 # --- Load metadata (pbmcs_v1.rds available at dnehar/Lifespan_project/pbmcs_v1.rds) ---
+# MetaData is a list containing:
+#   $meta_small : per-cell metadata (cell type annotations, sample IDs, age groups, etc.)
+#   $pheno      : per-sample metadata (sample_id, age, sex, etc.)
 MetaData <- readRDS('./pbmcs_v1.rds')
 LifeSpan_ALL_MetaData <- MetaData[['meta_small']] %>% as.data.frame()
 
