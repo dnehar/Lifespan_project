@@ -55,22 +55,19 @@ plt_cmv <- LifeSpan_ALL_MetaData %>%
   mutate(groups_cmv = factor(groups_cmv, levels = cmv_gps)) %>%
   mutate(ReCluster = factor(ReCluster)) %>% #, levels = ordered_SC
   group_by(groups_cmv,  sample_id, Age_groups, infered_CMV, ReCluster) %>%
-  summarise(n = n()) %>% #, Age_months = first(Age_months), Gender = first(Gender)) %>% #, Set = first(Set)
+  summarise(n = n()) %>% 
   mutate(freq = n / sum(n) *100) %>%
   ungroup() %>%
   as.data.frame() %>%
-  filter(!ReCluster %in% c('doublets')) %>% 
   #filter(ReCluster %in% subset_to_be_plotted) %>% 
   ggplot(aes(x = groups_cmv, y = freq, fill = infered_CMV, group = groups_cmv)) +
   geom_boxplot(outlier.shape = NA) +
   geom_jitter(size = 0.2) +
-  theme_bw()  +  #THEME +
-  ggpubr::stat_compare_means(comparisons = cmv_comp) + #, method = "t.test"
+  theme_bw()  +  
+  ggpubr::stat_compare_means(comparisons = cmv_comp) + 
   scale_fill_manual(values=cmv_cols) + 
   scale_color_manual(values = cmv_cols)+
-  
   theme(legend.position = "none", strip.text = element_text(size = 10, face='bold')) +
-  
   facet_wrap(.~ReCluster, scales = "free_y", nrow = 6) + 
   scale_fill_manual(values=cmv_cols) + 
   theme(axis.text.y=element_text(size=12, colour = 'black'), 
@@ -80,7 +77,7 @@ plt_cmv <- LifeSpan_ALL_MetaData %>%
         strip.text.x = element_text(size = 14, face ='bold', colour = 'black')) +#    ylab('% PBMC') + xlab('Age groups')
   ylab('% in PBMCs') + xlab(' ')
 
-plt_cmv
+print(plt_cmv)
 
 ggsave("./boxplot_PBMCs_LS_L4_CMV_differences_03132026.pdf", 
        plt_cmv,
