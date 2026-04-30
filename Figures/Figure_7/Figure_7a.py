@@ -5,8 +5,10 @@ import seaborn as sns
 
 import gene_plot_utils as gputils
 
-# plot pseudobulked counts (counts x samples) in naive CD4 and CD8 T cells across age groups:
+# AnnData objects (.h5ad) for naïve CD4⁺ and CD8⁺ T cells are available here: GSE233321: 
+# https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE233321.
 
+# plot pseudobulked counts (counts x samples) in naive CD4 and CD8 T cells across age groups:
 # 1 - naive CD4 T cells
 # load data
 naive_CD4 = sc.read('./naive_CD4.h5ad')
