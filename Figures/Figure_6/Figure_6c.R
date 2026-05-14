@@ -10,7 +10,8 @@
 # Output: ./boxplot_CD8_T_cells_in_PBMCs_03132026.pdf
 # =============================================================================
 
-library(dplyr); library(ggplot2)
+library(dplyr)
+library(ggplot2)
 
 # --- Color palette — one color per CD8 T cell subtype (Level 3 annotation) ---
 cols <- c(
@@ -80,7 +81,7 @@ box_plot_pbmc <- LifeSpan_ALL_MetaData %>%
         strip.text.x = element_text(size = 14, face = 'bold', colour = 'black')) +
   ylab('% in PBMCs') + xlab('Age groups')
 
-box_plot_pbmc
+print(box_plot_pbmc)
 
 # --- Save figure as PDF ---
 ggsave("./boxplot_CD8_T_cells_in_PBMCs_03132026.pdf", box_plot_pbmc,
