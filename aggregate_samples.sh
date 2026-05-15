@@ -1,7 +1,8 @@
 #!/bin/bash
 #PBS -l nodes=1:ppn=16,walltime=25:00:00
 #PBS -q batch
-#PBS -N cSLE_aggreg
+#PBS -N aggregate 
+
 cd $PBS_O_WORKDIR
 
 export PATH=/projects/nehard/SingleCell/cellranger/cellranger-2.1.0:$PATH
