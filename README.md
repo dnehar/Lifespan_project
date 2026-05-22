@@ -52,7 +52,7 @@ We also used four publicly available datasets:
 ## Data availability:
 **dbGaP**: [phs003259.v1.p1](https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs003259.v1.p1) — available upon acceptance
 
-**GEO**: [GSE233321](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE233321) — available upon acceptance
+**GEO**: [GSE233321](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE233321) 
 
 ## Interactive app (R shiny):
 [Launch the interactive app](https://dnehar.shinyapps.io/LS_app/)
