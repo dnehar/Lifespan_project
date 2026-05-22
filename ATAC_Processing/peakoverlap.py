@@ -3,6 +3,12 @@ import pandas as pd
 
 #Author: Asa Thibodeau
 
+################################################################################
+# SECTION 1: FORMAT CONVERSION UTILITIES
+# These functions convert between BED format (0-based, half-open intervals) and
+# position format (1-based, fully-closed intervals) for peak coordinate handling.
+################################################################################
+
 def convertToPositionFormatFromBED(data, startidx=1):
     """Converts BED format positions to position format.
         
@@ -53,6 +59,13 @@ def convertToBEDFormatFromPosition(data, startidx=1):
 ###################################################################
 
 
+################################################################################
+# SECTION 2: CORE DATA STRUCTURE - CHROMOSOME-INDEXED PEAK SORTING
+# This function creates an optimized lookup structure for fast peak queries,
+# organizing peaks by chromosome with sorted start positions to enable binary
+# search. Critical foundation for all downstream overlap detection functions.
+################################################################################
+
 def getChrStartSorted(data, chridx=0, startidx=1):
     """Returns a dictionary by chromosome where each element in
         the dictionary contains an array containing start positions
@@ -87,6 +100,14 @@ def getChrStartSorted(data, chridx=0, startidx=1):
         rv[allchr[i]] = np.concatenate((np.transpose(chrdata[sidx,startidx][np.newaxis]), np.transpose(idx[sidx][np.newaxis])), axis=1)
     return rv
 
+
+################################################################################
+# SECTION 3: PEAK OVERLAP DETECTION - BINARY SEARCH ENGINE
+# Uses binary search combined with linear scanning to efficiently find all peaks
+# that overlap a given genomic region. Time complexity: O(logn) for search +
+# O(k) for output where k is the number of overlapping peaks. This is the
+# computational workhorse for fast overlap queries.
+################################################################################
 
 def getOverlappingRegions(chrom, start, end, chrstartsorted, data, eidx=2):
     """Returns the index of all regions that overlap the given
@@ -151,6 +172,13 @@ def getOverlappingRegions(chrom, start, end, chrstartsorted, data, eidx=2):
     return tuple(rv)
 
 
+################################################################################
+# SECTION 4: SINGLE PEAK SET OVERLAP DETECTION
+# Determines which peaks in a query dataset overlap with any peak in a reference
+# peakset. Returns a boolean vector for fast filtering and downstream analysis.
+# Foundation for multi-dataset overlap analysis functions.
+################################################################################
+
 def getOverlapIndex(data, peakset, chridx=0, startidx=1, endidx=2, setchridx=0, setstartidx=1, setendidx=2):
     """Returns a boolean vector indicating whether or not the peak
         in the list overlaps a set of peaks.
@@ -201,6 +229,14 @@ def getOverlapIndex(data, peakset, chridx=0, startidx=1, endidx=2, setchridx=0, 
             rv[i] = True
     return rv
 
+################################################################################
+# SECTION 5: MULTI-DATASET OVERLAP ANALYSIS
+# Compares a query peak dataset against multiple reference datasets to determine
+# both: (1) the count of overlapping datasets per peak, and (2) a boolean matrix
+# indicating which specific datasets overlap each peak. Useful for identifying
+# reproducible peaks across multiple samples or conditions.
+################################################################################
+
 def getOverlapCount(countdataset, datasets, chridx=0, startidx=1, endidx=2):
     """Counts how many peaks & in which dataset the current peak
         list overlaps over a set of peak lists.
@@ -246,6 +282,14 @@ def getOverlapCount(countdataset, datasets, chridx=0, startidx=1, endidx=2):
     return overlapvector, overlapmatrix
 
 
+
+################################################################################
+# SECTION 6: STRICT CONSENSUS PEAK GENERATION
+# Identifies genomic regions where peaks from ALL datasets overlap simultaneously
+# using a sweep algorithm. Iteratively processes peaks from each dataset to find
+# maximal overlapping intervals. Useful for identifying high-confidence,
+# reproducible peak regions across multiple samples or conditions.
+################################################################################
 
 def getStrictConsensusPeaks(data, chridx=0, startidx=1, endidx=2):
     """Returns a strict set of consensus peaks requiring that every
@@ -338,6 +382,14 @@ def getStrictConsensusPeaks(data, chridx=0, startidx=1, endidx=2):
     return np.array(allchrstrictpeaks, dtype=object)
 
 
+################################################################################
+# SECTION 7: UNION PEAK GENERATION
+# Merges overlapping peaks across multiple datasets into a single set of
+# non-overlapping union peaks. Processes peaks chromosome-by-chromosome,
+# merging adjacent/overlapping intervals. Useful for creating a comprehensive
+# peak set that captures all peak regions identified across samples.
+################################################################################
+
 def getUnionPeaks(datasets, chridx=0, startidx=1, endidx=2):
     combineddata = np.concatenate(datasets)
     sortedlocations = getChrStartSorted(combineddata)
@@ -356,5 +408,3 @@ def getUnionPeaks(datasets, chridx=0, startidx=1, endidx=2):
 
         rv.append([curchr, curloci[1], curloci[2]])
     return np.array(rv, dtype=np.object)
-
-
