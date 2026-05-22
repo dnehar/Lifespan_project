@@ -1,16 +1,10 @@
-library(chromVAR)
-library(SummarizedExperiment)
-library(Matrix)
-library(motifmatchr)
-library(BSgenome.Hsapiens.UCSC.hg38)
-library(TFBSTools)
+library(chromVAR); library(SummarizedExperiment); library(Matrix)
+library(motifmatchr); library(BSgenome.Hsapiens.UCSC.hg38); library(TFBSTools)
 
 args = commandArgs(trailingOnly = TRUE)
 countmatrix = read.table(args[1])
 jasparfile = args[2]
 outfile = args[3]
-
-
 
 #New Code reading from jaspar file
 pfm_list <- readJASPARMatrix(jasparfile, matrixClass = "PFM")
