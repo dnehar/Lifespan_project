@@ -7,6 +7,7 @@ import pandas as pd
 # ------------------------------------------------------------------
 # User-configurable parameters
 # ------------------------------------------------------------------
+
 DATESTAMP = "02202026"         # Used in filenames to make outputs reproducible/auditable
 SIGNIF_P   = 0.05              # padj threshold for significance
 SIGNIF_LFC = 0.3               # |log2FoldChange| threshold for significance
@@ -19,10 +20,10 @@ OUT_DIR_DE     = Path("./LS_L3/age_changes")   # per-subset DE result tables and
 OUT_DIR_COUNTS.mkdir(parents=True, exist_ok=True)
 OUT_DIR_DE.mkdir(parents=True, exist_ok=True)
 
-
 # ------------------------------------------------------------------
 # Helpers
 # ------------------------------------------------------------------
+
 def _slugify(x: str) -> str:
     """
     Make a filesystem-safe slug from a label (e.g., subset names).
@@ -59,6 +60,7 @@ summary_rows = []
 #      - Required columns for downstream steps include:
 #            "sample_id", "Age_in_yrs", "Platform", "Batch"
 # ------------------------------------------------------------------
+
 if "LS_L3" not in all_pbmcs.obs.columns:
     raise KeyError("`LS_L3` not found in all_pbmcs.obs.")
 
