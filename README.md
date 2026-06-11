@@ -49,9 +49,8 @@ We also used four publicly available datasets:
 
 > Accepted in principle - Preprint: [PMID: 40666903](https://www.biorxiv.org/content/10.1101/2025.07.28.667181v1)
 
-## Data availability:
+## Data availability - scRNAseq and snATACseq:
 **📊 GEO (processed data)**: [GSE233321](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE233321) 
-
 **📁dbGaP (fastq files)**: [phs003259.v1.p1](https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs003259.v1.p1) 
 
 ## Interactive app (R shiny):
