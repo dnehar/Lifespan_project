@@ -45,14 +45,15 @@ We also used four publicly available datasets:
 - [Wang et al. Nat. Commun. 2021](https://pubmed.ncbi.nlm.nih.gov/34521850) ([GSE168732](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE168732)): n=3.
 - [Zhong et al. Front. Immunol.](https://pubmed.ncbi.nlm.nih.gov/36703979) ([GSE206295](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE206295)): n=3.
 
-## Publications associated with the study:
-
-> Accepted in principle - Preprint: [PMID: 40666903](https://www.biorxiv.org/content/10.1101/2025.07.28.667181v1)
 
 ## Data availability - scRNAseq and snATACseq:
 **📊 GEO (processed data)**: [GSE233321](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE233321) 
 
 **📁dbGaP (fastq files)**: [phs003259.v1.p1](https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs003259.v1.p1) 
+
+## Publications associated with the study:
+
+> Accepted in principle - Preprint: [PMID: 40666903](https://www.biorxiv.org/content/10.1101/2025.07.28.667181v1)
 
 ## Interactive app (R shiny):
 [Launch the interactive app](https://dnehar.shinyapps.io/LS_app/)
