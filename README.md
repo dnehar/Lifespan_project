@@ -53,7 +53,7 @@ We also used four publicly available datasets:
 
 ## Publications associated with the study:
 
-> Accepted in principle - Preprint: [PMID: 40666903](https://www.biorxiv.org/content/10.1101/2025.07.28.667181v1)
+> Nehar-Belaid et al., - Nature Communications (2026): [PMID: 42297833](https://www.nature.com/articles/s41467-026-73729-2)
 
 ## Interactive app (R shiny):
 [Launch the interactive app](https://dnehar.shinyapps.io/LS_app/)
