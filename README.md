@@ -24,7 +24,7 @@ Our goal is to analyze the infant immune system within the broader context of th
 
 ## Cohort information:
 
-We performed integrated single‑cell RNA‑seq on peripheral blood mononuclear cells from 167 healthy individuals ranging from 2 months to 105 years of age. We further integrated our dataset with previously published single‑cell studies to enhance coverage across the lifespan.
+We performed integrated single‑cell RNA‑seq on peripheral blood mononuclear cells from 167 healthy individuals ranging from 2 months to 105 years of age. We further integrated our dataset with previously published single‑cell studies to enhance coverage across the lifespan. We also analyzed chromatin accessibility data using single cell ATAC-seq from 23 donors. 
 
 **Cohort breakdown:**
 
