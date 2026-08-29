@@ -15,13 +15,13 @@ library(ggplot2)
 
 # --- Color palette — one color per CD8 T cell subtype (Level 3 annotation) ---
 cols <- c(
-  "CD8_CM"     = "#f59e2f",
-  "CD8_GZMK"   = "#fba919",
-  "CD8_MAIT"   = "#fbb36a",
-  "CD8_TEMRA"  = "#d28529",
-  "CD8_gdT"    = "#80622f",
-  "CD8aa"      = "#c46b1c",
-  "CD8_naive"  = "#f37421"
+  "CD8_CM"= "#f59e2f",
+  "CD8_GZMK"="#fba919",
+  "CD8_MAIT"="#fbb36a",
+  "CD8_TEMRA"="#d28529",
+  "CD8_gdT"= "#80622f",
+  "CD8aa"= "#c46b1c",
+  "CD8_naive"= "#f37421"
 )
 my_comparisons <- list (c('Infants', 'Child'),
                         c('Child','Adolescent'),
