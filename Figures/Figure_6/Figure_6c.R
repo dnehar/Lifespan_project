@@ -21,8 +21,8 @@ cols <- c(
   "CD8_TEMRA"="#d28529",
   "CD8_gdT"= "#80622f",
   "CD8aa"= "#c46b1c",
-  "CD8_naive"= "#f37421"
-)
+  "CD8_naive"= "#f37421")
+
 my_comparisons <- list (c('Infants', 'Child'),
                         c('Child','Adolescent'),
                         c('Adolescent', 'Young'),
